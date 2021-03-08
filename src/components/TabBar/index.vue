@@ -1,6 +1,6 @@
 <template>
-  <div class="nav">
-    <h3 v-for="(item, idx) in titles" :key="idx" @click="changePage(idx)">{{item}}</h3>
+  <div class="nav" :style="scrollStyle">
+    <h3 v-for="(item, idx) in titles" :key="idx" @click="changePage(item.to)">{{item.name}}</h3>
   </div>
 </template>
 
@@ -9,27 +9,59 @@ export default {
   name: 'TabBar',
   data() {
     return {
-      titles: ['首页', '简介', '信息', '参赛', '登录']
+      titles: [{
+        name: '首页',
+        to: '/home'
+      }, {
+        name: '简介',
+        to: '/introduction'
+      }, {
+        name: '信息',
+        to: '/info'
+      }, {
+        name: '参赛',
+        to: '/contest'
+      }, {
+        name: '登录',
+        to: '/login'
+      }],
+      scrollStyle: {
+        backgroundColor: ""
+      }
     }
   },
   methods: {
-    changePage(idx) {
-      if(this.titles[idx] !== '登录') {
-        alert(`即将前往${this.titles[idx]}!`);
+    changePage(arg) {
+      if(arg !== '/login') {
+        this.$router.push('/visitor' + arg);
       } else {
-        this.$router.push('/login');
+        // 登录应单独处理，因为不共用tabbar
+        this.$router.push(arg);
+      }
+    },
+    handleScroll() {
+      if(window.pageYOffset >= 60) {
+        this.scrollStyle.backgroundColor = "white";
+      } else {
+        this.scrollStyle.backgroundColor = "transparent";
       }
     }
+  },
+  computed: {
+    // scrollStyle() {
+    //   window.onscroll
+    // }
+  },
+  mounted() {
+    window.addEventListener("scroll", this.handleScroll);
   }
 }
 </script>
 
 <style scoped>
   .nav {
-    width: 70%;
+    padding: 0 15% 0 15%;
     height: 60px;
-    margin: auto;
-
     display: flex;
     justify-content: space-around;
     align-items: center;
