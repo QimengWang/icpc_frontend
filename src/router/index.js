@@ -43,6 +43,27 @@ const routes = [
     path: '/login',
     name: 'Login',
     component: () => import('../views/Login.vue')
+  },
+  {
+    path: '/register',
+    name: 'Register',
+    component: () => import('../views/Register.vue')
+  },
+  {
+    path: '/user',
+    name: 'User',
+    component: () => import('../views/User.vue'),
+    children: [
+      {
+        path: '',
+        redirect: ''
+      },
+      {
+        path: 'profile',
+        name: 'Profile',
+        component: () => import('../components/Profile/index.vue')
+      }
+    ]
   }
 ];
 

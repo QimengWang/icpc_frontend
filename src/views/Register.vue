@@ -2,13 +2,10 @@
   <div class="home">
     <Card class="card">
       <div>
-        <span class="loginSpan">登 录</span>
+        <span class="loginSpan">注 册</span>
         <div class="contentBox">
-          <div class="noId">
-            <span class="labelSpan" style="margin-top: 6%">账 号：</span>
-            <a @click="$router.push('/register')" style="">暂无账号？</a>
-          </div>
-          <Input class="inputBox" v-model="user.id" placeholder="请输入账号"/>
+          <span class="labelSpan" style="margin-top: 6%">邮 箱：</span>
+          <Input class="inputBox" v-model="user.id" placeholder="请输入邮箱"/>
           <span class="labelSpan">密 码：</span>
           <Input class="inputBox" type="password" v-model="user.pwd" password placeholder="请输入密码" autocomplete='new-password'/>
           <RadioGroup class="radioBox" v-model="status">
@@ -17,9 +14,6 @@
             </Radio>
             <Radio label="teacher">
               <span>教练</span>
-            </Radio>
-            <Radio label="manager">
-              <span>管理员</span>
             </Radio>
           </RadioGroup>
           <Button class="btnBox" type="primary" long @click="login">
@@ -33,7 +27,7 @@
 
 <script>
   export default {
-    name: "Login",
+    name: "Register",
     data() {
       return {
         user: {
@@ -115,8 +109,5 @@
     bottom: 5px;
     display: block;
   }
-  .noId {
-    position: relative;
-    overflow: hidden;
-  }
 </style>
+

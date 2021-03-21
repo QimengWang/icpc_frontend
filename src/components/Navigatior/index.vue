@@ -1,6 +1,14 @@
 <template>
   <div class="nav" :style="scrollStyle">
-    <h3 v-for="(item, idx) in titles" :key="idx" @click="changePage(item.to)">{{item.name}}</h3>
+<!--    <h3 v-for="(item, idx) in titles" :key="idx" >{{item.name}}</h3>-->
+    <Dropdown v-for="(item, idx) in titles" :key="idx">
+      <h3 href="javascript:void(0)" @click="changePage(item.to)">
+        {{item.name}}
+      </h3>
+      <DropdownMenu slot="list" v-if="item.hasOwnProperty('children')">
+        <DropdownItem v-for="(val, idx) in item.children" :key="idx">{{val}}</DropdownItem>
+      </DropdownMenu>
+    </Dropdown>
   </div>
 </template>
 
@@ -14,10 +22,12 @@ export default {
         to: '/home'
       }, {
         name: '简介',
-        to: '/introduction'
+        to: '/introduction',
+        children: ["ICPC简介", "ICPC历史", "赛站简介"]
       }, {
         name: '信息',
-        to: '/info'
+        to: '/info',
+        children: ["竞赛规则", "比赛环境", "判题用例", "奖励规则"]
       }, {
         name: '参赛',
         to: '/contest'
@@ -35,7 +45,7 @@ export default {
       if(arg !== '/login') {
         this.$router.push('/visitor' + arg);
       } else {
-        // 登录应单独处理，因为不共用tabbar
+        // 登录应单独处理，因为不共用navigator
         this.$router.push(arg);
       }
     },

@@ -13,7 +13,7 @@
 </template>
 
 <script>
-  import TabBar from '../components/TabBar/index'
+  import TabBar from '../components/Navigatior/index'
   import Footer from '../components/Footer/index'
   export default {
     name: "Visitor",
@@ -29,12 +29,15 @@
   }
 
   .nav {
-    position: fixed;
+    /*position: fixed;*/
     width: 100%;
   }
 
   .main {
-    background-color: lightgrey;
+    /*background-color: lightgrey;*/
+    /*position: relative;*/
+    /*top: 60px;*/
+    z-index: -1; /*防止遮挡DropDownMenu*/
     flex-grow: 1;
   }
 
