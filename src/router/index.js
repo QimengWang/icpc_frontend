@@ -62,7 +62,13 @@ const routes = [
         path: 'profile',
         name: 'Profile',
         component: () => import('../components/Profile/index.vue')
-      }
+      },
+      {
+        path: 'news',
+        name: 'News',
+        component: () => import('../components/News/index.vue')
+      },
+
     ]
   }
 ];

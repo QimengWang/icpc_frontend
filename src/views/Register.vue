@@ -4,19 +4,16 @@
       <div>
         <span class="loginSpan">注 册</span>
         <div class="contentBox">
-          <span class="labelSpan" style="margin-top: 6%">邮 箱：</span>
-          <Input class="inputBox" v-model="user.id" placeholder="请输入邮箱"/>
-          <span class="labelSpan">密 码：</span>
-          <Input class="inputBox" type="password" v-model="user.pwd" password placeholder="请输入密码" autocomplete='new-password'/>
-          <RadioGroup class="radioBox" v-model="status">
-            <Radio label="student">
-              <span>学生</span>
-            </Radio>
-            <Radio label="teacher">
-              <span>教练</span>
-            </Radio>
-          </RadioGroup>
-          <Button class="btnBox" type="primary" long @click="login">
+          <Input class="inputBox" v-model="user.username" placeholder="邮箱/手机"/>
+          <div class="verifyBox">
+            <Input class="inputBox" v-model="user.verifyCode" placeholder="验证码"/>
+            <Button type="primary" @click="sending">发送验证码</Button>
+          </div>
+          <Input class="inputBox" type="password" v-model="user.password" password placeholder="密码" autocomplete='new-password'/>
+          <Select v-model="user.status">
+            <Option v-for="item in statusList" :value="item.value" :key="item.value">{{ item.label }}</Option>
+          </Select>
+          <Button class="btnBox" type="primary" long @click="register">
             <span>确 定</span>
           </Button>
         </div>
@@ -26,33 +23,40 @@
 </template>
 
 <script>
+  import {sendEmail} from '../api/api';
   export default {
     name: "Register",
     data() {
       return {
         user: {
-          id: '',
-          pwd: ''
+          username: '',
+          password: '',
+          status: '',
+          verifyCode: ''
         },
-        status: ''
+        statusList: [
+          {
+            value: 'student',
+            label: '学生'
+          },
+          {
+            value: 'teacher',
+            label: '教练'
+          }
+        ]
       }
     },
     methods: {
-      login() {
+      sending() {
+        sendEmail().then(data => {
+          window.alert(data.msg);
+        }).catch(err => {
+          console.log(err);
+        })
+      },
+      register() {
+        this.$Message.success('注册成功！');
         this.$router.push('/user');
-        // if (this.user.id === "" || this.user.pwd === "") {
-        //   this.$Notice.error({
-        //     title: "账号或密码不能为空！",
-        //     duration: 2
-        //   });
-        // } else if (this.status === "") {
-        //   this.$Notice.error({
-        //     title: "请选择角色！",
-        //     duration: 2
-        //   });
-        // } else {
-        //   // 登陆的判断逻辑
-        // }
       }
     }
   }
@@ -98,16 +102,12 @@
   .btnBox span {
     color: white;
   }
-  .radioBox {
-    margin: 3% 0;
+  .verifyBox {
     display: flex;
-    justify-content: space-around;
+    /*justify-content: space-between;*/
   }
-  a {
-    position: absolute;
-    right: 0;
-    bottom: 5px;
-    display: block;
+  .verifyBox Button {
+    margin-left: 2px;
   }
 </style>
 

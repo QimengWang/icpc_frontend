@@ -2,12 +2,12 @@
   <div class="con">
     <Menu mode="horizontal" theme="dark" active-name="">
       <MenuItem name="1">
-        <Icon type="ios-paper" />
+        <Icon type="md-home" />
         首页
       </MenuItem>
       <Submenu name="2">
         <template slot="title">
-          <Icon type="ios-stats" />
+          <Icon type="md-contact" />
           Wqm，欢迎！
         </template>
         <MenuItem name="2-2" @click="exit()">退出登录</MenuItem>

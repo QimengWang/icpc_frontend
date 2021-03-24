@@ -8,10 +8,10 @@
             <span class="labelSpan" style="margin-top: 6%">账 号：</span>
             <a @click="$router.push('/register')" style="">暂无账号？</a>
           </div>
-          <Input class="inputBox" v-model="user.id" placeholder="请输入账号"/>
+          <Input class="inputBox" v-model="user.username" placeholder="请输入账号"/>
           <span class="labelSpan">密 码：</span>
-          <Input class="inputBox" type="password" v-model="user.pwd" password placeholder="请输入密码" autocomplete='new-password'/>
-          <RadioGroup class="radioBox" v-model="status">
+          <Input class="inputBox" type="password" v-model="user.password" password placeholder="请输入密码" autocomplete='new-password'/>
+          <RadioGroup class="radioBox" v-model="user.status">
             <Radio label="student">
               <span>学生</span>
             </Radio>
@@ -37,16 +37,17 @@
     data() {
       return {
         user: {
-          id: '',
-          pwd: ''
+          username: '',
+          password: '',
+          status: ''
         },
-        status: ''
       }
     },
     methods: {
       login() {
+        this.$Message.success('登录成功！');
         this.$router.push('/user');
-        // if (this.user.id === "" || this.user.pwd === "") {
+        // if (this.user.username === "" || this.user.password === "") {
         //   this.$Notice.error({
         //     title: "账号或密码不能为空！",
         //     duration: 2
