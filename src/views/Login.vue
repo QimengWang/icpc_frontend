@@ -39,12 +39,14 @@
         user: {
           username: '',
           password: '',
-          status: ''
+          status: 'manager'
         },
       }
     },
     methods: {
       login() {
+        this.$store.commit('saveStatus', this.user.status);
+        console.log(this.$store.state);
         this.$Message.success('登录成功！');
         this.$router.push('/user');
         // if (this.user.username === "" || this.user.password === "") {

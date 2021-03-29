@@ -180,4 +180,7 @@
     width: 100%;
     padding: 4% 8%;
   }
+  .ivu-radio-wrapper {
+    margin: 0 10px;
+  }
 </style>

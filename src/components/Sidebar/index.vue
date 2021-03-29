@@ -1,15 +1,15 @@
 <template>
   <div>
-    <Menu theme="light" active-name="1" open-names="['1']">
-      <MenuItem name="1" to="/user/news">
+    <Menu theme="light" active-name="News">
+      <MenuItem name="News" to="/user/news">
         <Icon type="ios-alert" />
         最新消息
       </MenuItem>
-      <MenuItem name="2" to="/user/profile">
+      <MenuItem name="Profile" to="/user/profile">
         <Icon type="ios-contact" />
         个人中心
       </MenuItem>
-      <MenuItem name="3">
+      <MenuItem name="3" v-if="$store.state.status === 'student'">
         <Icon type="ios-calendar" />
         赛程查询
       </MenuItem>
@@ -21,6 +21,18 @@
         <MenuItem name="2-1">成绩数据</MenuItem>
         <MenuItem name="2-2">成绩统计</MenuItem>
       </Submenu>
+      <MenuItem name="contestManagement" v-if="$store.state.status === 'manager'" to="/user/contestManagement">
+        <Icon type="ios-clipboard-outline" />
+        赛事管理
+      </MenuItem>
+      <MenuItem name="6" v-if="$store.state.status === 'manager'">
+        <Icon type="ios-calendar" />
+        成绩管理
+      </MenuItem>
+      <MenuItem name="7" v-if="$store.state.status === 'manager'">
+        <Icon type="ios-checkmark-circle-outline" />
+        信息审核
+      </MenuItem>
     </Menu>
   </div>
 </template>
@@ -30,8 +42,15 @@
     name: "index",
     data() {
       return {
-
       }
+    },
+    watch: {
+      $route() {
+        // console.log(this.$route);
+        // this.activeName = this.$route.name;
+      }
+    },
+    mounted() {
     }
   }
 </script>

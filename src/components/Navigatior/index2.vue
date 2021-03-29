@@ -1,7 +1,7 @@
 <template>
   <div class="con">
     <Menu mode="horizontal" theme="dark" active-name="">
-      <MenuItem name="1">
+      <MenuItem name="1" to="/visitor">
         <Icon type="md-home" />
         首页
       </MenuItem>
@@ -10,7 +10,7 @@
           <Icon type="md-contact" />
           Wqm，欢迎！
         </template>
-        <MenuItem name="2-2" @click="exit()">退出登录</MenuItem>
+        <MenuItem name="2-2" replace to="/visitor">退出登录</MenuItem>
       </Submenu>
     </Menu>
   </div>
@@ -25,10 +25,6 @@
       }
     },
     methods: {
-      exit() {
-        console.log("??");
-        this.$router.push('/visitor');
-      }
     }
   }
 </script>

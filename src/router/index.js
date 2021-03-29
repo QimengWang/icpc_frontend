@@ -56,7 +56,12 @@ const routes = [
     children: [
       {
         path: '',
-        redirect: ''
+        redirect: 'news'
+      },
+      {
+        path: 'news',
+        name: 'News',
+        component: () => import('../components/News/index.vue')
       },
       {
         path: 'profile',
@@ -64,10 +69,10 @@ const routes = [
         component: () => import('../components/Profile/index.vue')
       },
       {
-        path: 'news',
-        name: 'News',
-        component: () => import('../components/News/index.vue')
-      },
+        path: 'contestManagement',
+        name: 'ContestManagement',
+        component: () => import('../components/ContestManagement/index.vue')
+      }
 
     ]
   }
