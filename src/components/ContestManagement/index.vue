@@ -208,8 +208,8 @@
             value: 'ready'
           },
           {
-            label: '进行中',
-            value: 'pending'
+            label: '已发布',
+            value: 'published'
           },
           {
             label: '已结束',
