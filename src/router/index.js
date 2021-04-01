@@ -1,6 +1,9 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 
+// 在vue-router中想要访问vuex必须导入
+import store from '../store/index'
+
 Vue.use(VueRouter);
 
 const routes = [
@@ -84,4 +87,14 @@ const router = new VueRouter({
   routes
 });
 
+router.beforeEach((to, from, next) => {
+  // console.log(to.path);
+  if(to.path.includes('user')) {
+    // console.log(store.state.email);
+    if(!store.state.email) {
+      return next('/login');
+    }
+  }
+  next();
+});
 export default router

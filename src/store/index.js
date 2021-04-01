@@ -5,11 +5,15 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
-    status: ''
+    status: '',
+    email: ''
   },
   mutations: {
     saveStatus(state, status) {
       state.status = status;
+    },
+    saveEmail(state, name) {
+      state.email = name;
     }
   },
   actions: {

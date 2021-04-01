@@ -67,7 +67,7 @@
       register() {
         register(this.user).then(res => {
           const data = res.data;
-          console.log(data);
+          // console.log(data);
           if(data.code === 0) {
             this.$Message.success(data.data.message);
             this.$router.push('/login');

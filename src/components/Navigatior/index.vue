@@ -13,7 +13,7 @@
         <Icon type="ios-color-wand" />
         花絮
       </MenuItem>
-      <MenuItem name="Login" to="/login">
+      <MenuItem name="Login" :to="personalCenter">
         <Icon type="md-contact" />
         <span v-if="isLogin">个人中心</span>
         <span v-else>登录</span>
@@ -27,8 +27,15 @@ export default {
   name: 'TabBar',
   data() {
     return {
-      isLogin: 0,
-      activeName: 'Home',
+      activeName: 'Home'
+    }
+  },
+  computed: {
+    isLogin() {
+      return this.$store.state.email ? 1 : 0;
+    },
+    personalCenter() {
+      return this.isLogin ? '/user'  : '/login';
     }
   },
   methods: {

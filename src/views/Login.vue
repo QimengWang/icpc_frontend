@@ -64,10 +64,11 @@
             if(data.code === 0) {
               this.$Message.success(data.data.message);
               this.$store.commit('saveStatus', this.user.status);
+              this.$store.commit('saveEmail', this.user.email);
               // console.log(this.$store.state);
               this.$router.push('/user');
             } else {
-              this.$Message.error(data.data.message);
+              this.$Message.error(data.message);
             }
           }).catch(err => {
             console.log(err);

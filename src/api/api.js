@@ -1,7 +1,8 @@
 import axios from 'axios';
 import Vue from 'vue';
 
-Vue.use(axios);
+// Vue.use(axios);
+Vue.prototype.$http = axios;
 
 axios.defaults.baseURL = '/api';
 
