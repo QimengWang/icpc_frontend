@@ -8,7 +8,7 @@
             <span class="labelSpan" style="margin-top: 6%">账 号：</span>
             <a @click="$router.push('/register')" style="">暂无账号？</a>
           </div>
-          <Input class="inputBox" v-model="user.username" placeholder="请输入账号"/>
+          <Input class="inputBox" v-model="user.email" placeholder="请输入账号"/>
           <span class="labelSpan">密 码：</span>
           <Input class="inputBox" type="password" v-model="user.password" password placeholder="请输入密码" autocomplete='new-password'/>
           <RadioGroup class="radioBox" v-model="user.status">
@@ -32,36 +32,47 @@
 </template>
 
 <script>
+  import {login} from '../api/api'
   export default {
     name: "Login",
     data() {
       return {
         user: {
-          username: '',
+          email: '',
           password: '',
-          status: 'manager'
+          status: ''
         },
       }
     },
     methods: {
       login() {
-        this.$store.commit('saveStatus', this.user.status);
-        console.log(this.$store.state);
-        this.$Message.success('登录成功！');
-        this.$router.push('/user');
-        // if (this.user.username === "" || this.user.password === "") {
-        //   this.$Notice.error({
-        //     title: "账号或密码不能为空！",
-        //     duration: 2
-        //   });
-        // } else if (this.status === "") {
-        //   this.$Notice.error({
-        //     title: "请选择角色！",
-        //     duration: 2
-        //   });
-        // } else {
-        //   // 登陆的判断逻辑
-        // }
+        if (this.user.email === "" || this.user.password === "") {
+          this.$Notice.error({
+            title: "账号或密码不能为空！",
+            duration: 2
+          });
+        } else if (this.user.status === "") {
+          this.$Notice.error({
+            title: "请选择角色！",
+            duration: 2
+          });
+        } else {
+          // 登陆的判断逻辑
+          login(this.user).then(res => {
+            const data = res.data;
+            // console.log(data);
+            if(data.code === 0) {
+              this.$Message.success(data.data.message);
+              this.$store.commit('saveStatus', this.user.status);
+              // console.log(this.$store.state);
+              this.$router.push('/user');
+            } else {
+              this.$Message.error(data.data.message);
+            }
+          }).catch(err => {
+            console.log(err);
+          });
+        }
       }
     }
   }

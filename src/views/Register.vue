@@ -4,9 +4,9 @@
       <div>
         <span class="loginSpan">注 册</span>
         <div class="contentBox">
-          <Input class="inputBox" v-model="user.username" placeholder="邮箱/手机"/>
+          <Input class="inputBox" v-model="user.email" placeholder="邮箱/手机"/>
           <div class="verifyBox">
-            <Input class="inputBox" v-model="user.verifyCode" placeholder="验证码"/>
+            <Input class="inputBox" v-model="user.code" placeholder="验证码"/>
             <Button type="primary" @click="sending">发送验证码</Button>
           </div>
           <Input class="inputBox" type="password" v-model="user.password" password placeholder="密码" autocomplete='new-password'/>
@@ -23,16 +23,16 @@
 </template>
 
 <script>
-  import {sendEmail} from '../api/api';
+  import {sendCode, register} from '../api/api';
   export default {
     name: "Register",
     data() {
       return {
         user: {
-          username: '',
+          email: '',
           password: '',
           status: '',
-          verifyCode: ''
+          code: ''
         },
         statusList: [
           {
@@ -48,15 +48,36 @@
     },
     methods: {
       sending() {
-        sendEmail().then(data => {
-          window.alert(data.msg);
+        // console.log(this.user.username);
+        sendCode(this.user.email).then(res => {
+          const data = res.data;
+          // console.log(data);
+          if(data.code === 0) {
+            this.$Message.success(data.data.message);
+          } else if(data.code === 1){
+            this.$Message.warning(data.data.message);
+          } else {
+            this.$Message.error(data.data.message);
+          }
         }).catch(err => {
           console.log(err);
+          this.$Message.error('出错了！');
         })
       },
       register() {
-        this.$Message.success('注册成功！');
-        this.$router.push('/user');
+        register(this.user).then(res => {
+          const data = res.data;
+          console.log(data);
+          if(data.code === 0) {
+            this.$Message.success(data.data.message);
+            this.$router.push('/login');
+          } else {
+            this.$Message.error(data.data.message);
+          }
+        }).catch(err => {
+          console.log(err);
+          this.$Message.error('出错了！');
+        });
       }
     }
   }

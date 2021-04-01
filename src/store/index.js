@@ -5,7 +5,7 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
-    status: 'manager'
+    status: ''
   },
   mutations: {
     saveStatus(state, status) {
