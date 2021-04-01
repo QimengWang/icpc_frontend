@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Menu theme="light" active-name="News">
+    <Menu theme="light" :active-name="activeName">
       <MenuItem name="News" to="/user/news">
         <Icon type="ios-alert" />
         最新消息
@@ -21,7 +21,7 @@
         <MenuItem name="2-1">成绩数据</MenuItem>
         <MenuItem name="2-2">成绩统计</MenuItem>
       </Submenu>
-      <MenuItem name="contestManagement" v-if="$store.state.status === 'manager'" to="/user/contestManagement">
+      <MenuItem name="ContestManagement" v-if="$store.state.status === 'manager'" to="/user/contestManagement">
         <Icon type="ios-clipboard-outline" />
         赛事管理
       </MenuItem>
@@ -42,15 +42,12 @@
     name: "index",
     data() {
       return {
-      }
-    },
-    watch: {
-      $route() {
-        // console.log(this.$route);
-        // this.activeName = this.$route.name;
+        activeName: 'News'
       }
     },
     mounted() {
+      // 解决刷新后侧边栏与路由不匹配问题
+      this.activeName = this.$route.name;
     }
   }
 </script>

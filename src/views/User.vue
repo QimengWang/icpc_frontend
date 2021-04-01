@@ -42,6 +42,7 @@
   .contentBox {
     background-color: whitesmoke;
     flex-grow: 1;
+    width: calc(100vh - 240px);
   }
   .content {
     background-color: white;

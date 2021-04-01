@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h2>这里是info！</h2>
+    <h2>竞赛花絮</h2>
   </div>
 </template>
 

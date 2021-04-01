@@ -4,11 +4,11 @@
 <!--      查询行-->
       <div class="father">
         <div class="son">
-          <Input v-model="search.contestName" placeholder="赛事名称" />
-          <Select v-model="search.type" placeholder="类型">
+          <Input v-model="search.contestName" placeholder="赛事名称" clearable/>
+          <Select v-model="search.type" placeholder="类型" clearable>
             <Option v-for="item in typeList" :value="item.value" :key="item.value">{{ item.label }}</Option>
           </Select>
-          <Select v-model="search.state" placeholder="状态">
+          <Select v-model="search.state" placeholder="状态" clearable>
             <Option v-for="item in stateList" :value="item.value" :key="item.value">{{ item.label }}</Option>
           </Select>
         </div>
@@ -123,32 +123,32 @@
           },
           {
             title: '赛事名称',
-            minWidth: 150,
+            minWidth: 200,
             key: 'contestName'
           },
           {
             title: '类型',
-            minWidth: 50,
+            minWidth: 100,
             key: 'type'
           },
           {
             title: '报名时间',
-            minWidth: 100,
+            minWidth: 200,
             key: 'applicationPeriod'
           },
           {
             title: '举办时间',
-            minWidth: 100,
+            minWidth: 200,
             key: 'holdingTime'
           },
           {
             title: '举办地点',
-            minWidth: 100,
+            minWidth: 200,
             key: 'address'
           },
           {
             title: '状态',
-            minWidth: 50,
+            minWidth: 100,
             key: 'state'
           },
           {
@@ -195,6 +195,22 @@
             holdingTime: '2021.4.24-2021.4.25',
             address: '宝山校区校内D楼405',
             state: '已上线'
+          },
+          {
+            contestName: '第26届信息能力检索大赛',
+            type: '个人赛',
+            applicationPeriod: '2020.3.31-2020.4.15',
+            holdingTime: '2020.4.24-2020.4.25',
+            address: '宝山校区校内D楼405',
+            state: '已结束'
+          },
+          {
+            contestName: '第25届信息能力检索大赛',
+            type: '团体赛',
+            applicationPeriod: '2019.3.31-2019.4.15',
+            holdingTime: '2019.4.24-2019.4.25',
+            address: '宝山校区校内D楼405',
+            state: '已结束'
           }
         ],
         search: {
@@ -327,6 +343,7 @@
   .con {
     padding: 20px;
     display: flex;
+    flex-direction: column;
     align-items: center;
   }
   .father {
@@ -336,18 +353,13 @@
   }
   .son {
     display: flex;
-    width: 70%;
-    justify-content: space-around;
+    flex-grow: 1;
   }
   .son>* {
     margin-right: 5px;
-    width: 50%;
   }
   .tableBox {
     width: 100%;
-  }
-  .father>Button {
-    width: 10%;
   }
   Button {
     margin-right: 5px;

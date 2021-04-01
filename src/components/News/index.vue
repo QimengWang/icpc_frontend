@@ -6,28 +6,28 @@
           <h3>报名审核通过！</h3>
           <ListItemMeta description="This is description, this is description." />
         </div>
-        <template slot="action" v-if="$store.state.status === 'manager'">
-          <li>
-            <a href="">处理</a>
-          </li>
-          <li>
-            <a href="">更多</a>
-          </li>
-        </template>
+<!--        <template slot="action" v-if="$store.state.status === 'manager'">-->
+<!--          <li>-->
+<!--            <a href="">处理</a>-->
+<!--          </li>-->
+<!--          <li>-->
+<!--            <a href="">更多</a>-->
+<!--          </li>-->
+<!--        </template>-->
       </ListItem>
       <ListItem>
         <div class="infoBox">
           <h3>成绩发布通知！</h3>
           <ListItemMeta description="This is description, this is description." />
         </div>
-        <template slot="action" v-if="$store.state.status === 'manager'">
-          <li>
-            <a href="">处理</a>
-          </li>
-          <li>
-            <a href="">更多</a>
-          </li>
-        </template>
+<!--        <template slot="action" v-if="$store.state.status === 'manager'">-->
+<!--          <li>-->
+<!--            <a href="">处理</a>-->
+<!--          </li>-->
+<!--          <li>-->
+<!--            <a href="">更多</a>-->
+<!--          </li>-->
+<!--        </template>-->
       </ListItem>
     </List>
   </div>

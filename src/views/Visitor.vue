@@ -29,14 +29,14 @@
   }
 
   .nav {
-    /*position: fixed;*/
+    position: fixed;
     width: 100%;
   }
 
   .main {
     /*background-color: lightgrey;*/
-    /*position: relative;*/
-    /*top: 60px;*/
+    position: relative;
+    top: 60px;
     z-index: -1; /*防止遮挡DropDownMenu*/
     flex-grow: 1;
   }
