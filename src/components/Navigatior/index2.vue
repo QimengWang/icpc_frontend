@@ -26,6 +26,8 @@
     methods: {
       // 退出登录
       exit() {
+        // 清除token
+        sessionStorage.clear();
         this.$store.commit('saveEmail', undefined);
         this.$router.push('/visitor');
       },

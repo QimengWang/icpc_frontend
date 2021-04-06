@@ -34,7 +34,7 @@
         信息审核
       </MenuItem>
       <MenuItem name="SchoolManagement" v-if="$store.state.status === 'manager'" to="/user/schoolManagement">
-        <Icon type="ios-checkmark-circle-outline" />
+        <Icon type="ios-apps" />
         学校管理
       </MenuItem>
     </Menu>

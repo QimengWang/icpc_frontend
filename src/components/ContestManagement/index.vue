@@ -13,7 +13,7 @@
           </Select>
         </div>
         <Button type="success" icon="ios-search-outline" @click="searchContest">查询</Button>
-        <Button type="primary" icon="ios-add-circle-outline" @click="addContest">新建</Button>
+        <Button type="primary" icon="ios-add-circle-outline" @click="addContestModal">新建</Button>
         <Button type="error" icon="ios-trash-outline" @click="deleteContest">删除</Button>
       </div>
 
@@ -52,13 +52,13 @@
             <FormItem label="报名时间">
               <Row>
                 <Col span="11">
-                  <FormItem prop="date">
+                  <FormItem prop="startApp">
                     <DatePicker type="date" placeholder="开始日期" v-model="formValidate.startApp"></DatePicker>
                   </FormItem>
                 </Col>
                 <Col span="2" style="text-align: center">-</Col>
                 <Col span="11">
-                  <FormItem prop="date">
+                  <FormItem prop="endApp">
                     <DatePicker type="date" placeholder="结束日期" v-model="formValidate.endApp"></DatePicker>
                   </FormItem>
                 </Col>
@@ -67,13 +67,13 @@
             <FormItem label="举办时间">
               <Row>
                 <Col span="11">
-                  <FormItem prop="date">
+                  <FormItem prop="startHold">
                     <DatePicker type="date" placeholder="开始日期" v-model="formValidate.startHold"></DatePicker>
                   </FormItem>
                 </Col>
                 <Col span="2" style="text-align: center">-</Col>
                 <Col span="11">
-                  <FormItem prop="date">
+                  <FormItem prop="endHold">
                     <DatePicker type="date" placeholder="结束日期" v-model="formValidate.endHold"></DatePicker>
                   </FormItem>
                 </Col>
@@ -89,19 +89,19 @@
               <Input v-model="formValidate.remark" type="textarea" :autosize="{minRows: 2,maxRows: 5}"></Input>
             </FormItem>
             <FormItem v-show="modalTitle === '新建赛事'">
-              <Button type="success" @click="confirmAdd">确认新建</Button>
-              <Button type="primary" @click="saveContest">存为草稿</Button>
+              <Button type="success" @click="saveContest('yes')">确认新建</Button>
+              <Button type="primary" @click="saveContest('no')">存为草稿</Button>
               <Button type="warning" @click="handleReset('formValidate')">重置表单</Button>
             </FormItem>
             <FormItem v-show="modalTitle === '修改赛事'">
               <Button type="primary" style="width: 100%" @click="updateContest">确认修改</Button>
             </FormItem>
-            <FormItem label="发布赛事" v-show="modalTitle==='修改赛事' && formValidate.publish==='no'">
-              <i-switch v-model="formValidate.publish" size="large">
-                <span slot="open">是</span>
-                <span slot="close">否</span>
-              </i-switch>
-            </FormItem>
+<!--            <FormItem label="发布赛事" v-show="modalTitle==='修改赛事' && formValidate.publish==='no'">-->
+<!--              <i-switch v-model="formValidate.publish" size="large">-->
+<!--                <span slot="open">是</span>-->
+<!--                <span slot="close">否</span>-->
+<!--              </i-switch>-->
+<!--            </FormItem>-->
           </Form>
         </div>
       </Modal>
@@ -109,6 +109,8 @@
 </template>
 
 <script>
+  import {getContestList, addContest, deleteContest} from "../../api/api";
+
   export default {
     name: "index",
     data () {
@@ -124,7 +126,7 @@
           {
             title: '赛事名称',
             minWidth: 200,
-            key: 'contestName'
+            key: 'name'
           },
           {
             title: '类型',
@@ -132,24 +134,29 @@
             key: 'type'
           },
           {
-            title: '报名时间',
-            minWidth: 200,
-            key: 'applicationPeriod'
-          },
-          {
-            title: '举办时间',
-            minWidth: 200,
-            key: 'holdingTime'
-          },
-          {
-            title: '举办地点',
-            minWidth: 200,
-            key: 'address'
-          },
-          {
             title: '状态',
             minWidth: 100,
             key: 'state'
+          },
+          {
+            title: '报名开始时间',
+            minWidth: 200,
+            key: 'startApp'
+          },
+          {
+            title: '报名结束时间',
+            minWidth: 200,
+            key: 'endApp'
+          },
+          {
+            title: '比赛开始时间',
+            minWidth: 200,
+            key: 'startHold'
+          },
+          {
+            title: '比赛结束时间',
+            minWidth: 200,
+            key: 'endHold'
           },
           {
             title: '操作',
@@ -187,32 +194,7 @@
             }
           }
         ],
-        data: [
-          {
-            contestName: '第27届信息能力检索大赛',
-            type: '个人赛',
-            applicationPeriod: '2021.3.31-2021.4.15',
-            holdingTime: '2021.4.24-2021.4.25',
-            address: '宝山校区校内D楼405',
-            state: '已上线'
-          },
-          {
-            contestName: '第26届信息能力检索大赛',
-            type: '个人赛',
-            applicationPeriod: '2020.3.31-2020.4.15',
-            holdingTime: '2020.4.24-2020.4.25',
-            address: '宝山校区校内D楼405',
-            state: '已结束'
-          },
-          {
-            contestName: '第25届信息能力检索大赛',
-            type: '团体赛',
-            applicationPeriod: '2019.3.31-2019.4.15',
-            holdingTime: '2019.4.24-2019.4.25',
-            address: '宝山校区校内D楼405',
-            state: '已结束'
-          }
-        ],
+        data: [],
         search: {
           state: '',
           type: '',
@@ -258,10 +240,28 @@
         },
         ruleValidate: {
           name: [
-            { required: true, message: 'The name cannot be empty', trigger: 'blur' }
+            { required: true, message: '赛事名称不能为空', trigger: 'blur' }
           ],
           type: [
-            { required: true, message: 'Please select the city', trigger: 'change' }
+            { required: true, message: '请选择比赛类型', trigger: 'change' }
+          ],
+          startApp: [
+            { required: true, type: 'date', message: '请选择报名开始时间', trigger: 'change' }
+          ],
+          endApp: [
+            { required: true, type: 'date', message: '请选择报名结束时间', trigger: 'change' }
+          ],
+          startHold: [
+            { required: true, type: 'date', message: '请选择比赛开始时间', trigger: 'change' }
+          ],
+          endHold: [
+            { required: true, type: 'date', message: '请选择比赛结束时间', trigger: 'change' }
+          ],
+          rules: [
+            { required: true, message: '比赛规则不能为空', trigger: 'blur' }
+          ],
+          rewards: [
+            { required: true, message: '奖励说明不能为空', trigger: 'blur' }
           ]
         },
         selection: []
@@ -273,9 +273,31 @@
       }
     },
     methods: {
+      // 获取赛事列表
+      getContest() {
+        getContestList().then(res => {
+          const data = res.data;
+          // console.log(data);
+          if(data.code === 0) {
+            this.data = data.result;
+          }
+        }).catch(err => {
+          console.log(err);
+        })
+      },
       // 查询赛事
       searchContest() {
-        this.$Message.success('查询成功！');
+        getContestList(this.search).then(res => {
+          const data = res.data;
+          if(data.code === 0) {
+            this.data = data.result;
+            this.$Message.success('查询成功！');
+          } else {
+            this.$Message.error('出错了！');
+          }
+        }).catch(err => {
+          console.log(err);
+        });
       },
       // 多选
       handleSelect(selection) {
@@ -298,43 +320,62 @@
         this.modal = false;
       },
       // 打开新建赛事的modal
-      addContest() {
+      addContestModal() {
         this.modalTitle = '新建赛事';
         this.modal = true;
       },
-      // 新建赛事
-      confirmAdd() {
-        this.formValidate.publish = 'yes';
-        this.$Message.success('新建赛事成功！');
-        this.modal = false;
-      },
-      // 暂存草稿
-      saveContest() {
-        this.formValidate.publish = 'no';
-        this.$Message.success('存为草稿成功！');
-        this.modal = false;
+      // 新建赛事&暂存草稿
+      saveContest(isPublish) {
+        this.$refs['formValidate'].validate(valid => {
+          if(valid) {
+            this.formValidate.publish = isPublish;
+            addContest(this.formValidate).then(res => {
+              const data = res.data;
+              // console.log(data);
+              if(data.code === 0) {
+                this.$Message.success(data.data.message);
+                // 重置表单
+                this.$refs['formValidate'].resetFields();
+                this.modal = false;
+                this.getContest();
+              } else {
+                this.$Message.error()
+              }
+            }).catch(err => {
+              console.log(err);
+            });
+          }
+        });
       },
       // 删除赛事
       deleteContest() {
         if(this.selection.length === 0) {
           this.$Message.warning('请选择要删除的赛事！');
         } else {
-          this.$Message.success('删除成功！');
+          //处理数据
+          let arr = [];
+          for(let item of this.selection) {
+            arr.push(item.cid);
+          }
+          deleteContest(arr).then(res => {
+            const data = res.data;
+            // console.log(data);
+            if(data.code === 0) {
+              this.$Message.success(data.data.message);
+              this.getContest();
+            }
+          }).catch(err => {
+            console.log(err);
+          });
         }
       },
-      handleSubmit (name) {
-        this.$refs[name].validate((valid) => {
-          if (valid) {
-            this.$Message.success('Success!');
-          } else {
-            this.$Message.error('Fail!');
-          }
-        })
-      },
       // 重置表单：
-      handleReset (name) {
-        this.$refs[name].resetFields();
+      handleReset () {
+        this.$refs['formValidate'].resetFields();
       }
+    },
+    mounted() {
+      this.getContest();
     }
   }
 </script>
