@@ -75,8 +75,12 @@ const routes = [
         path: 'contestManagement',
         name: 'ContestManagement',
         component: () => import('../components/ContestManagement/index.vue')
+      },
+      {
+        path: 'schoolManagement',
+        name: 'SchoolManagement',
+        component: () => import('../components/SchoolManagement/index.vue')
       }
-
     ]
   }
 ];

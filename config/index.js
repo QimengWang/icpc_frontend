@@ -12,7 +12,7 @@
 //     assetsPublicPath: '/',
 //     proxyTable: {
 //       '/api': {
-//         target: 'http://liuxingw.com/',
+//         target: 'http://124./',
 //         changeOrigin: true,
 //         pathRewrite: {
 //           '^/api': ''

@@ -48,21 +48,24 @@
     },
     methods: {
       sending() {
-        // console.log(this.user.username);
-        sendCode(this.user.email).then(res => {
-          const data = res.data;
-          // console.log(data);
-          if(data.code === 0) {
-            this.$Message.success(data.data.message);
-          } else if(data.code === 1){
-            this.$Message.warning(data.data.message);
-          } else {
-            this.$Message.error(data.data.message);
-          }
-        }).catch(err => {
-          console.log(err);
-          this.$Message.error('出错了！');
-        })
+        if(!this.user.email.includes('@')) {
+          this.$Message.warning('请输入正确的邮箱!');
+        } else {
+          sendCode(this.user.email).then(res => {
+            const data = res.data;
+            // console.log(data);
+            if(data.code === 0) {
+              this.$Message.success(data.data.message);
+            } else if(data.code === 1){
+              this.$Message.warning(data.data.message);
+            } else {
+              this.$Message.error(data.data.message);
+            }
+          }).catch(err => {
+            console.log(err);
+            this.$Message.error('出错了！');
+          })
+        }
       },
       register() {
         register(this.user).then(res => {

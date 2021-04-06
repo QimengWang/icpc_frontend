@@ -63,9 +63,11 @@
             // console.log(data);
             if(data.code === 0) {
               this.$Message.success(data.data.message);
+              localStorage.setItem('authorization', data.data.token);
+              console.log(localStorage.getItem('authorization'));
               this.$store.commit('saveStatus', this.user.status);
               this.$store.commit('saveEmail', this.user.email);
-              // console.log(this.$store.state);
+              console.log(this.$store.state);
               this.$router.push('/user');
             } else {
               this.$Message.error(data.message);

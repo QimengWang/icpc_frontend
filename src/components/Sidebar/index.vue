@@ -33,6 +33,10 @@
         <Icon type="ios-checkmark-circle-outline" />
         信息审核
       </MenuItem>
+      <MenuItem name="SchoolManagement" v-if="$store.state.status === 'manager'" to="/user/schoolManagement">
+        <Icon type="ios-checkmark-circle-outline" />
+        学校管理
+      </MenuItem>
     </Menu>
   </div>
 </template>
