@@ -279,7 +279,7 @@
           const data = res.data;
           // console.log(data);
           if(data.code === 0) {
-            this.data = data.result;
+            this.data = data.data;
           }
         }).catch(err => {
           console.log(err);
@@ -290,10 +290,10 @@
         getContestList(this.search).then(res => {
           const data = res.data;
           if(data.code === 0) {
-            this.data = data.result;
+            this.data = data.data;
             this.$Message.success('查询成功！');
           } else {
-            this.$Message.error('出错了！');
+            this.$Message.warning('查询成功，无结果！');
           }
         }).catch(err => {
           console.log(err);

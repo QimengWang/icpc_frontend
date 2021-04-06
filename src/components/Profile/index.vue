@@ -116,15 +116,15 @@
         <Divider>
           <h4>新增学校</h4>
         </Divider>
-        <Form ref="ruleValidate" :model="formValidate" :rules="ruleValidate" :label-width="80">
+        <Form ref="ruleValidate" :model="schoolInfo" :rules="ruleValidate" :label-width="80">
           <FormItem label="名称" prop="name">
-            <Input v-model="formValidate.name"></Input>
+            <Input v-model="schoolInfo.name"></Input>
           </FormItem>
           <FormItem label="地址" prop="address">
-            <Input v-model="formValidate.address"></Input>
+            <Input v-model="schoolInfo.address"></Input>
           </FormItem>
           <FormItem label="备注" prop="remark">
-            <Input v-model="formValidate.remark" type="textarea"></Input>
+            <Input v-model="schoolInfo.remark" type="textarea"></Input>
           </FormItem>
         </Form>
       </div>
@@ -187,6 +187,12 @@
           address: [
             { required: true, message: '学校地址不能为空', trigger: 'blur' }
           ]
+        },
+        // 新增学校的表单
+        schoolInfo: {
+          name: '',
+          address: '',
+          remark: ''
         },
         modal: false
       }
