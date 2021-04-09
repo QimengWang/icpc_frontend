@@ -25,68 +25,80 @@
 <!--      新建/修改赛事-->
       <Modal
         v-model="modal"
-        footer-hide>
+        footer-hide
+        :styles="{width: '800px'}">
+<!--        fullscreen>-->
         <div class="formBox">
           <Divider>
             <h4>{{modalTitle}}</h4>
           </Divider>
           <Form ref="formValidate" :model="formValidate" :rules="ruleValidate" :label-width="80" :disabled="isDisabled">
-            <FormItem label="赛事名称" prop="name">
-              <Input v-model="formValidate.name" placeholder="请输入赛事名称"></Input>
-            </FormItem>
-            <FormItem label="类型" prop="type">
-              <RadioGroup v-model="formValidate.type">
-                <Radio label="single">个人赛</Radio>
-                <Radio label="group">团体赛</Radio>
-              </RadioGroup>
-            </FormItem>
-            <FormItem v-show="formValidate.type === 'group'" label="人数限制">
-              <div style="display: flex">
-                <Select v-model="formValidate.isEqual">
-                  <Option value="yes">等于</Option>
-                  <Option value="no">小于等于</Option>
-                </Select>
-                <Input v-model="formValidate.limit" placeholder="人数限制"></Input>
-              </div>
-            </FormItem>
-            <FormItem label="报名时间">
-              <Row>
-                <Col span="11">
-                  <FormItem prop="startApp">
-                    <DatePicker type="date" placeholder="开始日期" v-model="formValidate.startApp"></DatePicker>
-                  </FormItem>
-                </Col>
-                <Col span="2" style="text-align: center">-</Col>
-                <Col span="11">
-                  <FormItem prop="endApp">
-                    <DatePicker type="date" placeholder="结束日期" v-model="formValidate.endApp"></DatePicker>
-                  </FormItem>
-                </Col>
-              </Row>
-            </FormItem>
-            <FormItem label="举办时间">
-              <Row>
-                <Col span="11">
-                  <FormItem prop="startHold">
-                    <DatePicker type="date" placeholder="开始日期" v-model="formValidate.startHold"></DatePicker>
-                  </FormItem>
-                </Col>
-                <Col span="2" style="text-align: center">-</Col>
-                <Col span="11">
-                  <FormItem prop="endHold">
-                    <DatePicker type="date" placeholder="结束日期" v-model="formValidate.endHold"></DatePicker>
-                  </FormItem>
-                </Col>
-              </Row>
+            <div style="width: 65%">
+              <FormItem label="赛事名称" prop="name">
+                <Input v-model="formValidate.name" placeholder="请输入赛事名称"></Input>
+              </FormItem>
+              <FormItem label="类型" prop="type">
+                <RadioGroup v-model="formValidate.type">
+                  <Radio label="single">个人赛</Radio>
+                  <Radio label="group">团体赛</Radio>
+                </RadioGroup>
+              </FormItem>
+              <FormItem v-show="formValidate.type === 'group'" label="人数限制">
+<!--                <div style="display: flex">-->
+                <Row>
+                  <Col span="12">
+                    <Select v-model="formValidate.isEqual">
+                      <Option value="yes">等于</Option>
+                      <Option value="no">小于等于</Option>
+                    </Select>
+                  </Col>
+                  <Col span="12">
+                    <Input v-model="formValidate.limit" placeholder="人数限制"></Input>
+                  </Col>
+                </Row>
+<!--                </div>-->
+              </FormItem>
+              <FormItem label="报名时间">
+                <Row>
+                  <Col span="11">
+                    <FormItem prop="startApp">
+                      <DatePicker type="date" placeholder="开始日期" v-model="formValidate.startApp"></DatePicker>
+                    </FormItem>
+                  </Col>
+                  <Col span="2" style="text-align: center">-</Col>
+                  <Col span="11">
+                    <FormItem prop="endApp">
+                      <DatePicker type="date" placeholder="结束日期" v-model="formValidate.endApp"></DatePicker>
+                    </FormItem>
+                  </Col>
+                </Row>
+              </FormItem>
+              <FormItem label="举办时间">
+                <Row>
+                  <Col span="11">
+                    <FormItem prop="startHold">
+                      <DatePicker type="date" placeholder="开始日期" v-model="formValidate.startHold"></DatePicker>
+                    </FormItem>
+                  </Col>
+                  <Col span="2" style="text-align: center">-</Col>
+                  <Col span="11">
+                    <FormItem prop="endHold">
+                      <DatePicker type="date" placeholder="结束日期" v-model="formValidate.endHold"></DatePicker>
+                    </FormItem>
+                  </Col>
+                </Row>
+              </FormItem>
+            </div>
+            <FormItem label="简介" prop="remark">
+              <Input v-model="formValidate.remark" type="textarea" :autosize="{minRows: 2,maxRows: 5}"></Input>
             </FormItem>
             <FormItem label="比赛规则" prop="rules">
-              <Input v-model="formValidate.rules" type="textarea" :autosize="{minRows: 2,maxRows: 5}"></Input>
+              <div id="editor1"></div>
+<!--              <Input v-model="formValidate.rules" type="textarea" :autosize="{minRows: 2,maxRows: 5}"></Input>-->
             </FormItem>
             <FormItem label="奖励说明" prop="rewards">
-              <Input v-model="formValidate.rewards" type="textarea" :autosize="{minRows: 2,maxRows: 5}"></Input>
-            </FormItem>
-            <FormItem label="备注" prop="remark">
-              <Input v-model="formValidate.remark" type="textarea" :autosize="{minRows: 2,maxRows: 5}"></Input>
+              <div id="editor2"></div>
+<!--              <Input v-model="formValidate.rewards" type="textarea" :autosize="{minRows: 2,maxRows: 5}"></Input>-->
             </FormItem>
             <FormItem v-show="modalTitle === '新建赛事'">
               <Button type="success" @click="saveContest('yes')">确认新建</Button>
@@ -110,7 +122,7 @@
 
 <script>
   import {getContestList, addContest, deleteContest} from "../../api/api";
-
+  import E from "wangeditor"
   export default {
     name: "index",
     data () {
@@ -262,6 +274,9 @@
           ],
           rewards: [
             { required: true, message: '奖励说明不能为空', trigger: 'blur' }
+          ],
+          remark: [
+            { required: true, message: '赛事简介不能为空', trigger: 'blur' }
           ]
         },
         selection: []
@@ -332,14 +347,14 @@
             addContest(this.formValidate).then(res => {
               const data = res.data;
               // console.log(data);
-              if(data.code === 0) {
+              if(data.code === 0 || data.code === 1) {
                 this.$Message.success(data.data.message);
                 // 重置表单
                 this.$refs['formValidate'].resetFields();
                 this.modal = false;
                 this.getContest();
               } else {
-                this.$Message.error()
+                this.$Message.error(data.data.message);
               }
             }).catch(err => {
               console.log(err);
@@ -372,10 +387,46 @@
       // 重置表单：
       handleReset () {
         this.$refs['formValidate'].resetFields();
+      },
+      // 设置富文本编辑器
+      setEditors() {
+        this.createEditor('#editor1');
+        this.createEditor('#editor2');
+      },
+      createEditor(id){
+        // 创建富文本编辑器
+        const editor = new E(id);
+        // 配置高度
+        editor.config.height = 200;
+        // 配置菜单
+        editor.config.menus = [
+          'fontSize',
+          'foreColor',
+          'bold',
+          'head',
+          'italic',
+          'underline',
+          'list',
+          'image',
+          'undo',
+          'redo'
+        ];
+        // 配置 server 接口地址
+        editor.config.uploadImgServer = '/upload-img';
+        editor.create();
       }
     },
     mounted() {
       this.getContest();
+      this.setEditors();
+    },
+    watch: {
+      modal(){
+        if(this.modal === false) {
+          // 重置表单
+          this.$refs['formValidate'].resetFields();
+        }
+      }
     }
   }
 </script>

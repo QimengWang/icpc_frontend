@@ -25,17 +25,17 @@
         <Icon type="ios-clipboard-outline" />
         赛事管理
       </MenuItem>
-      <MenuItem name="6" v-if="$store.state.status === 'manager'">
-        <Icon type="ios-calendar" />
-        成绩管理
+      <MenuItem name="SchoolManagement" v-if="$store.state.status === 'manager'" to="/user/schoolManagement">
+        <Icon type="ios-apps" />
+        学校管理
       </MenuItem>
       <MenuItem name="7" v-if="$store.state.status === 'manager'">
         <Icon type="ios-checkmark-circle-outline" />
         信息审核
       </MenuItem>
-      <MenuItem name="SchoolManagement" v-if="$store.state.status === 'manager'" to="/user/schoolManagement">
-        <Icon type="ios-apps" />
-        学校管理
+      <MenuItem name="6" v-if="$store.state.status === 'manager'">
+        <Icon type="ios-calendar" />
+        成绩管理
       </MenuItem>
     </Menu>
   </div>

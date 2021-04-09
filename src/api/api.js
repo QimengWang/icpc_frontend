@@ -32,6 +32,14 @@ export function getInfo() {
   });
 }
 
+// 获取学校列表
+export function getSchoolList() {
+  return axios.get('/user/showUniversity', {headers: {
+      authorization: 'Bearer ' + sessionStorage.getItem('authorization')
+    }
+  });
+}
+
 // 修改个人信息
 export function updateInfo(data) {
   return axios.post('/user/updateInfo', {...data}, {
@@ -40,6 +48,8 @@ export function updateInfo(data) {
     }
   });
 }
+
+
 
 // 管理员：
 // 获取&查询赛事列表
@@ -58,7 +68,7 @@ export function addContest(data) {
     headers: {
       authorization: 'Bearer ' + sessionStorage.getItem('authorization')
     }
-  })
+  });
 }
 
 // 删除赛事
@@ -67,5 +77,41 @@ export function deleteContest(arr) {
     headers: {
       authorization: 'Bearer ' + sessionStorage.getItem('authorization')
     }
-  })
+  });
+}
+
+// 获取学校列表
+export function getSchools() {
+  return axios.get('/user/manager/showUniversityInfo', {
+    headers: {
+      authorization: 'Bearer ' + sessionStorage.getItem('authorization')
+    }
+  });
+}
+
+// 修改学校信息
+export function updateSchool(data) {
+  return axios.post('/user/manager/updateUniversity', {data}, {
+    headers: {
+      authorization: 'Bearer ' + sessionStorage.getItem('authorization')
+    }
+  });
+}
+
+// 新增学校
+export function addSchool(data) {
+  return axios.post('/user/manager/addUniversity', {...data}, {
+    headers: {
+      authorization: 'Bearer ' + sessionStorage.getItem('authorization')
+    }
+  });
+}
+
+// 删除学校
+export function deleteSchool(arr) {
+  return axios.post('/user/manager/deleteUniversity', {id: arr}, {
+    headers: {
+      authorization: 'Bearer ' + sessionStorage.getItem('authorization')
+    }
+  });
 }

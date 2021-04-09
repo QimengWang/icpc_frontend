@@ -10,14 +10,13 @@
 
 <!--    学校列表-->
     <div class="tableBox">
-      <Table border :columns="columns" :data="data"></Table>
+      <Table border :columns="columns" :data="data" @on-select="handleSelect"></Table>
     </div>
 
     <!--    新增学校-->
     <Modal
       v-model="modal"
-      @on-ok="addSchool"
-      @on-cancel="modal=false">
+      footer-hide>
       <div class="formBox">
         <Divider>
           <h4>{{modalTitle}}</h4>
@@ -32,8 +31,8 @@
           <FormItem label="负责人" prop="charge">
             <Input v-model="schoolInfo.charge"></Input>
           </FormItem>
-          <FormItem label="备注" prop="remark">
-            <Input v-model="schoolInfo.remark" type="textarea"></Input>
+          <FormItem>
+            <Button type="primary" style="width: 100%" @click="addSchool">确认</Button>
           </FormItem>
         </Form>
       </div>
@@ -42,6 +41,8 @@
 </template>
 
 <script>
+  import {getSchools, updateSchool, addSchool, deleteSchool} from "../../api/api";
+
   export default {
     name: "index",
     data() {
@@ -69,11 +70,6 @@
             key: 'charge'
           },
           {
-            title: '备注',
-            minWidth: 200,
-            key: 'remark'
-          },
-          {
             title: '操作',
             key: 'action',
             width: 150,
@@ -89,7 +85,7 @@
                   },
                   on: {
                     click: () => {
-                      this.update(params.index)
+                      this.update(params.row)
                     }
                   }
                 }, '编辑'),
@@ -100,7 +96,7 @@
                   },
                   on: {
                     click: () => {
-                      this.deleteSchool(params.index)
+                      this.deleteSchool(params.row.id)
                     }
                   }
                 }, '删除')
@@ -108,14 +104,7 @@
             }
           }
         ],
-        data: [
-          {
-            name: '上海大学',
-            address: '上海市宝山区上大路99号',
-            charge: '沈俊',
-            remark: null
-          }
-        ],
+        data: [],
         modal: false,
         modalTitle: '',
         // 新增学校的验证规则
@@ -134,36 +123,122 @@
         schoolInfo: {
           name: '',
           address: '',
-          charge: '',
-          remark: ''
-        }
+          charge: ''
+        },
+        selection: []
       }
     },
     methods: {
+      // 多选
+      handleSelect(selection) {
+        this.selection = selection;
+      },
+      // 获取学校列表
+      getSchoolList() {
+        getSchools().then(res => {
+          const data = res.data;
+          if(data.code === 0) {
+            this.data = data.data;
+          }
+        }).catch(err => {
+          this.$Message.error(err);
+        })
+      },
       // 新增学校Modal
       addSchoolModal() {
         this.modalTitle = '新增学校';
+        this.modal = true;
+      },
+      // 修改学校Modal
+      update(data) {
+        this.schoolInfo = data;
+        this.modalTitle = '修改学校';
         this.modal = true;
       },
       // 新增&修改学校
       addSchool() {
         this.$refs['formValidate'].validate(valid => {
           if(valid) {
-
+            if(this.modalTitle === "新增学校") {
+              addSchool(this.schoolInfo).then(res => {
+                const data = res.data;
+                if(data.code === 0) {
+                  this.$Message.success(data.data.message);
+                  this.modal = false;
+                  this.getSchoolList();
+                  // 重置表单
+                  this.$refs['formValidate'].resetFields();
+                } else {
+                  this.$Message.error(data.data.message);
+                }
+              }).catch(err => {
+                this.$Message.error(err);
+              })
+            } else {
+              updateSchool(this.schoolInfo).then(res => {
+                const data = res.data;
+                if(data.code === 0) {
+                  this.$Message.success(data.data.message);
+                  this.modal = false;
+                  this.getSchoolList();
+                  // 重置表单
+                  this.$refs['formValidate'].resetFields();
+                } else {
+                  this.$Message.error(data.data.message);
+                }
+              }).catch(err => {
+                this.$Message.error(err);
+              })
+            }
           } else {
             this.$Message.error('请填写必填项！');
           }
         });
       },
       // 删除学校
-      deleteSchool() {
-        this.$Message.success('删除成功！');
-
-      },
-      // 修改学校Modal
-      update() {
-        this.modalTitle = '修改学校';
-        this.modal = true;
+      deleteSchool(id) {
+        let arr = [];
+        let flag = 1;
+        if(typeof id !== 'number') {
+          // 多选
+          if(this.selection.length === 0) {
+            flag = 0;
+            this.$Message.warning('请选择要删除的赛事！');
+          } else {
+            //处理数据
+            for(let item of this.selection) {
+              arr.push(item.id);
+            }
+          }
+        } else {
+          arr.push(id);
+        }
+        // 删除
+        if(flag === 1) {
+          deleteSchool(arr).then(res => {
+            const data = res.data;
+            // console.log(data);
+            if(data.code === 0) {
+              this.$Message.success(data.data.message);
+              this.getSchoolList();
+            } else {
+              this.$Message.error(data.data.message);
+            }
+          }).catch(err => {
+            console.log(err);
+          });
+        }
+      }
+    },
+    mounted() {
+      this.getSchoolList();
+    },
+    watch: {
+      modal(val) {
+        if(val === false) {
+          // 重置表单
+          this.$refs['formValidate'].resetFields();
+        }
       }
     }
   }

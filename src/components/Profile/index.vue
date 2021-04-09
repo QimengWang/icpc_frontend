@@ -29,9 +29,7 @@
           <FormItem label="学校" prop="school">
             <Select v-model="userInfo.school" filterable clearable placeholder="请选择学校">
               <Button v-if="$store.state.status === 'teacher'" style="width: 100%" type="primary" icon="ios-add-circle-outline" @click="modal=true">新增学校</Button>
-              <Option value="1">上海大学</Option>
-              <Option value="2">复旦大学</Option>
-              <Option value="3">北京大学</Option>
+              <Option v-for="(item, key) in schoolList" :key="key" :value="item.id">{{item.name}}</Option>
             </Select>
           </FormItem>
         </Col>
@@ -133,12 +131,13 @@
 </template>
 
 <script>
-  import {getInfo, updateInfo} from "../../api/api";
+  import {getInfo, updateInfo, getSchoolList} from "../../api/api";
 
   export default {
     name: "index",
     data() {
       return {
+        schoolList: [],
         userInfo: {
           chineseName: '',
           sex: '',
@@ -235,6 +234,7 @@
           }
         })
       },
+      // 获取个人信息
       getInfo() {
         getInfo().then(res => {
           // 修正日期格式
@@ -242,6 +242,21 @@
           let date = d.year ? new Date(d.year) : '';
           d.year = date;
           this.userInfo = d;
+          // 修正school类型，防止option绑定失败
+          this.userInfo.school = Number(d.school);
+          // console.log(typeof this.userInfo.school);
+        }).catch(err => {
+          this.$Message.error(err);
+        })
+      },
+      // 获取学校列表
+      getSchools() {
+        getSchoolList().then(res => {
+          const data = res.data;
+          if(data.code === 0) {
+            this.schoolList = data.data;
+            // console.log(this.schoolList);
+          }
         }).catch(err => {
           this.$Message.error(err);
         })
@@ -249,6 +264,7 @@
     },
     mounted() {
       this.getInfo();
+      this.getSchools();
     }
   }
 </script>
