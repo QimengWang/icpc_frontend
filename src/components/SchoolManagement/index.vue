@@ -151,7 +151,8 @@
       },
       // 修改学校Modal
       update(data) {
-        this.schoolInfo = data;
+        // 浅拷贝：避免重置表单时影响原table中数据
+        this.schoolInfo = {...data};
         this.modalTitle = '修改学校';
         this.modal = true;
       },
