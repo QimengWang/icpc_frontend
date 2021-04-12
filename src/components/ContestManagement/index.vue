@@ -44,7 +44,6 @@
                 </RadioGroup>
               </FormItem>
               <FormItem v-show="formValidate.type === 'group'" label="人数限制">
-<!--                <div style="display: flex">-->
                 <Row>
                   <Col span="12">
                     <Select v-model="formValidate.isEqual">
@@ -56,7 +55,6 @@
                     <Input v-model="formValidate.limit" placeholder="人数限制"></Input>
                   </Col>
                 </Row>
-<!--                </div>-->
               </FormItem>
               <FormItem label="报名时间">
                 <Row>
@@ -121,7 +119,7 @@
 </template>
 
 <script>
-  import {getContestList, addContest, deleteContest} from "../../api/api";
+  import {getContestList, addContest, deleteContest, showContestDetail, updateContest} from "../../api/api";
   import E from "wangeditor"
   export default {
     name: "index",
@@ -187,7 +185,7 @@
                   },
                   on: {
                     click: () => {
-                      this.detail(params.index)
+                      this.detail(params.row.id)
                     }
               }
                 }, '详情'),
@@ -198,7 +196,7 @@
                   },
                   on: {
                     click: () => {
-                      this.update(params.index)
+                      this.update(params.row.id)
                     }
                   }
                 }, '编辑')
@@ -320,19 +318,40 @@
         // console.log(selection);
       },
       // 查看赛事详情
-      detail() {
+      detail(id) {
+        console.log(id);
+        let params = {cid: id};
+        showContestDetail(params).then(res => {
+          const data = res.data;
+          this.formValidate = data;
+        });
         this.modalTitle = '赛事详情';
         this.modal = true;
       },
       // 打开修改赛事的modal
-      update (index) {
-        this.modalTitle = '修改赛事';
-        this.modal = true;
+      update (id) {
+        // 先获取赛事详情
+        showContestDetail({cid: id}).then(res => {
+          const data = res.data;
+          this.formValidate = data;
+          this.modalTitle = '修改赛事';
+          this.modal = true;
+        });
       },
       // 修改赛事
       updateContest() {
-        this.$Message.success('编辑赛事成功！');
-        this.modal = false;
+        updateContest(this.formValidate).then(res => {
+          const data = res.data;
+          if(data.code === 0) {
+            this.$Message.success(data.data.message);
+            this.getContest();
+            this.modal = false;
+          } else {
+            this.$Message.error(data.data.message);
+          }
+        }).catch(err => {
+          this.$Message.error(err);
+        });
       },
       // 打开新建赛事的modal
       addContestModal() {
@@ -413,6 +432,13 @@
         ];
         // 配置 server 接口地址
         editor.config.uploadImgServer = '/upload-img';
+        editor.config.onchange = (html) =>{
+          if(id === '#editor1') {
+            this.formValidate.rules = html;
+          } else {
+            this.formValidate.rewards = html;
+          }
+        };
         editor.create();
       }
     },

@@ -13,7 +13,7 @@ const routes = [
   },
   {
     path: '/visitor',
-    name: 'Visitor',
+    // name: 'Visitor',
     component: () => import('../views/Visitor.vue'),
     children: [
       {
@@ -54,7 +54,7 @@ const routes = [
   },
   {
     path: '/user',
-    name: 'User',
+    // name: 'User',
     component: () => import('../views/User.vue'),
     children: [
       {
@@ -70,6 +70,22 @@ const routes = [
         path: 'profile',
         name: 'Profile',
         component: () => import('../components/Profile/index.vue')
+      },
+      {
+        path: 'contest',
+        // name: 'Contest',
+        component: () => import('../components/PublishCenter/index.vue'),
+        children: [
+          {
+            path: '',
+            redirect: 'signUp'
+          },
+          {
+            path: 'signUp',
+            name: 'SignUp',
+            component: () => import('../components/SignUp/index.vue')
+          }
+        ]
       },
       {
         path: 'contestManagement',

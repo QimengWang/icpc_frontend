@@ -80,9 +80,29 @@ export function deleteContest(arr) {
   });
 }
 
+// 修改赛事
+export function updateContest(data) {
+  return axios.post('/user/updateContest', {...data},{
+    headers: {
+      authorization: 'Bearer ' + sessionStorage.getItem('authorization')
+    }
+  });
+}
+
+// 赛事详情
+export function showContestDetail(data) {
+  return axios.get('/user/showContestInfo', {
+    params: data,
+    headers: {
+      authorization: 'Bearer ' + sessionStorage.getItem('authorization')
+    }
+  });
+}
+
 // 获取学校列表
-export function getSchools() {
+export function getSchools(data) {
   return axios.get('/user/manager/showUniversityInfo', {
+    params: data,
     headers: {
       authorization: 'Bearer ' + sessionStorage.getItem('authorization')
     }

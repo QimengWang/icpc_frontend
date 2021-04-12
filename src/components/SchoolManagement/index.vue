@@ -3,7 +3,7 @@
     <!--      查询行-->
     <div class="father">
       <Input v-model="schoolName" placeholder="学校名称" clearable style="width: 200px; margin-right: 5px"/>
-      <Button type="success" icon="ios-search-outline">查询</Button>
+      <Button type="success" icon="ios-search-outline" @click="searchSchool">查询</Button>
       <Button type="primary" icon="ios-add-circle-outline" @click="addSchoolModal">新建</Button>
       <Button type="error" icon="ios-trash-outline" @click="deleteSchool">删除</Button>
     </div>
@@ -139,6 +139,18 @@
           const data = res.data;
           if(data.code === 0) {
             this.data = data.data;
+          }
+        }).catch(err => {
+          this.$Message.error(err);
+        })
+      },
+      // 查询学校
+      searchSchool() {
+        getSchools({name: this.schoolName}).then(res => {
+          const data = res.data;
+          if(data.code === 0) {
+            this.data = data.data;
+            this.$Message.success('查询成功！');
           }
         }).catch(err => {
           this.$Message.error(err);
