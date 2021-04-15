@@ -31,16 +31,17 @@
   .nav {
     position: fixed;
     width: 100%;
+    z-index: 99;
   }
 
   .main {
-    /*background-color: lightgrey;*/
     position: relative;
     top: 60px;
-    z-index: -1; /*防止遮挡DropDownMenu*/
     flex-grow: 1;
   }
 
   .footer {
+    position: relative;
+    top: 20px;
   }
 </style>

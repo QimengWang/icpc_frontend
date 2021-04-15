@@ -48,6 +48,8 @@
 </template>
 
 <script>
+  import {getSingleList, getGroupList, updateGroup, getTeachers} from "../../api/api";
+
   export default {
     name: "index",
     data() {
@@ -73,7 +75,7 @@
                   },
                   on: {
                     click: () => {
-                      this.detail(params.row.id)
+                      this.detail(params.row.cid)
                     }
                   }
                 }, '赛事详情'),
@@ -84,7 +86,7 @@
                   },
                   on: {
                     click: () => {
-                      this.cancel(params.row.id)
+                      this.cancel(params.row.cid)
                     }
                   }
                 }, '取消报名')
@@ -92,11 +94,7 @@
             }
           }
         ],
-        dataSingle: [
-          {
-            name: '第19届上海大学程序设计联赛'
-          }
-        ],
+        dataSingle: [],
         columnsGroup: [
           {
             title: '赛事名称',
@@ -168,25 +166,13 @@
             }
           }
         ],
-        dataGroup: [
-          {
-            cname: '第20届信息能力检索大赛',
-            gname: 'test队',
-            tname: '沈俊',
-            tid: '001',
-            members: ''
-          }
-        ],
+        dataGroup: [],
         // 教师列表
-        tList: [
-          {
-            id: '001',
-            name: '沈俊'
-          }
-        ],
+        tList: [],
         // 修改报名信息相关数据
         modal: false,
         formValidate: {
+          cid: '',
           cname: '',
           gname: '',
           tid: '',
@@ -203,9 +189,31 @@
       }
     },
     methods: {
+      // 获取个人赛列表
+      getSingleList() {
+        getSingleList().then(res => {
+          const data = res.data;
+          if(data.code === 0) {
+            this.dataSingle = data.data;
+          }
+        }).catch(err => {
+          this.$Message.error(err);
+        })
+      },
+      // 获取团队赛列表
+      getGroupList() {
+        getGroupList().then(res => {
+          const data = res.data;
+          if(data.code === 0) {
+            this.dataGroup = data.data;
+          }
+        }).catch(err => {
+          this.$Message.error(err);
+        })
+      },
       // 查看赛事详情
       detail(id) {
-
+        this.$router.push({path:'/visitor/contest/'+id});
       },
       // 取消报名
       cancel(id) {
@@ -213,14 +221,30 @@
       },
       // 修改报名信息（团体赛）
       update(data) {
+        // 获取教练列表
+        getTeachers().then(res => {
+          const data = res.data;
+          if(data.code === 0) {
+            this.tList = data.data;
+          }
+        });
         this.formValidate = data;
         this.modal = true;
       },
       updateSignUp() {
         this.$refs.formValidate.validate((valid) => {
           if (valid) {
-            this.$Message.success('修改成功！');
-            this.modal = false;
+            updateGroup(this.formValidate).then(res => {
+              const data = res.data;
+              if(data.code === 0) {
+                this.$Message.success('修改成功！');
+                this.modal = false;
+                // 重置表单
+                this.$refs['formValidate'].resetFields();
+              }
+            }).catch(err => {
+              this.$Message.error(err);
+            });
           } else {
             this.$Message.error('请完善必填字段!');
           }
@@ -228,7 +252,8 @@
       }
     },
     mounted() {
-
+      this.getSingleList();
+      this.getGroupList();
     }
   }
 </script>

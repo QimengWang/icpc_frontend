@@ -1,76 +1,83 @@
 <template>
-  <div class="con">
+  <div class="box">
     <div class="list">
-      <List item-layout="vertical">
-        <ListItem v-for="item in data" :key="item.title">
-          <ListItemMeta :title="item.title" />
-          <div class="content">
-            <div class="item">
-              <h4>报名时间：</h4>
-              <span>{{item.applicationPeriod}}</span>
+        <List item-layout="vertical">
+          <ListItem v-for="item in data" :key="item.title">
+<!--            <ListItemMeta :title="item.name" />-->
+            <h3>{{item.name}}</h3>
+            <div class="content">
+              <div class="item">
+                <h4>报名时间：</h4>
+                <span>{{item.startApp}} ~ {{item.endApp}}</span>
+              </div>
+              <div class="item">
+                <h4>比赛时间：</h4>
+                <span>{{item.startHold}} ~ {{item.endHold}}</span>
+              </div>
+              <div class="intro">
+                <h4>简介：</h4>
+                <p>
+                  {{item.remark}}
+                  <a @click="toDetail(item.cid)">详情</a>
+                </p>
+<!--                <router-link :to="'/visitor/detail'">详情</router-link>-->
+              </div>
             </div>
-            <div class="item">
-              <h4>比赛时间：</h4>
-              <span>{{item.holdingTime}}</span>
-            </div>
-            <div class="intro">
-              <h4>简介：</h4>
-              <p>
-                {{item.introduce}}
-              <a>详情</a>
-            </p>
-            </div>
-          </div>
-          <template slot="extra">
-            <img src="https://dev-file.iviewui.com/5wxHCQMUyrauMCGSVEYVxHR5JmvS7DpH/large" style="width: 280px">
-          </template>
-        </ListItem>
-      </List>
-    </div>
-
+<!--            <template slot="extra">-->
+<!--              <img src="https://dev-file.iviewui.com/5wxHCQMUyrauMCGSVEYVxHR5JmvS7DpH/large" style="width: 280px">-->
+<!--            </template>-->
+          </ListItem>
+        </List>
+      </div>
   </div>
 </template>
 
 <script>
+  import {getContests} from "../../api/api";
+
   export default {
     name: "index",
     data() {
       return {
-        data: [
-          {
-            title: '第27届信息能力检索大赛',
-            applicationPeriod: '2021.4.1-2021.4.6',
-            holdingTime: '2021.4.2-2021.4.6',
-            introduce: '信息能力检索大赛旨在锻炼大学生利用搜索引擎解决问题的能力，它的...'
-          },
-          {
-            title: '第26届信息能力检索大赛',
-            applicationPeriod: '2020.4.1-2020.4.6',
-            holdingTime: '2020.4.2-2020.4.6',
-            introduce: '信息能力检索大赛旨在锻炼大学生利用搜索引擎解决问题的能力，它的...'
-          },
-          {
-            title: '第25届信息能力检索大赛',
-            applicationPeriod: '2019.4.1-2019.4.6',
-            holdingTime: '2019.4.2-2019.4.6',
-            introduce: '信息能力检索大赛旨在锻炼大学生利用搜索引擎解决问题的能力，它的...'
-          }
-        ]
+        data: []
       }
+    },
+    methods: {
+      getContestList() {
+        getContests().then(res => {
+          const data = res.data;
+          if(data.code === 0) {
+            this.data = data.data;
+          } else {
+
+          }
+        }).catch(err => {
+          this.$Message.error(err);
+        })
+      },
+      toDetail(id) {
+        // console.log(id);
+        this.$router.push({path:'/visitor/contest/'+id});
+      }
+    },
+    mounted() {
+      this.getContestList();
     }
   }
 </script>
 
 <style scoped>
-  .con {
-    width: 100%;
-    display: flex;
-    align-items: center;
+  .box {
+    position: relative;
   }
   .list {
-    width: 70%;
+    width: 80%;
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%, 0);
   }
   .content {
+    margin-top: 10px;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
@@ -84,10 +91,10 @@
     flex-direction: column;
     align-items: flex-start;
   }
-  >>>.ivu-list-item-meta-title {
-    font-weight: bold;
-  }
-  h4 {
+  /*>>>.ivu-list-item-meta-title {*/
+  /*  font-weight: bold;*/
+  /*}*/
+  h4,h3 {
     color: #333333;
   }
   p {

@@ -15,8 +15,8 @@
       </MenuItem>
       <MenuItem name="Login" :to="personalCenter">
         <Icon type="md-contact" />
-        <span v-if="isLogin">个人中心</span>
-        <span v-else>登录</span>
+        <span v-show="isLogin">个人中心</span>
+        <span v-show="!isLogin">登录</span>
       </MenuItem>
     </Menu>
   </div>
@@ -32,7 +32,7 @@ export default {
   },
   computed: {
     isLogin() {
-      return this.$store.state.email ? 1 : 0;
+      return sessionStorage.getItem('authorization') ? 1 : 0;
     },
     personalCenter() {
       return this.isLogin ? '/user'  : '/login';

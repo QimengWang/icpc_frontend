@@ -33,6 +33,10 @@
         <Icon type="ios-apps" />
         学校管理
       </MenuItem>
+      <MenuItem name="SignUpManagement" v-if="$store.state.status === 'manager'" to="/user/signUpManagement">
+        <Icon type="ios-contacts" />
+        报名管理
+      </MenuItem>
       <MenuItem name="7" v-if="$store.state.status === 'manager'">
         <Icon type="ios-checkmark-circle-outline" />
         信息审核

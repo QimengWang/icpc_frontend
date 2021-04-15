@@ -32,7 +32,7 @@
           <Divider>
             <h4>{{modalTitle}}</h4>
           </Divider>
-          <Form ref="formValidate" :model="formValidate" :rules="ruleValidate" :label-width="80" :disabled="isDisabled">
+          <Form ref="formValidate" :model="formValidate" :rules="ruleValidate" :label-width="100" :disabled="isDisabled" label-colon>
             <div style="width: 65%">
               <FormItem label="赛事名称" prop="name">
                 <Input v-model="formValidate.name" placeholder="请输入赛事名称"></Input>
@@ -88,30 +88,38 @@
               </FormItem>
             </div>
             <FormItem label="简介" prop="remark">
-              <Input v-model="formValidate.remark" type="textarea" :autosize="{minRows: 2,maxRows: 5}"></Input>
+              <Input v-model="formValidate.remark" placeholder="请输入赛事简介..." type="textarea" :autosize="{minRows: 2,maxRows: 5}"></Input>
             </FormItem>
             <FormItem label="比赛规则" prop="rules">
-              <div id="editor1"></div>
-<!--              <Input v-model="formValidate.rules" type="textarea" :autosize="{minRows: 2,maxRows: 5}"></Input>-->
+<!--              <div v-show="isDisabled" style="padding-left: 20px">-->
+<!--                <div v-html="formValidate.rules"></div>-->
+<!--              </div>-->
+<!--              <div v-show="!isDisabled">-->
+                <div id="editor1"></div>
+<!--              </div>-->
             </FormItem>
             <FormItem label="奖励说明" prop="rewards">
-              <div id="editor2"></div>
-<!--              <Input v-model="formValidate.rewards" type="textarea" :autosize="{minRows: 2,maxRows: 5}"></Input>-->
+<!--              <div v-show="isDisabled" style="padding-left: 20px">-->
+<!--                <div v-html="formValidate.rewards"></div>-->
+<!--              </div>-->
+<!--              <div v-show="!isDisabled">-->
+                <div id="editor2"></div>
+<!--              </div>-->
             </FormItem>
             <FormItem v-show="modalTitle === '新建赛事'">
               <Button type="success" @click="saveContest('yes')">确认新建</Button>
               <Button type="primary" @click="saveContest('no')">存为草稿</Button>
               <Button type="warning" @click="handleReset('formValidate')">重置表单</Button>
             </FormItem>
-            <FormItem v-show="modalTitle === '修改赛事'">
-              <Button type="primary" style="width: 100%" @click="updateContest">确认修改</Button>
+            <FormItem label="发布赛事" v-show="modalTitle!=='新建赛事'">
+              <i-switch size="large" true-value="yes" false-value="no" v-model="formValidate.publish">
+                <span slot="open">是</span>
+                <span slot="close">否</span>
+              </i-switch>
             </FormItem>
-<!--            <FormItem label="发布赛事" v-show="modalTitle==='修改赛事' && formValidate.publish==='no'">-->
-<!--              <i-switch v-model="formValidate.publish" size="large">-->
-<!--                <span slot="open">是</span>-->
-<!--                <span slot="close">否</span>-->
-<!--              </i-switch>-->
-<!--            </FormItem>-->
+            <FormItem v-show="modalTitle === '修改赛事'">
+              <Button type="primary" style="width: 100%" @click="updateContest">确认</Button>
+            </FormItem>
           </Form>
         </div>
       </Modal>
@@ -135,7 +143,7 @@
           },
           {
             title: '赛事名称',
-            minWidth: 200,
+            minWidth: 280,
             key: 'name'
           },
           {
@@ -150,22 +158,22 @@
           },
           {
             title: '报名开始时间',
-            minWidth: 200,
+            minWidth: 150,
             key: 'startApp'
           },
           {
             title: '报名结束时间',
-            minWidth: 200,
+            minWidth: 150,
             key: 'endApp'
           },
           {
             title: '比赛开始时间',
-            minWidth: 200,
+            minWidth: 150,
             key: 'startHold'
           },
           {
             title: '比赛结束时间',
-            minWidth: 200,
+            minWidth: 150,
             key: 'endHold'
           },
           {
@@ -185,7 +193,7 @@
                   },
                   on: {
                     click: () => {
-                      this.detail(params.row.id)
+                      this.detail(params.row.cid)
                     }
               }
                 }, '详情'),
@@ -196,7 +204,7 @@
                   },
                   on: {
                     click: () => {
-                      this.update(params.row.id)
+                      this.update(params.row.cid)
                     }
                   }
                 }, '编辑')
@@ -277,7 +285,9 @@
             { required: true, message: '赛事简介不能为空', trigger: 'blur' }
           ]
         },
-        selection: []
+        selection: [],
+        editorRule: null,
+        editorRewards: null
       }
     },
     computed: {
@@ -290,7 +300,6 @@
       getContest() {
         getContestList().then(res => {
           const data = res.data;
-          // console.log(data);
           if(data.code === 0) {
             this.data = data.data;
           }
@@ -307,6 +316,7 @@
             this.$Message.success('查询成功！');
           } else {
             this.$Message.warning('查询成功，无结果！');
+            this.data = [];
           }
         }).catch(err => {
           console.log(err);
@@ -315,46 +325,72 @@
       // 多选
       handleSelect(selection) {
         this.selection = selection;
-        // console.log(selection);
+      },
+      // 获取赛事详情
+      getDetail(id) {
+        let params = {id: id};
+        showContestDetail(params).then(res => {
+          const data = res.data;
+          this.formValidate = data.data;
+          if(this.formValidate.type === '团队赛') {
+            this.formValidate.type = 'group';
+          } else {
+            this.formValidate.type = 'single';
+          }
+          if(this.formValidate.state === '已发布') {
+            this.formValidate.publish = 'yes';
+          } else {
+            this.formValidate.publish = 'no';
+          }
+          this.formValidate.id = id;
+          this.editorRule.txt.html(this.formValidate.rules);
+          this.editorRewards.txt.html(this.formValidate.rewards);
+        });
       },
       // 查看赛事详情
       detail(id) {
-        console.log(id);
-        let params = {cid: id};
-        showContestDetail(params).then(res => {
-          const data = res.data;
-          this.formValidate = data;
-        });
+        // console.log(id);
+        this.getDetail(id);
+        this.editorRule.disable();
+        this.editorRewards.disable();
         this.modalTitle = '赛事详情';
         this.modal = true;
       },
       // 打开修改赛事的modal
       update (id) {
         // 先获取赛事详情
-        showContestDetail({cid: id}).then(res => {
-          const data = res.data;
-          this.formValidate = data;
-          this.modalTitle = '修改赛事';
-          this.modal = true;
-        });
+        this.getDetail(id);
+        this.editorRule.enable();
+        this.editorRewards.enable();
+        this.modalTitle = '修改赛事';
+        this.modal = true;
       },
       // 修改赛事
       updateContest() {
-        updateContest(this.formValidate).then(res => {
-          const data = res.data;
-          if(data.code === 0) {
-            this.$Message.success(data.data.message);
-            this.getContest();
-            this.modal = false;
+        // console.log(this.formValidate);
+        this.$refs['formValidate'].validate(valid => {
+          if(valid) {
+            updateContest(this.formValidate).then(res => {
+              const data = res.data;
+              if(data.code === 0) {
+                this.$Message.success(data.data.message);
+                this.getContest();
+                this.modal = false;
+              } else {
+                this.$Message.error(data.data.message);
+              }
+            }).catch(err => {
+              this.$Message.error(err);
+            });
           } else {
-            this.$Message.error(data.data.message);
+            this.$Message.error('请填写必填项！');
           }
-        }).catch(err => {
-          this.$Message.error(err);
         });
       },
       // 打开新建赛事的modal
       addContestModal() {
+        this.editorRule.enable();
+        this.editorRewards.enable();
         this.modalTitle = '新建赛事';
         this.modal = true;
       },
@@ -369,6 +405,8 @@
               if(data.code === 0 || data.code === 1) {
                 this.$Message.success(data.data.message);
                 // 重置表单
+                this.editorRule.txt.clear();
+                this.editorRewards.txt.clear();
                 this.$refs['formValidate'].resetFields();
                 this.modal = false;
                 this.getContest();
@@ -434,12 +472,21 @@
         editor.config.uploadImgServer = '/upload-img';
         editor.config.onchange = (html) =>{
           if(id === '#editor1') {
+            // this.editorRule = editor;
             this.formValidate.rules = html;
           } else {
+            // this.editorRewards = editor;
             this.formValidate.rewards = html;
           }
         };
         editor.create();
+        if(id === '#editor1') {
+          this.editorRule = editor;
+          // this.formValidate.rules = html;
+        } else {
+          this.editorRewards = editor;
+          // this.formValidate.rewards = html;
+        }
       }
     },
     mounted() {
@@ -451,6 +498,8 @@
         if(this.modal === false) {
           // 重置表单
           this.$refs['formValidate'].resetFields();
+          this.editorRule.txt.clear();
+          this.editorRewards.txt.clear();
         }
       }
     }

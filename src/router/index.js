@@ -38,8 +38,13 @@ const routes = [
       {
         path: 'contest',
         name: 'Contest',
-        component: () => import('../components/Contest/index.vue')
+        component: () => import('../components/Contest/index.vue'),
       },
+      {
+        path: 'contest/:id',
+        // name: 'Detail',
+        component: () => import('../components/Contest/detail.vue')
+      }
     ]
   },
   {
@@ -96,6 +101,11 @@ const routes = [
         path: 'schoolManagement',
         name: 'SchoolManagement',
         component: () => import('../components/SchoolManagement/index.vue')
+      },
+      {
+        path: 'signUpManagement',
+        name: 'SignUpManagement',
+        component: () => import('../components/SignUpManagement/index.vue')
       }
     ]
   }
@@ -111,7 +121,7 @@ router.beforeEach((to, from, next) => {
   // console.log(to.path);
   if(to.path.includes('user')) {
     // console.log(store.state.email);
-    if(!store.state.email) {
+    if(!sessionStorage.getItem('authorization')) {
       return next('/login');
     }
   }

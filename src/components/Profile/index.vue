@@ -108,8 +108,7 @@
 <!--    新增学校-->
     <Modal
       v-model="modal"
-      @on-ok="addSchool"
-      @on-cancel="modal=false">
+      footer-hide>
       <div class="formBox">
         <Divider>
           <h4>新增学校</h4>
@@ -121,8 +120,8 @@
           <FormItem label="地址" prop="address">
             <Input v-model="schoolInfo.address"></Input>
           </FormItem>
-          <FormItem label="备注" prop="remark">
-            <Input v-model="schoolInfo.remark" type="textarea"></Input>
+          <FormItem>
+            <Button type="primary" style="width: 100%" @click="addSchool">确定</Button>
           </FormItem>
         </Form>
       </div>
@@ -131,7 +130,7 @@
 </template>
 
 <script>
-  import {getInfo, updateInfo, getSchoolList} from "../../api/api";
+  import {getInfo, updateInfo, getSchoolList, addSchoolForTea} from "../../api/api";
 
   export default {
     name: "index",
@@ -226,11 +225,22 @@
       addSchool() {
         this.$refs['ruleValidate'].validate((valid) => {
           if (valid) {
-            // this.$Message.success('Success!');
+            addSchoolForTea(this.schoolInfo).then(res => {
+              const data = res.data;
+              if(data.code === 0) {
+                this.$Message.success(data.data.message);
+                this.getSchools();
+              } else {
+                this.$Message.error(data.data.message);
+              }
+            }).catch(err => {
+              this.$Message.error(err);
+            });
+            this.modal = false;
             // 重置表单
             this.$refs['ruleValidate'].resetFields();
           } else {
-            this.$Message.error('Fail!');
+            this.$Message.error('请填写必填项!');
           }
         })
       },

@@ -28,7 +28,7 @@
       exit() {
         // 清除token
         sessionStorage.clear();
-        this.$store.commit('saveEmail', undefined);
+        // this.$store.commit('saveEmail', undefined);
         this.$router.push('/visitor');
       },
       handleSelect(name) {
