@@ -68,13 +68,19 @@
 
 <style scoped>
   .box {
-    position: relative;
+    /*position: relative;*/
+  }
+  .ivu-list {
+    width: 70%;
   }
   .list {
-    width: 80%;
-    position: absolute;
-    left: 50%;
-    transform: translate(-50%, 0);
+    /*width: 80%;*/
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    /*position: absolute;*/
+    /*left: 50%;*/
+    /*transform: translate(-50%, 0);*/
   }
   .content {
     margin-top: 10px;

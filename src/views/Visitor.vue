@@ -37,7 +37,8 @@
   }
 
   .content {
-    min-height: calc(100vh - 60px);
+    overflow: auto;
+    height: calc(100vh - 60px);
     position: relative;
     top: 60px;
     display: flex;
@@ -49,7 +50,9 @@
   }
 
   .footer {
-    /*position: relative;*/
+    /*position: absolute;*/
+    /*width: 100%;*/
+    /*bottom: 0;*/
     /*top: 20px;*/
   }
 </style>
