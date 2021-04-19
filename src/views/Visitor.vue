@@ -3,11 +3,13 @@
     <div class="nav">
       <tab-bar></tab-bar>
     </div>
-    <div class="main">
-      <router-view></router-view>
-    </div>
-    <div class="footer">
-      <Footer />
+    <div class="content">
+      <div class="main">
+        <router-view></router-view>
+      </div>
+      <div class="footer">
+        <Footer />
+      </div>
     </div>
   </div>
 </template>
@@ -34,14 +36,20 @@
     z-index: 99;
   }
 
-  .main {
+  .content {
+    min-height: calc(100vh - 60px);
     position: relative;
     top: 60px;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .main {
     flex-grow: 1;
   }
 
   .footer {
-    position: relative;
-    top: 20px;
+    /*position: relative;*/
+    /*top: 20px;*/
   }
 </style>
