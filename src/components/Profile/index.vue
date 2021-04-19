@@ -35,14 +35,17 @@
         </Col>
       </Row>
       <Row>
-        <Col span="12">
-          <FormItem label="入学年份" prop="year">
+        <Col span="12"  v-if="$store.state.status !== 'manager'">
+          <FormItem label="入学年份" prop="year" v-if="$store.state.status === 'student'">
             <DatePicker type="year" v-model="userInfo.year" style="width: 100%;" placeholder="请选择入学年份"></DatePicker>
           </FormItem>
         </Col>
         <Col span="12">
-          <FormItem label="学号" prop="id">
+          <FormItem label="学号" prop="id" v-if="$store.state.status === 'student'">
             <Input v-model="userInfo.id" placeholder="请输入学号"></Input>
+          </FormItem>
+          <FormItem label="工号" prop="id" v-if="$store.state.status === 'teacher'">
+            <Input v-model="userInfo.id" placeholder="请输入工号"></Input>
           </FormItem>
         </Col>
       </Row>

@@ -29,6 +29,14 @@
         <Icon type="ios-clipboard-outline" />
         赛事管理
       </MenuItem>
+      <Submenu name="InformationChecking" v-if="$store.state.status === 'manager'">
+        <template slot="title">
+          <Icon type="ios-checkmark-circle-outline" />
+          信息审核
+        </template>
+        <MenuItem name="SchoolChecking" to="/user/informationChecking/schoolChecking">学校审核</MenuItem>
+        <MenuItem name="TeacherChecking" to="/user/informationChecking/teacherChecking">教练审核</MenuItem>
+      </Submenu>
       <MenuItem name="SchoolManagement" v-if="$store.state.status === 'manager'" to="/user/schoolManagement">
         <Icon type="ios-apps" />
         学校管理
@@ -37,10 +45,10 @@
         <Icon type="ios-contacts" />
         报名管理
       </MenuItem>
-      <MenuItem name="7" v-if="$store.state.status === 'manager'">
-        <Icon type="ios-checkmark-circle-outline" />
-        信息审核
-      </MenuItem>
+<!--      <MenuItem name="7" v-if="$store.state.status === 'manager'">-->
+<!--        <Icon type="ios-checkmark-circle-outline" />-->
+<!--        信息审核-->
+<!--      </MenuItem>-->
       <MenuItem name="6" v-if="$store.state.status === 'manager'">
         <Icon type="ios-calendar" />
         成绩管理

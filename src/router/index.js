@@ -98,6 +98,27 @@ const routes = [
         component: () => import('../components/ContestManagement/index.vue')
       },
       {
+        path: 'informationChecking',
+        // name: 'InformationChecking',
+        component: () => import('../components/PublishCenter/index.vue'),
+        children: [
+          {
+            path: '',
+            redirect: 'schoolChecking'
+          },
+          {
+            path: 'schoolChecking',
+            name: 'SchoolChecking',
+            component: () => import('../components/SchoolChecking/index.vue')
+          },
+          {
+            path: 'teacherChecking',
+            name: 'TeacherChecking',
+            component: () => import('../components/TeacherChecking/index.vue')
+          }
+        ]
+      },
+      {
         path: 'schoolManagement',
         name: 'SchoolManagement',
         component: () => import('../components/SchoolManagement/index.vue')

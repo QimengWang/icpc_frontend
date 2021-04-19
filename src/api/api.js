@@ -207,3 +207,67 @@ export function deleteSchool(arr) {
     }
   });
 }
+
+// 获取待审核的学校列表
+export function getUncheckedSchool() {
+  return axios.get('/user/manager/school/showCheckUn',{
+    headers: {
+      authorization: 'Bearer ' + sessionStorage.getItem('authorization')
+    }
+  });
+}
+
+// 审核学校通过
+export function schoolChecked(arr) {
+  return axios.post('/user/manager/school/checkTrue', {id: arr}, {
+    headers: {
+      authorization: 'Bearer ' + sessionStorage.getItem('authorization')
+    }
+  })
+}
+
+// 审核学校不通过
+export function schoolUnchecked(arr) {
+  return axios.post('/user/manager/school/checkFalse', {id: arr}, {
+    headers: {
+      authorization: 'Bearer ' + sessionStorage.getItem('authorization')
+    }
+  })
+}
+
+// 获取待审核的教练列表
+export function getUncheckedTeachers() {
+  return axios.get('/user/manager/teacher/showCheckTeacher',{
+    headers: {
+      authorization: 'Bearer ' + sessionStorage.getItem('authorization')
+    }
+  });
+}
+
+// 审核教练通过
+export function teacherChecked(arr) {
+  return axios.post('/user/manager/school/checkTeacherTrue', {id: arr}, {
+    headers: {
+      authorization: 'Bearer ' + sessionStorage.getItem('authorization')
+    }
+  })
+}
+
+// 审核教练不通过
+export function teacherUnchecked(arr) {
+  return axios.post('/user/manager/school/checkTeacherFalse', {id: arr}, {
+    headers: {
+      authorization: 'Bearer ' + sessionStorage.getItem('authorization')
+    }
+  })
+}
+
+// 报名管理
+// 获取赛事列表
+export function showContestList() {
+  return axios.get('/user/manager/showContestIng',{
+    headers: {
+      authorization: 'Bearer ' + sessionStorage.getItem('authorization')
+    }
+  });
+}
