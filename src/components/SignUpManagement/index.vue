@@ -2,10 +2,10 @@
   <div class="con">
     <!--      查询行-->
     <div class="father">
-      <Select v-model="id" filterable clearable placeholder="请选择竞赛名称" style="width: 200px">
-        <Option v-for="(item, key) in contestList" :key="key" :value="item.id">{{item.name}}</Option>
+      <Select v-model="id" filterable clearable placeholder="请选择竞赛名称" style="width: 250px">
+        <Option v-for="(item, key) in contestList" :key="key" :value="item.cid">{{item.name}}</Option>
       </Select>
-      <Button type="success" icon="ios-search-outline">查询</Button>
+      <Button type="success" icon="ios-search-outline" @click="search">查询</Button>
       <Button type="warning" icon="ios-download-outline" @click="exportFile">导出Excel</Button>
     </div>
 
@@ -17,22 +17,16 @@
 </template>
 
 <script>
+  import {showContestList, getListByCid} from "../../api/api";
+
   export default {
     name: "index",
     data() {
       return {
         id: '',
+        // 导出报名名单的文件名
         cname: 'test',
-        contestList: [
-          {
-            id: '0001',
-            name: '第19届上海大学程序设计联赛'
-          },
-          {
-            id: '0002',
-            name: '第20届信息能力检索大赛'
-          }
-        ],
+        contestList: [],
         columns: [
           {
             title: '序号',
@@ -65,16 +59,7 @@
             key: 'year'
           }
         ],
-        data: [
-          {
-            chineseName: '哈哈',
-            englishName: 'hh',
-            id: '17123079',
-            phone: '1883888888',
-            sex: '女',
-            year: '2017'
-          }
-        ]
+        data: []
       }
     },
     methods: {
@@ -84,6 +69,43 @@
           filename: this.cname + '.xlsx'
         });
       },
+      // 查询报名信息
+      search() {
+        console.log(this.id);
+        if(this.id) {
+          getListByCid(this.id).then(res => {
+            const data = res.data;
+            if(data.code === 0) {
+              this.data = data.data;
+              this.$Message.success("查询成功！");
+            } else {
+              this.$Message.error("查询失败！");
+            }
+          }).catch(err => {
+            console.log(err);
+            this.$Message.error("出错啦！");
+          });
+        } else {
+          this.$Message.warning("请选择竞赛！");
+        }
+      },
+      // 获取赛事列表
+      getContests() {
+        showContestList().then(res => {
+          const data = res.data;
+          if(data.code === 0) {
+            this.contestList = data.data;
+          } else {
+            this.$Message.error(data.data.message);
+          }
+        }).catch(err => {
+          console.log(err);
+          this.$Message.error("出错啦！");
+        })
+      }
+    },
+    mounted() {
+      this.getContests();
     }
   }
 </script>

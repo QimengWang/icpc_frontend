@@ -271,3 +271,13 @@ export function showContestList() {
     }
   });
 }
+
+// 根据赛事id获取报名名单
+export function getListByCid(id) {
+  return axios.get('/user/manager/showApply',{
+    params: {id: id},
+    headers: {
+      authorization: 'Bearer ' + sessionStorage.getItem('authorization')
+    }
+  });
+}
