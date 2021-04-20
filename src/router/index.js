@@ -64,7 +64,7 @@ const routes = [
     children: [
       {
         path: '',
-        redirect: 'news'
+        redirect: 'profile'
       },
       {
         path: 'news',
@@ -127,6 +127,27 @@ const routes = [
         path: 'signUpManagement',
         name: 'SignUpManagement',
         component: () => import('../components/SignUpManagement/index.vue')
+      },
+      {
+        path: 'studentManagement',
+        // name: 'StudentManagement',
+        component: () => import('../components/PublishCenter/index.vue'),
+        children: [
+          {
+            path: '',
+            redirect: 'studentChecking'
+          },
+          {
+            path: 'studentChecking',
+            name: 'StudentChecking',
+            component: () => import('../components/StudentChecking/index.vue')
+          },
+          {
+            path: 'studentList',
+            name: 'StudentList',
+            component: () => import('../components/StudentList/index.vue')
+          }
+        ]
       }
     ]
   }

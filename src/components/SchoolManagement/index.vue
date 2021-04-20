@@ -28,8 +28,11 @@
           <FormItem label="地址" prop="address">
             <Input v-model="schoolInfo.address"></Input>
           </FormItem>
-          <FormItem label="负责人" prop="charge">
-            <Input v-model="schoolInfo.charge"></Input>
+          <FormItem label="负责人" prop="tid" v-if="modalTitle==='修改学校'">
+            <Select v-model="schoolInfo.tid" filterable clearable placeholder="请选择负责人">
+              <Option v-for="(item, key) in tList" :key="key" :value="item.id">{{item.name}}</Option>
+            </Select>
+<!--            <Input v-model="schoolInfo.charge" v-else></Input>-->
           </FormItem>
           <FormItem>
             <Button type="primary" style="width: 100%" @click="addSchool">确认</Button>
@@ -41,7 +44,7 @@
 </template>
 
 <script>
-  import {getSchools, updateSchool, addSchool, deleteSchool} from "../../api/api";
+  import {getSchools, updateSchool, addSchool, deleteSchool, getTeachersBySid} from "../../api/api";
 
   export default {
     name: "index",
@@ -115,23 +118,41 @@
           address: [
             { required: true, message: '学校地址不能为空', trigger: 'blur' }
           ],
-          charge: [
-            { required: true, message: '学校负责人不能为空', trigger: 'blur' }
+          tid: [
+            { required: true, message: '学校负责人不能为空', trigger: 'change' }
           ]
         },
         // 新增学校的表单
         schoolInfo: {
           name: '',
           address: '',
-          charge: ''
+          tid: ''
         },
-        selection: []
+        selection: [],
+        // 学校id
+        sid: '',
+        tList: []
       }
     },
     methods: {
       // 多选
       handleSelect(selection) {
         this.selection = selection;
+      },
+      // 获取某个学校的所有教练员列表
+      getTeachersBySid() {
+        console.log(this.sid);
+        getTeachersBySid(this.sid).then(res => {
+          const data = res.data;
+          if(data.code === 0) {
+            this.tList = data.data;
+          } else {
+            this.$Message.error(data.data.message);
+          }
+        }).catch(err => {
+          console.log(err);
+          this.$Message.error("出错啦！");
+        });
       },
       // 获取学校列表
       getSchoolList() {
@@ -164,7 +185,10 @@
       // 修改学校Modal
       update(data) {
         // 浅拷贝：避免重置表单时影响原table中数据
+        console.log(data);
         this.schoolInfo = {...data};
+        this.sid = data.id;
+        this.getTeachersBySid();
         this.modalTitle = '修改学校';
         this.modal = true;
       },

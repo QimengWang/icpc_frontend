@@ -2,7 +2,7 @@
   <div class="con">
     <!--      查询行-->
     <div class="father">
-      <Select v-model="id" filterable clearable placeholder="请选择竞赛名称" style="width: 250px">
+      <Select v-model="id" filterable clearable placeholder="请选择竞赛名称" style="width: 280px">
         <Option v-for="(item, key) in contestList" :key="key" :value="item.cid">{{item.name}}</Option>
       </Select>
       <Button type="success" icon="ios-search-outline" @click="search">查询</Button>
@@ -11,7 +11,8 @@
 
     <!--    报名列表-->
     <div class="tableBox">
-      <Table border :columns="columns" :data="data" ref="table"></Table>
+      <Table border :columns="columns" :data="data" ref="table" v-if="isSingle"></Table>
+      <Table border :columns="columns1" :data="data" v-else></Table>
     </div>
   </div>
 </template>
@@ -23,6 +24,8 @@
     name: "index",
     data() {
       return {
+        // 当前所查询竞赛是否为个人赛
+        isSingle: true,
         id: '',
         // 导出报名名单的文件名
         cname: 'test',
@@ -59,6 +62,20 @@
             key: 'year'
           }
         ],
+        columns1: [
+          {
+            title: '团队名称',
+            key: 'groupName'
+          },
+          {
+            title: '教练',
+            key: 'tname'
+          },
+          {
+            title: '小组成员',
+            key: 'members'
+          }
+        ],
         data: []
       }
     },
@@ -76,6 +93,11 @@
           getListByCid(this.id).then(res => {
             const data = res.data;
             if(data.code === 0) {
+              if(Object.keys(data.data[0]).includes('gid')) {
+                this.isSingle = false;
+              } else {
+                this.isSingle = true;
+              }
               this.data = data.data;
               this.$Message.success("查询成功！");
             } else {

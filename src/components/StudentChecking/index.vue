@@ -11,7 +11,7 @@
 </template>
 
 <script>
-  import {getUncheckedTeachers, teacherChecked, teacherUnchecked} from "../../api/api";
+  import {getUncheckedStudents, studentChecked, studentUnchecked} from "../../api/api";
 
   export default {
     name: "index",
@@ -39,7 +39,7 @@
             key: 'sex'
           },
           {
-            title: '工号',
+            title: '学号',
             width: 120,
             key: 'id'
           },
@@ -47,6 +47,11 @@
             title: '学校',
             width: 150,
             key: 'school'
+          },
+          {
+            title: '入学年份',
+            width: 150,
+            key: 'year'
           },
           {
             title: '手机',
@@ -106,7 +111,7 @@
                   },
                   on: {
                     click: () => {
-                      this.pass(params.row.tid)
+                      this.detail(params.row.tid)
                     }
                   }
                 }, '通过'),
@@ -139,7 +144,7 @@
       },
       // 获取待审核的学校列表
       getData() {
-        getUncheckedTeachers().then(res => {
+        getUncheckedStudents().then(res => {
           const data = res.data;
           if(data.code === 0) {
             this.data = data.data;
@@ -173,7 +178,7 @@
         }
         // console.log(arr);
         if(flag) {
-          teacherChecked(arr).then(res => {
+          studentChecked(arr).then(res => {
             const data = res.data;
             if(data.code === 0) {
               this.$Message.success(data.data.message);
@@ -209,7 +214,7 @@
         }
         // console.log(arr);
         if(flag) {
-          teacherUnchecked(arr).then(res => {
+          studentUnchecked(arr).then(res => {
             const data = res.data;
             if(data.code === 0) {
               this.$Message.success(data.data.message);

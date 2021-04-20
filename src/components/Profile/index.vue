@@ -35,8 +35,8 @@
         </Col>
       </Row>
       <Row>
-        <Col span="12"  v-if="$store.state.status !== 'manager'">
-          <FormItem label="入学年份" prop="year" v-if="$store.state.status === 'student'">
+        <Col span="12" v-if="$store.state.status === 'student'">
+          <FormItem label="入学年份" prop="year">
             <DatePicker type="year" v-model="userInfo.year" style="width: 100%;" placeholder="请选择入学年份"></DatePicker>
           </FormItem>
         </Col>
@@ -57,7 +57,7 @@
         </Col>
         <Col span="12">
           <FormItem label="邮箱" prop="email">
-            <Input v-model="userInfo.email" placeholder="请输入电子邮箱"></Input>
+            <Input v-model="userInfo.email" placeholder="请输入电子邮箱" disabled></Input>
           </FormItem>
         </Col>
       </Row>
@@ -133,7 +133,7 @@
 </template>
 
 <script>
-  import {getInfo, updateInfo, getSchoolList, addSchoolForTea} from "../../api/api";
+  import {addSchoolForTea, getInfo, getSchoolList, updateInfo} from "../../api/api";
 
   export default {
     name: "index",
@@ -173,9 +173,9 @@
           year: [
             { required: true, message: '请选择入学年份' }
           ],
-          email: [
-            { required: true, message: '请输入邮箱', trigger: 'blur' }
-          ],
+          // email: [
+          //   { required: true, message: '请输入邮箱', trigger: 'blur' }
+          // ],
           phone: [
             { required: true, message: '请输入手机号', trigger: 'blur' }
           ]
@@ -201,13 +201,16 @@
     methods: {
       // 修改个人信息
       save() {
+        console.log("??");
         this.$refs['formVal'].validate((valid) => {
           if (valid) {
             // 发送请求
-            // 修正年份
-            let year = this.userInfo.year.getFullYear();
             let d = {...this.userInfo};
-            d.year = year;
+            if(this.$store.state.status === 'student') {
+              // 修正年份
+              d.year = this.userInfo.year.getFullYear();
+            }
+
             updateInfo(d).then(res => {
               const data = res.data;
               if(data.code === 0) {

@@ -122,6 +122,32 @@ export function addSchoolForTea(data) {
   });
 }
 
+// 获取待审核学生列表
+export function getUncheckedStudents() {
+  return axios.get('/user/teacher/showCheckStudent',{
+    headers: {
+      authorization: 'Bearer ' + sessionStorage.getItem('authorization')
+    }
+  });
+}
+
+// 审核学生通过
+export function studentChecked(arr) {
+  return axios.post('/user/teacher/checkStudentTrue', {id: arr}, {
+    headers: {
+      authorization: 'Bearer ' + sessionStorage.getItem('authorization')
+    }
+  })
+}
+
+// 审核学生不通过
+export function studentUnchecked(arr) {
+  return axios.post('/user/teacher/checkStudentFalse', {id: arr}, {
+    headers: {
+      authorization: 'Bearer ' + sessionStorage.getItem('authorization')
+    }
+  })
+}
 
 // 管理员：
 // 获取&查询赛事列表
@@ -175,6 +201,16 @@ export function showContestDetail(data) {
 export function getSchools(data) {
   return axios.get('/user/manager/showUniversityInfo', {
     params: data,
+    headers: {
+      authorization: 'Bearer ' + sessionStorage.getItem('authorization')
+    }
+  });
+}
+
+// 获取某个学校的教练员列表
+export function getTeachersBySid(id) {
+  return axios.get('/user/manager/showTeacher', {
+    params: {id: id},
     headers: {
       authorization: 'Bearer ' + sessionStorage.getItem('authorization')
     }
@@ -246,7 +282,7 @@ export function getUncheckedTeachers() {
 
 // 审核教练通过
 export function teacherChecked(arr) {
-  return axios.post('/user/manager/school/checkTeacherTrue', {id: arr}, {
+  return axios.post('/user/manager/teacher/checkTeacherTrue', {id: arr}, {
     headers: {
       authorization: 'Bearer ' + sessionStorage.getItem('authorization')
     }
@@ -255,7 +291,7 @@ export function teacherChecked(arr) {
 
 // 审核教练不通过
 export function teacherUnchecked(arr) {
-  return axios.post('/user/manager/school/checkTeacherFalse', {id: arr}, {
+  return axios.post('/user/manager/teacher/checkTeacherFalse', {id: arr}, {
     headers: {
       authorization: 'Bearer ' + sessionStorage.getItem('authorization')
     }

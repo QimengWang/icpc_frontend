@@ -1,10 +1,10 @@
 <template>
   <div>
     <Menu theme="light" :active-name="activeName">
-      <MenuItem name="News" to="/user/news">
-        <Icon type="ios-alert" />
-        最新消息
-      </MenuItem>
+<!--      <MenuItem name="News" to="/user/news">-->
+<!--        <Icon type="ios-alert" />-->
+<!--        最新消息-->
+<!--      </MenuItem>-->
       <MenuItem name="Profile" to="/user/profile">
         <Icon type="ios-contact" />
         个人中心
@@ -53,6 +53,18 @@
         <Icon type="ios-calendar" />
         成绩管理
       </MenuItem>
+      <Submenu name="Contest" v-if="$store.state.status === 'teacher'">
+        <template slot="title">
+          <Icon type="ios-calendar" />
+          学生管理
+        </template>
+        <MenuItem name="StudentList" to="/user/studentManagement/studentList">学生列表</MenuItem>
+        <MenuItem name="StudentChecking" to="/user/studentManagement/studentChecking">学生审核</MenuItem>
+      </Submenu>
+<!--      <MenuItem name="StudentList" v-if="$store.state.status === 'teacher'">-->
+<!--        <Icon type="ios-calendar" />-->
+<!--        学生列表-->
+<!--      </MenuItem>-->
     </Menu>
   </div>
 </template>
