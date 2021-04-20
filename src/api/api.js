@@ -122,6 +122,15 @@ export function addSchoolForTea(data) {
   });
 }
 
+// 获取已经通过审核的学生列表
+export function getCheckedStudents() {
+  return axios.get('/user/teacher/showStudent',{
+    headers: {
+      authorization: 'Bearer ' + sessionStorage.getItem('authorization')
+    }
+  });
+}
+
 // 获取待审核学生列表
 export function getUncheckedStudents() {
   return axios.get('/user/teacher/showCheckStudent',{

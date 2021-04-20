@@ -7,7 +7,7 @@
           <Input class="inputBox" v-model="user.email" placeholder="邮箱/手机"/>
           <div class="verifyBox">
             <Input class="inputBox" v-model="user.code" placeholder="验证码"/>
-            <Button type="primary" @click="sending">发送验证码</Button>
+            <Button type="primary" @click="sending" :loading="loading">发送验证码</Button>
           </div>
           <Input class="inputBox" type="password" v-model="user.password" password placeholder="密码" autocomplete='new-password'/>
           <Select v-model="user.status">
@@ -28,6 +28,7 @@
     name: "Register",
     data() {
       return {
+        loading: false,
         user: {
           email: '',
           password: '',
@@ -47,10 +48,12 @@
       }
     },
     methods: {
+      // 发送邮箱验证码
       sending() {
         if(!this.user.email.includes('@')) {
           this.$Message.warning('请输入正确的邮箱!');
         } else {
+          this.loading = true;
           sendCode(this.user.email).then(res => {
             const data = res.data;
             // console.log(data);
@@ -61,9 +64,11 @@
             } else {
               this.$Message.error(data.data.message);
             }
+            this.loading = false;
           }).catch(err => {
             console.log(err);
             this.$Message.error('出错了！');
+            this.loading = false;
           })
         }
       },

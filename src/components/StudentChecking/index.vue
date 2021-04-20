@@ -111,7 +111,7 @@
                   },
                   on: {
                     click: () => {
-                      this.detail(params.row.tid)
+                      this.pass(params.row.uid)
                     }
                   }
                 }, '通过'),
@@ -125,7 +125,7 @@
                   },
                   on: {
                     click: () => {
-                      this.notPass(params.row.tid)
+                      this.notPass(params.row.uid)
                     }
                   }
                 }, '不通过')
@@ -141,8 +141,9 @@
       // 处理多选
       handleSelect(selection) {
         this.selection = selection;
+        console.log(this.selection);
       },
-      // 获取待审核的学校列表
+      // 获取待审核的学生列表
       getData() {
         getUncheckedStudents().then(res => {
           const data = res.data;
@@ -165,11 +166,11 @@
           // 多选
           if(this.selection.length === 0) {
             flag = 0;
-            this.$Message.warning('请选择要审核的学校！');
+            this.$Message.warning('请选择要审核的学生！');
           } else {
             //处理数据
             for (let item of this.selection) {
-              arr.push(item.tid);
+              arr.push(item.uid);
             }
           }
         } else {
@@ -201,11 +202,11 @@
           // 多选
           if(this.selection.length === 0) {
             flag = 0;
-            this.$Message.warning('请选择要审核的学校！');
+            this.$Message.warning('请选择要审核的学生！');
           } else {
             //处理数据
             for (let item of this.selection) {
-              arr.push(item.tid);
+              arr.push(item.uid);
             }
           }
         } else {

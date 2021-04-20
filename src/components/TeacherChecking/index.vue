@@ -160,7 +160,7 @@
           // 多选
           if(this.selection.length === 0) {
             flag = 0;
-            this.$Message.warning('请选择要审核的学校！');
+            this.$Message.warning('请选择要审核的教练！');
           } else {
             //处理数据
             for (let item of this.selection) {
@@ -196,7 +196,7 @@
           // 多选
           if(this.selection.length === 0) {
             flag = 0;
-            this.$Message.warning('请选择要审核的学校！');
+            this.$Message.warning('请选择要审核的教练！');
           } else {
             //处理数据
             for (let item of this.selection) {

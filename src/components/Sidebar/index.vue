@@ -11,7 +11,7 @@
       </MenuItem>
       <Submenu name="Contest" v-if="$store.state.status === 'student'">
         <template slot="title">
-          <Icon type="ios-calendar" />
+          <Icon type="ios-calendar-outline" />
           赛程查询
         </template>
         <MenuItem name="SignUp" to="/user/contest/signUp">已报名</MenuItem>
@@ -19,7 +19,7 @@
       </Submenu>
       <Submenu name="4" v-if="$store.state.status === 'student'">
         <template slot="title">
-          <Icon type="ios-list-box" />
+          <Icon type="ios-list-box-outline" />
           成绩查询
         </template>
         <MenuItem name="4-1">成绩数据</MenuItem>
@@ -32,7 +32,7 @@
       <Submenu name="InformationChecking" v-if="$store.state.status === 'manager'">
         <template slot="title">
           <Icon type="ios-checkmark-circle-outline" />
-          信息审核
+          审核管理
         </template>
         <MenuItem name="SchoolChecking" to="/user/informationChecking/schoolChecking">学校审核</MenuItem>
         <MenuItem name="TeacherChecking" to="/user/informationChecking/teacherChecking">教练审核</MenuItem>
@@ -55,7 +55,7 @@
       </MenuItem>
       <Submenu name="Contest" v-if="$store.state.status === 'teacher'">
         <template slot="title">
-          <Icon type="ios-calendar" />
+          <Icon type="ios-calendar-outline" />
           学生管理
         </template>
         <MenuItem name="StudentList" to="/user/studentManagement/studentList">学生列表</MenuItem>
