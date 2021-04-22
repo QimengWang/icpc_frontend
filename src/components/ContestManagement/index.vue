@@ -416,6 +416,8 @@
             }).catch(err => {
               console.log(err);
             });
+          } else {
+            this.$Message.error("请填写必填项！");
           }
         });
       },
@@ -434,6 +436,7 @@
             // console.log(data);
             if(data.code === 0) {
               this.$Message.success(data.data.message);
+              this.selection = [];
               this.getContest();
             }
           }).catch(err => {

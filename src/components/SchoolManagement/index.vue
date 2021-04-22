@@ -119,7 +119,7 @@
             { required: true, message: '学校地址不能为空', trigger: 'blur' }
           ],
           tid: [
-            { required: true, message: '学校负责人不能为空', trigger: 'change' }
+            { required: true, message: '学校负责人不能为空' }
           ]
         },
         // 新增学校的表单
@@ -141,7 +141,7 @@
       },
       // 获取某个学校的所有教练员列表
       getTeachersBySid() {
-        console.log(this.sid);
+        // console.log(this.sid);
         getTeachersBySid(this.sid).then(res => {
           const data = res.data;
           if(data.code === 0) {
@@ -162,7 +162,8 @@
             this.data = data.data;
           }
         }).catch(err => {
-          this.$Message.error(err);
+          console.log(err);
+          this.$Message.error("出错啦！");
         })
       },
       // 查询学校
@@ -174,7 +175,8 @@
             this.$Message.success('查询成功！');
           }
         }).catch(err => {
-          this.$Message.error(err);
+          console.log(err);
+          this.$Message.error("出错啦！");
         })
       },
       // 新增学校Modal
@@ -185,7 +187,7 @@
       // 修改学校Modal
       update(data) {
         // 浅拷贝：避免重置表单时影响原table中数据
-        console.log(data);
+        // console.log(data);
         this.schoolInfo = {...data};
         this.sid = data.id;
         this.getTeachersBySid();
@@ -194,6 +196,7 @@
       },
       // 新增&修改学校
       addSchool() {
+        console.log(this.schoolInfo);
         this.$refs['formValidate'].validate(valid => {
           if(valid) {
             if(this.modalTitle === "新增学校") {
@@ -209,7 +212,8 @@
                   this.$Message.error(data.data.message);
                 }
               }).catch(err => {
-                this.$Message.error(err);
+                console.log(err);
+                this.$Message.error("出错啦！");
               })
             } else {
               updateSchool(this.schoolInfo).then(res => {
@@ -224,7 +228,8 @@
                   this.$Message.error(data.data.message);
                 }
               }).catch(err => {
-                this.$Message.error(err);
+                console.log(err);
+                this.$Message.error("出错啦！");
               })
             }
           } else {
@@ -240,7 +245,7 @@
           // 多选
           if(this.selection.length === 0) {
             flag = 0;
-            this.$Message.warning('请选择要删除的赛事！');
+            this.$Message.warning('请选择要删除的学校！');
           } else {
             //处理数据
             for(let item of this.selection) {
@@ -257,12 +262,14 @@
             // console.log(data);
             if(data.code === 0) {
               this.$Message.success(data.data.message);
+              this.selection = [];
               this.getSchoolList();
             } else {
               this.$Message.error(data.data.message);
             }
           }).catch(err => {
             console.log(err);
+            this.$Message.error("出错啦！");
           });
         }
       }

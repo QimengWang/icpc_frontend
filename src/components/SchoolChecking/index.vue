@@ -84,6 +84,9 @@
           const data = res.data;
           if(data.code === 0) {
             this.data = data.data;
+            // if(this.data.length === 0) {
+            //   this.$Message.warning("暂无数据！");
+            // }
           } else {
             this.$Message.error(data.data.message);
           }

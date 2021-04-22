@@ -218,6 +218,7 @@
   }
   .box {
     width: 80%;
+    margin-bottom: 20px;
   }
   .item {
     display: flex;

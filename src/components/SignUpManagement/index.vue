@@ -83,7 +83,7 @@
       // 导出报名表
       exportFile() {
         this.$refs.table.exportCsv({
-          filename: this.cname + '.xlsx'
+          filename: this.cname
         });
       },
       // 查询报名信息

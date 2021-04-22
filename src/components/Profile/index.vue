@@ -7,12 +7,12 @@
       <Row>
         <Col span="12">
           <FormItem label="中文名" prop="chineseName">
-            <Input v-model="userInfo.chineseName" placeholder="请输入中文名"></Input>
+            <Input v-model="userInfo.chineseName" placeholder="请输入中文名" :disabled="$store.state.status === 'manager'"></Input>
           </FormItem>
         </Col>
         <Col span="12">
           <FormItem label="英文名" prop="englishName">
-            <Input v-model="userInfo.englishName" placeholder="请输入英文名"></Input>
+            <Input v-model="userInfo.englishName" placeholder="请输入英文名" :disabled="$store.state.status === 'manager'"></Input>
           </FormItem>
         </Col>
       </Row>
@@ -26,7 +26,7 @@
           </FormItem>
         </Col>
         <Col span="12">
-          <FormItem label="学校" prop="school">
+          <FormItem label="学校" prop="school" v-if="$store.state.status !== 'manager'">
             <Select v-model="userInfo.school" filterable clearable placeholder="请选择学校">
               <Button v-if="$store.state.status === 'teacher'" style="width: 100%" type="primary" icon="ios-add-circle-outline" @click="modal=true">新增学校</Button>
               <Option v-for="(item, key) in schoolList" :key="key" :value="item.id">{{item.name}}</Option>
@@ -52,7 +52,7 @@
       <Row>
         <Col span="12">
           <FormItem label="手机" prop="phone">
-            <Input v-model="userInfo.phone" placeholder="请输入手机号"></Input>
+            <Input v-model="userInfo.phone" placeholder="请输入手机号" :disabled="$store.state.status === 'manager'"></Input>
           </FormItem>
         </Col>
         <Col span="12">
@@ -201,7 +201,7 @@
     methods: {
       // 修改个人信息
       save() {
-        console.log("??");
+        // console.log("??");
         this.$refs['formVal'].validate((valid) => {
           if (valid) {
             // 发送请求
@@ -220,7 +220,8 @@
               }
               this.getInfo();
             }).catch(err => {
-              this.$Message.error(err);
+              console.log(err);
+              this.$Message.error("出错啦！");
             });
           } else {
             this.$Message.error('请完善必填字段!');

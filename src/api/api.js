@@ -94,6 +94,15 @@ export function getSingleList() {
   });
 }
 
+// 取消报名
+export function cancelApply(id) {
+  return axios.post('/user/cancelContest', {cid: id}, {
+    headers: {
+      authorization: 'Bearer ' + sessionStorage.getItem('authorization')
+    }
+  });
+}
+
 // 获取团队赛报名列表
 export function getGroupList() {
   return axios.get('/user/showGroup',{

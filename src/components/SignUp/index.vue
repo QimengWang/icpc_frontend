@@ -48,7 +48,7 @@
 </template>
 
 <script>
-  import {getSingleList, getGroupList, updateGroup, getTeachers} from "../../api/api";
+  import {getSingleList, getGroupList, updateGroup, getTeachers, cancelApply} from "../../api/api";
 
   export default {
     name: "index",
@@ -217,7 +217,19 @@
       },
       // 取消报名
       cancel(id) {
-        this.$Message.success('取消报名成功！');
+        cancelApply(id).then(res => {
+          const data = res.data;
+          if(data.code === 0) {
+            this.$Message.success(data.data.message);
+            this.getSingleList();
+            this.getGroupList();
+          } else {
+            this.$Message.error(data.data.message);
+          }
+        }).catch(err => {
+          console.log(err);
+          this.$Message.error('出错啦！');
+        });
       },
       // 修改报名信息（团体赛）
       update(data) {

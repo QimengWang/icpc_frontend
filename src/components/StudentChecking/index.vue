@@ -21,12 +21,19 @@
           {
             type: 'selection',
             width: 60,
-            align: 'center'
+            align: 'center',
+            fixed: 'left'
           },
           {
             title: '中文名',
             width: 120,
-            key: 'chineseName'
+            key: 'chineseName',
+            fixed: 'left'
+          },
+          {
+            title: '学校',
+            width: 150,
+            key: 'school'
           },
           {
             title: '英文名',
@@ -42,11 +49,6 @@
             title: '学号',
             width: 120,
             key: 'id'
-          },
-          {
-            title: '学校',
-            width: 150,
-            key: 'school'
           },
           {
             title: '入学年份',
@@ -149,6 +151,9 @@
           const data = res.data;
           if(data.code === 0) {
             this.data = data.data;
+            // if(this.data.length === 0) {
+            //   this.$Message.warning("暂无数据！");
+            // }
           } else {
             this.$Message.error(data.data.message);
           }
