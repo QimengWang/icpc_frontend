@@ -34,7 +34,8 @@
     flex-direction: column;
   }
   .main {
-    min-height: calc(100vh - 60px);
+    overflow: scroll;
+    height: calc(100vh - 60px);
     flex-grow: 1;
     display: flex;
     flex-direction: row;

@@ -45,10 +45,14 @@
         <Icon type="ios-contacts" />
         报名管理
       </MenuItem>
-<!--      <MenuItem name="7" v-if="$store.state.status === 'manager'">-->
-<!--        <Icon type="ios-checkmark-circle-outline" />-->
-<!--        信息审核-->
-<!--      </MenuItem>-->
+      <Submenu name="RoomManagement" v-if="$store.state.status === 'manager'">
+        <template slot="title">
+          <Icon type="ios-checkmark-circle-outline" />
+          考场管理
+        </template>
+        <MenuItem name="RoomList" to="/user/roomManagement/roomList">考场列表</MenuItem>
+        <MenuItem name="ArrangeRoom" to="/user/roomManagement/roomArrangement">考场安排</MenuItem>
+      </Submenu>
       <MenuItem name="6" v-if="$store.state.status === 'manager'">
         <Icon type="ios-calendar" />
         成绩管理

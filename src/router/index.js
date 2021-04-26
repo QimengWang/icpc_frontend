@@ -148,6 +148,26 @@ const routes = [
             component: () => import('../components/StudentList/index.vue')
           }
         ]
+      },
+      {
+        path: 'roomManagement',
+        component: () => import('../components/PublishCenter/index.vue'),
+        children: [
+          {
+            path: '',
+            redirect: 'roomList'
+          },
+          {
+            path: 'roomList',
+            name: 'RoomList',
+            component: () => import('../components/RoomList/index.vue')
+          },
+          {
+            path: 'roomArrangement',
+            name: 'RoomArrangement',
+            component: () => import('../components/RoomArrangement/index.vue')
+          }
+        ]
       }
     ]
   }
