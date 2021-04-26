@@ -4,8 +4,8 @@
       <Table border ref="selection" :columns="columns" :data="data"  @on-select="handleSelect"></Table>
     </div>
     <div class="btnBox">
-      <Button type="primary" icon="ios-checkmark-circle-outline" @click="pass">通过</Button>
-      <Button type="warning" icon="ios-close-circle-outline" @click="notPass">不通过</Button>
+      <Button type="success" icon="ios-checkmark-circle-outline" @click="pass">通过</Button>
+      <Button type="error" icon="ios-close-circle-outline" @click="notPass">不通过</Button>
     </div>
   </div>
 </template>

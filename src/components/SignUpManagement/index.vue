@@ -2,17 +2,23 @@
   <div class="con">
     <!--      查询行-->
     <div class="father">
-      <Select v-model="id" filterable clearable placeholder="请选择竞赛名称" style="width: 280px">
+      <Select v-model="id" filterable clearable placeholder="请选择竞赛名称" style="width: 280px; margin-right: 5px">
         <Option v-for="(item, key) in contestList" :key="key" :value="item.cid">{{item.name}}</Option>
       </Select>
-      <Button type="success" icon="ios-search-outline" @click="search">查询</Button>
+      <Button type="primary" icon="ios-search-outline" @click="search">查询</Button>
       <Button type="warning" icon="ios-download-outline" @click="exportFile">导出Excel</Button>
     </div>
 
     <!--    报名列表-->
     <div class="tableBox">
-      <Table border :columns="columns" :data="data" ref="table" v-if="isSingle"></Table>
-      <Table border :columns="columns1" :data="data" v-else></Table>
+      <Table border :columns="columns" :data="data" ref="table" v-if="isSingle" @on-select="handleSelect"></Table>
+      <Table border :columns="columns1" :data="data" v-else @on-select="handleSelect"></Table>
+    </div>
+
+<!--    审核按钮-->
+    <div class="btnBox">
+      <Button type="success" icon="ios-checkmark-circle-outline" @click="pass">通过</Button>
+      <Button type="error" icon="ios-close-circle-outline" @click="notPass">不通过</Button>
     </div>
   </div>
 </template>
@@ -32,9 +38,14 @@
         contestList: [],
         columns: [
           {
+            type: 'selection',
+            width: 60,
+            align: 'center'
+          },
+          {
             title: '序号',
             type: 'index',
-            width: 80,
+            width: 70,
             align: 'center'
           },
           {
@@ -60,6 +71,41 @@
           {
             title: '入学年份',
             key: 'year'
+          },
+          {
+            title: '审核状态',
+            key: 'status',
+            render: (h, params) => {
+              if(params.row.status === 0) {
+                return h('div', [
+                  h('Tag', {
+                    props: {
+                      color: 'blue'
+                    }
+                  }, '待审核')
+                ])
+              } else if(params.row.status === 1) {
+                return h('div', [
+                  h('Tag', {
+                    props: {
+                      color: 'green'
+                    }
+                  }, '已通过')
+                ])
+              } else {
+                return h('div', [
+                  h('Tag', {
+                    props: {
+                      color: 'orange'
+                    }
+                  }, '未通过')
+                ])
+              }
+            }
+          },
+          {
+            title: '备注',
+            key: 'remark'
           }
         ],
         columns1: [
@@ -72,11 +118,45 @@
             key: 'tname'
           },
           {
-            title: '小组成员',
-            key: 'members'
+            title: '审核状态',
+            key: 'status',
+            render: (h, params) => {
+              if(params.row.status === 0) {
+                return h('div', [
+                  h('Tag', {
+                    props: {
+                      color: 'blue'
+                    }
+                  }, '待审核')
+                ])
+              } else if(params.row.status === 1) {
+                return h('div', [
+                  h('Tag', {
+                    props: {
+                      color: 'green'
+                    }
+                  }, '已通过')
+                ])
+              } else {
+                return h('div', [
+                  h('Tag', {
+                    props: {
+                      color: 'orange'
+                    }
+                  }, '未通过')
+                ])
+              }
+            }
+          },
+          {
+            title: '备注',
+            key: 'remark'
           }
         ],
-        data: []
+        // table数据
+        data: [],
+        // 多选
+        selection: []
       }
     },
     methods: {
@@ -93,11 +173,7 @@
           getListByCid(this.id).then(res => {
             const data = res.data;
             if(data.code === 0) {
-              if(Object.keys(data.data[0]).includes('gid')) {
-                this.isSingle = false;
-              } else {
-                this.isSingle = true;
-              }
+              this.isSingle = !Object.keys(data.data[0]).includes('gid');
               this.data = data.data;
               this.$Message.success("查询成功！");
             } else {
@@ -124,6 +200,26 @@
           console.log(err);
           this.$Message.error("出错啦！");
         })
+      },
+      // 多选
+      handleSelect(selection) {
+        this.selection = selection;
+      },
+      // 审核通过
+      pass() {
+        if(this.selection.length === 0) {
+          this.$Message.warning("请选择要审核的报名信息！");
+        } else {
+
+        }
+      },
+      // 审核不通过
+      notPass() {
+        if(this.selection.length === 0) {
+          this.$Message.warning("请选择要审核的报名信息！");
+        } else {
+
+        }
       }
     },
     mounted() {
@@ -137,6 +233,7 @@
     padding: 20px;
     display: flex;
     flex-direction: column;
+    align-items: flex-start;
   }
   .tableBox {
     width: 100%;
@@ -147,6 +244,9 @@
     justify-content: flex-start;
   }
   Button {
-    margin-left: 5px;
+    margin-right: 5px;
+  }
+  .btnBox {
+    margin-top: 10px;
   }
 </style>
