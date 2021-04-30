@@ -1,8 +1,9 @@
 import axios from 'axios';
 import Vue from 'vue';
-
+//
 // Vue.use(axios);
 Vue.prototype.$http = axios;
+import instance from './interceptors';
 
 axios.defaults.baseURL = '/api';
 // 生产环境
@@ -32,399 +33,433 @@ export function getContests() {
 
 // 个人赛报名
 export function singleSignUp(id) {
-  return axios.post('/user/applySingle', {...id}, {
-    headers: {
-      authorization: 'Bearer ' + sessionStorage.getItem('authorization')
-    }
+  return instance.post('/user/applySingle', {...id}, {
+    // headers: {
+    //   authorization: 'Bearer ' + sessionStorage.getItem('authorization')
+    // }
   });
 }
 
 // 获取教练列表
 export function getTeachers() {
-  return axios.get('/user/showTeacher', {
-    headers: {
-      authorization: 'Bearer ' + sessionStorage.getItem('authorization')
-    }
+  return instance.get('/user/showTeacher', {
+    // headers: {
+    //   authorization: 'Bearer ' + sessionStorage.getItem('authorization')
+    // }
   });
 }
 
 // 团队赛报名
 export function groupSignUp(data) {
-  return axios.post('/user/applyGroup', {...data}, {
-    headers: {
-      authorization: 'Bearer ' + sessionStorage.getItem('authorization')
-    }
+  return instance.post('/user/applyGroup', {...data}, {
+    // headers: {
+    //   authorization: 'Bearer ' + sessionStorage.getItem('authorization')
+    // }
   });
 }
 
 // 用户端：
 // 获取个人信息
 export function getInfo() {
-  return axios.get('/user/showInfo', {headers: {
-      authorization: 'Bearer ' + sessionStorage.getItem('authorization')
-    }
-  });
+  return instance.get('/user/showInfo',
+    // {headers: {
+    //   authorization: 'Bearer ' + sessionStorage.getItem('authorization')
+    // }
+  // }
+  );
 }
 
 // 获取学校列表
 export function getSchoolList() {
-  return axios.get('/user/showUniversity', {headers: {
-      authorization: 'Bearer ' + sessionStorage.getItem('authorization')
-    }
-  });
+  return instance.get('/user/showUniversity',
+  //   {headers: {
+  //     authorization: 'Bearer ' + sessionStorage.getItem('authorization')
+  //   }
+  // }
+  );
 }
 
 // 修改个人信息
 export function updateInfo(data) {
-  return axios.post('/user/updateInfo', {...data}, {
-    headers: {
-      authorization: 'Bearer ' + sessionStorage.getItem('authorization')
-    }
-  });
+  return instance.post('/user/updateInfo', {...data},
+    // {
+  //   headers: {
+  //     authorization: 'Bearer ' + sessionStorage.getItem('authorization')
+  //   }
+  // }
+  );
 }
 
 
 // 学生：
 // 获取个人赛报名列表
 export function getSingleList() {
-  return axios.get('/user/showSingle',{
-    headers: {
-      authorization: 'Bearer ' + sessionStorage.getItem('authorization')
-    }
-  });
+  return instance.get('/user/showSingle',
+    // {
+    // headers: {
+    //   authorization: 'Bearer ' + sessionStorage.getItem('authorization')
+    // }
+  // }
+  );
 }
 
 // 取消报名
 export function cancelApply(id) {
-  return axios.post('/user/cancelContest', {cid: id}, {
-    headers: {
-      authorization: 'Bearer ' + sessionStorage.getItem('authorization')
-    }
-  });
+  return instance.post('/user/cancelContest', {cid: id},
+  //   {
+  //   headers: {
+  //     authorization: 'Bearer ' + sessionStorage.getItem('authorization')
+  //   }
+  // }
+  );
 }
 
 // 获取团队赛报名列表
 export function getGroupList() {
-  return axios.get('/user/showGroup',{
-    headers: {
-      authorization: 'Bearer ' + sessionStorage.getItem('authorization')
-    }
-  });
+  return instance.get('/user/showGroup',
+  //   {
+  //   headers: {
+  //     authorization: 'Bearer ' + sessionStorage.getItem('authorization')
+  //   }
+  // }
+  );
 }
 
 // 修改团体赛报名信息
 export function updateGroup(data) {
-  return axios.post('/user/updateGroup', {...data}, {
-    headers: {
-      authorization: 'Bearer ' + sessionStorage.getItem('authorization')
-    }
-  });
+  return instance.post('/user/updateGroup', {...data},
+  //   {
+  //   headers: {
+  //     authorization: 'Bearer ' + sessionStorage.getItem('authorization')
+  //   }
+  // }
+  );
 }
 
 // 教练：
 // 新增学校
 export function addSchoolForTea(data) {
-  return axios.post('/user/teacher/newUniversity', {...data},{
-    headers: {
-    authorization: 'Bearer ' + sessionStorage.getItem('authorization')
-    }
-  });
+  return instance.post('/user/teacher/newUniversity', {...data},
+    // {
+    // headers: {
+    // authorization: 'Bearer ' + sessionStorage.getItem('authorization')
+    // }
+  // }
+  );
 }
 
 // 获取已经通过审核的学生列表
 export function getCheckedStudents() {
-  return axios.get('/user/teacher/showStudent',{
-    headers: {
-      authorization: 'Bearer ' + sessionStorage.getItem('authorization')
-    }
-  });
+  return instance.get('/user/teacher/showStudent',
+    // {
+    // headers: {
+    //   authorization: 'Bearer ' + sessionStorage.getItem('authorization')
+    // }
+  // }
+  );
 }
 
 // 获取待审核学生列表
 export function getUncheckedStudents() {
-  return axios.get('/user/teacher/showCheckStudent',{
-    headers: {
-      authorization: 'Bearer ' + sessionStorage.getItem('authorization')
-    }
-  });
+  return instance.get('/user/teacher/showCheckStudent',
+    // {
+    // headers: {
+    //   authorization: 'Bearer ' + sessionStorage.getItem('authorization')
+    // }
+  // }
+  );
 }
 
 // 审核学生通过
 export function studentChecked(arr) {
-  return axios.post('/user/teacher/checkStudentTrue', {id: arr}, {
-    headers: {
-      authorization: 'Bearer ' + sessionStorage.getItem('authorization')
-    }
-  })
+  return instance.post('/user/teacher/checkStudentTrue', {id: arr},
+    // {
+    // headers: {
+    //   authorization: 'Bearer ' + sessionStorage.getItem('authorization')
+    // }
+  // }
+  )
 }
 
 // 审核学生不通过
 export function studentUnchecked(arr) {
-  return axios.post('/user/teacher/checkStudentFalse', {id: arr}, {
-    headers: {
-      authorization: 'Bearer ' + sessionStorage.getItem('authorization')
-    }
-  })
+  return instance.post('/user/teacher/checkStudentFalse', {id: arr},
+    // {
+    // headers: {
+    //   authorization: 'Bearer ' + sessionStorage.getItem('authorization')
+    // }
+  // }
+  )
 }
 
 // 管理员：
 // 获取&查询赛事列表
 export function getContestList(searchItem) {
-  return axios.get('/user/showContest', {
-    headers: {
-      authorization: 'Bearer ' + sessionStorage.getItem('authorization')
-    },
+  return instance.get('/user/showContest', {
+    // headers: {
+    //   authorization: 'Bearer ' + sessionStorage.getItem('authorization')
+    // },
     params: searchItem
   });
 }
 
 // 新建赛事
 export function addContest(data) {
-  return axios.post('/user/newContest', {...data}, {
-    headers: {
-      authorization: 'Bearer ' + sessionStorage.getItem('authorization')
-    }
-  });
+  return instance.post('/user/newContest', {...data},
+    // {
+    // headers: {
+    //   authorization: 'Bearer ' + sessionStorage.getItem('authorization')
+    // }
+  // }
+  );
 }
 
 // 删除赛事
 export function deleteContest(arr) {
-  return axios.post('/user/deleteContest', {id: arr}, {
-    headers: {
-      authorization: 'Bearer ' + sessionStorage.getItem('authorization')
-    }
-  });
+  return instance.post('/user/deleteContest', {id: arr},
+    // {
+    // headers: {
+    //   authorization: 'Bearer ' + sessionStorage.getItem('authorization')
+    // }
+  // }
+  );
 }
 
 // 修改赛事
 export function updateContest(data) {
-  return axios.post('/user/updateContest', {...data},{
-    headers: {
-      authorization: 'Bearer ' + sessionStorage.getItem('authorization')
-    }
-  });
+  return instance.post('/user/updateContest', {...data},
+    // {
+    // headers: {
+    //   authorization: 'Bearer ' + sessionStorage.getItem('authorization')
+    // }
+  // }
+  );
 }
 
 // 赛事详情
 export function showContestDetail(data) {
-  return axios.get('/user/showContestInfo', {
+  return instance.get('/user/showContestInfo', {
     params: data,
-    headers: {
-      authorization: 'Bearer ' + sessionStorage.getItem('authorization')
-    }
+    // headers: {
+    //   authorization: 'Bearer ' + sessionStorage.getItem('authorization')
+    // }
   });
 }
 
 // 获取学校列表
 export function getSchools(data) {
-  return axios.get('/user/manager/showUniversityInfo', {
+  return instance.get('/user/manager/showUniversityInfo', {
     params: data,
-    headers: {
-      authorization: 'Bearer ' + sessionStorage.getItem('authorization')
-    }
+    // headers: {
+    //   authorization: 'Bearer ' + sessionStorage.getItem('authorization')
+    // }
   });
 }
 
 // 获取某个学校的教练员列表
 export function getTeachersBySid(id) {
-  return axios.get('/user/manager/showTeacher', {
+  return instance.get('/user/manager/showTeacher', {
     params: {id: id},
-    headers: {
-      authorization: 'Bearer ' + sessionStorage.getItem('authorization')
-    }
+    // headers: {
+    //   authorization: 'Bearer ' + sessionStorage.getItem('authorization')
+    // }
   });
 }
 
 // 修改学校信息
 export function updateSchool(data) {
-  return axios.post('/user/manager/updateUniversity', {data}, {
-    headers: {
-      authorization: 'Bearer ' + sessionStorage.getItem('authorization')
-    }
-  });
+  return instance.post('/user/manager/updateUniversity', {data},
+    // {
+    // headers: {
+    //   authorization: 'Bearer ' + sessionStorage.getItem('authorization')
+    // }
+  // }
+  );
 }
 
 // 新增学校
 export function addSchool(data) {
-  return axios.post('/user/manager/addUniversity', {...data}, {
-    headers: {
-      authorization: 'Bearer ' + sessionStorage.getItem('authorization')
-    }
-  });
+  return instance.post('/user/manager/addUniversity', {...data},
+    // {
+    // headers: {
+    //   authorization: 'Bearer ' + sessionStorage.getItem('authorization')
+    // }
+  // }
+  );
 }
 
 // 删除学校
 export function deleteSchool(arr) {
-  return axios.post('/user/manager/deleteUniversity', {id: arr}, {
-    headers: {
-      authorization: 'Bearer ' + sessionStorage.getItem('authorization')
-    }
+  return instance.post('/user/manager/deleteUniversity', {id: arr}, {
+    // headers: {
+    //   authorization: 'Bearer ' + sessionStorage.getItem('authorization')
+    // }
   });
 }
 
 // 获取待审核的学校列表
 export function getUncheckedSchool() {
-  return axios.get('/user/manager/school/showCheckUn',{
-    headers: {
-      authorization: 'Bearer ' + sessionStorage.getItem('authorization')
-    }
+  return instance.get('/user/manager/school/showCheckUn',{
+    // headers: {
+    //   authorization: 'Bearer ' + sessionStorage.getItem('authorization')
+    // }
   });
 }
 
 // 审核学校通过
 export function schoolChecked(arr) {
-  return axios.post('/user/manager/school/checkTrue', {id: arr}, {
-    headers: {
-      authorization: 'Bearer ' + sessionStorage.getItem('authorization')
-    }
+  return instance.post('/user/manager/school/checkTrue', {id: arr}, {
+    // headers: {
+    //   authorization: 'Bearer ' + sessionStorage.getItem('authorization')
+    // }
   })
 }
 
 // 审核学校不通过
 export function schoolUnchecked(arr) {
-  return axios.post('/user/manager/school/checkFalse', {id: arr}, {
-    headers: {
-      authorization: 'Bearer ' + sessionStorage.getItem('authorization')
-    }
+  return instance.post('/user/manager/school/checkFalse', {id: arr}, {
+    // headers: {
+    //   authorization: 'Bearer ' + sessionStorage.getItem('authorization')
+    // }
   })
 }
 
 // 获取待审核的教练列表
 export function getUncheckedTeachers() {
-  return axios.get('/user/manager/teacher/showCheckTeacher',{
-    headers: {
-      authorization: 'Bearer ' + sessionStorage.getItem('authorization')
-    }
+  return instance.get('/user/manager/teacher/showCheckTeacher',{
+    // headers: {
+    //   authorization: 'Bearer ' + sessionStorage.getItem('authorization')
+    // }
   });
 }
 
 // 审核教练通过
 export function teacherChecked(arr) {
-  return axios.post('/user/manager/teacher/checkTeacherTrue', {id: arr}, {
-    headers: {
-      authorization: 'Bearer ' + sessionStorage.getItem('authorization')
-    }
+  return instance.post('/user/manager/teacher/checkTeacherTrue', {id: arr}, {
+    // headers: {
+    //   authorization: 'Bearer ' + sessionStorage.getItem('authorization')
+    // }
   })
 }
 
 // 审核教练不通过
 export function teacherUnchecked(arr) {
-  return axios.post('/user/manager/teacher/checkTeacherFalse', {id: arr}, {
-    headers: {
-      authorization: 'Bearer ' + sessionStorage.getItem('authorization')
-    }
+  return instance.post('/user/manager/teacher/checkTeacherFalse', {id: arr}, {
+    // headers: {
+    //   authorization: 'Bearer ' + sessionStorage.getItem('authorization')
+    // }
   })
 }
 
 // 报名管理
 // 获取赛事列表
 export function showContestList() {
-  return axios.get('/user/manager/showContestIng',{
-    headers: {
-      authorization: 'Bearer ' + sessionStorage.getItem('authorization')
-    }
+  return instance.get('/user/manager/showContestIng',{
+    // headers: {
+    //   authorization: 'Bearer ' + sessionStorage.getItem('authorization')
+    // }
   });
 }
 
 // 根据赛事id获取报名名单
 export function getListByCid(id) {
-  return axios.get('/user/manager/showApply',{
+  return instance.get('/user/manager/showApply',{
     params: {id: id},
-    headers: {
-      authorization: 'Bearer ' + sessionStorage.getItem('authorization')
-    }
+    // headers: {
+    //   authorization: 'Bearer ' + sessionStorage.getItem('authorization')
+    // }
   });
 }
 
 // 考场管理
 // 获取考场列表
 export function getRooms() {
-  return axios.get('/user/manager/test/showRoom',{
-    headers: {
-      authorization: 'Bearer ' + sessionStorage.getItem('authorization')
-    }
+  return instance.get('/user/manager/test/showRoom',{
+    // headers: {
+    //   authorization: 'Bearer ' + sessionStorage.getItem('authorization')
+    // }
   });
 }
 
 // 新增考场
 export function addRoom(data) {
-  return axios.post('/user/manager/test/addRoom', {...data}, {
-    headers: {
-      authorization: 'Bearer ' + sessionStorage.getItem('authorization')
-    }
-  })
+  return instance.post('/user/manager/test/addRoom', {...data}, {
+    // headers: {
+    //   authorization: 'Bearer ' + sessionStorage.getItem('authorization')
+    // }
+  });
 }
 
 // 修改考场信息
 export function updateRoom(data) {
-  return axios.post('/user/manager/test/updateRoom', {...data}, {
-    headers: {
-      authorization: 'Bearer ' + sessionStorage.getItem('authorization')
-    }
+  return instance.post('/user/manager/test/updateRoom', {...data}, {
+    // headers: {
+    //   authorization: 'Bearer ' + sessionStorage.getItem('authorization')
+    // }
   })
 }
 
 // 删除考场
 export function deleteRoom(arr) {
-  return axios.post('/user/manager/test/deleteRoom', {rid: arr}, {
-    headers: {
-      authorization: 'Bearer ' + sessionStorage.getItem('authorization')
-    }
+  return instance.post('/user/manager/test/deleteRoom', {rid: arr}, {
+    // headers: {
+    //   authorization: 'Bearer ' + sessionStorage.getItem('authorization')
+    // }
   });
 }
 
 // 获取考场安排列表
 export function getArrangementByCid(cid) {
-  return axios.get('/user/manager/test/showArrange', {
+  return instance.get('/user/manager/test/showArrange', {
     params: {cid: cid},
-    headers: {
-      authorization: 'Bearer ' + sessionStorage.getItem('authorization')
-    }
+    // headers: {
+    //   authorization: 'Bearer ' + sessionStorage.getItem('authorization')
+    // }
   })
 }
 
 // 获取某赛事报名总人数
 export function getTotalByCid(cid) {
-  return axios.get('/user/manager/contest/showTotal', {
+  return instance.get('/user/manager/contest/showTotal', {
     params: {cid: cid},
-    headers: {
-      authorization: 'Bearer ' + sessionStorage.getItem('authorization')
-    }
+    // headers: {
+    //   authorization: 'Bearer ' + sessionStorage.getItem('authorization')
+    // }
   })
 }
 
 // 获取可用考场列表
 export function getAvailRoom() {
-  return axios.get('/user/manager/test/availableRoom', {
-    headers: {
-      authorization: 'Bearer ' + sessionStorage.getItem('authorization')
-    }
+  return instance.get('/user/manager/test/availableRoom', {
+    // headers: {
+    //   authorization: 'Bearer ' + sessionStorage.getItem('authorization')
+    // }
   })
 }
 
 // 新增考场安排
 export function addArrange(arr) {
-  return axios.post('/user/manager/test/addArrange', {data: arr}, {
-    headers: {
-      authorization: 'Bearer ' + sessionStorage.getItem('authorization')
-    }
+  return instance.post('/user/manager/test/addArrange', {data: arr}, {
+    // headers: {
+    //   authorization: 'Bearer ' + sessionStorage.getItem('authorization')
+    // }
   });
 }
 
 // 修改考场安排
 export function updateArrange(data) {
-  return axios.post('/user/manager/test/updateArrange', {...data}, {
-    headers: {
-      authorization: 'Bearer ' + sessionStorage.getItem('authorization')
-    }
+  return instance.post('/user/manager/test/updateArrange', {...data}, {
+    // headers: {
+    //   authorization: 'Bearer ' + sessionStorage.getItem('authorization')
+    // }
   });
 }
 
 // 取消考场安排
 export function cancelArrange(arr) {
-  return axios.post('/user/manager/test/cancelArrange', {id: arr}, {
-    headers: {
-      authorization: 'Bearer ' + sessionStorage.getItem('authorization')
-    }
+  return instance.post('/user/manager/test/cancelArrange', {id: arr}, {
+    // headers: {
+    //   authorization: 'Bearer ' + sessionStorage.getItem('authorization')
+    // }
   });
 }

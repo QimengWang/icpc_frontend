@@ -60,7 +60,7 @@
           考场管理
         </template>
         <MenuItem name="RoomList" to="/user/roomManagement/roomList">考场列表</MenuItem>
-        <MenuItem name="ArrangeRoom" to="/user/roomManagement/roomArrangement">考场安排</MenuItem>
+        <MenuItem name="RoomArrangement" to="/user/roomManagement/roomArrangement">考场安排</MenuItem>
       </Submenu>
 
       <MenuItem name="6" v-if="$store.state.status === 'manager'">

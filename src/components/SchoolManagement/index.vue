@@ -203,8 +203,8 @@
             this.data = data.data;
           }
         }).catch(err => {
-          console.log(err);
-          this.$Message.error("出错啦！");
+          // console.log(err);
+          // this.$Message.error("出错啦！");
         })
       },
       // 查询学校
@@ -237,7 +237,7 @@
       },
       // 新增&修改学校
       addSchool() {
-        console.log(this.schoolInfo);
+        // console.log(this.schoolInfo);
         this.$refs['formValidate'].validate(valid => {
           if(valid) {
             if(this.modalTitle === "新增学校") {
@@ -253,8 +253,8 @@
                   this.$Message.error(data.data.message);
                 }
               }).catch(err => {
-                console.log(err);
-                this.$Message.error("出错啦！");
+                // console.log(err);
+                // this.$Message.error("出错啦！");
               })
             } else {
               updateSchool(this.schoolInfo).then(res => {

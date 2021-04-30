@@ -171,8 +171,8 @@
             this.data = data.data;
           }
         }).catch(err => {
-          console.log(err);
-          this.$Message.error("出错啦！");
+          // console.log(err);
+          // this.$Message.error("出错啦！");
         })
       },
       // 新增考场Modal
@@ -208,8 +208,8 @@
                   this.$Message.error(data.data.message);
                 }
               }).catch(err => {
-                console.log(err);
-                this.$Message.error("出错啦！");
+                // console.log(err);
+                // this.$Message.error("出错啦！");
               })
             } else {
               updateRoom(this.roomInfo).then(res => {
@@ -224,8 +224,8 @@
                   this.$Message.error(data.data.message);
                 }
               }).catch(err => {
-                console.log(err);
-                this.$Message.error("出错啦！");
+                // console.log(err);
+                // this.$Message.error("出错啦！");
               })
             }
           } else {
@@ -264,8 +264,8 @@
               this.$Message.error(data.data.message);
             }
           }).catch(err => {
-            console.log(err);
-            this.$Message.error("出错啦！");
+            // console.log(err);
+            // this.$Message.error("出错啦！");
           });
         }
       }

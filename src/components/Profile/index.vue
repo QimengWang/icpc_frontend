@@ -263,7 +263,7 @@
           this.userInfo.school = Number(d.school);
           // console.log(typeof this.userInfo.school);
         }).catch(err => {
-          this.$Message.error(err);
+          // console.log(err);
         })
       },
       // 获取学校列表
@@ -275,6 +275,7 @@
             // console.log(this.schoolList);
           }
         }).catch(err => {
+          console.log(err.response.data);
           this.$Message.error(err);
         })
       }
