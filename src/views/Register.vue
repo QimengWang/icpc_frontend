@@ -7,7 +7,16 @@
           <Input class="inputBox" v-model="user.email" placeholder="邮箱/手机"/>
           <div class="verifyBox">
             <Input class="inputBox" v-model="user.code" placeholder="验证码"/>
-            <Button type="primary" @click="sending" :loading="loading">发送验证码</Button>
+            <Button type="primary" @click="sending" :loading="loading" :disabled="isSent">
+<!--              发送验证码-->
+              <div v-if="!isSent">
+                <p v-if="!loading">发送验证码</p>
+                <p v-else>发送中</p>
+              </div>
+              <div v-else>
+                <p>{{timer}}秒后重试</p>
+              </div>
+            </Button>
           </div>
           <Input class="inputBox" type="password" v-model="user.password" password placeholder="密码" autocomplete='new-password'/>
           <Select v-model="user.status">
@@ -28,6 +37,8 @@
     name: "Register",
     data() {
       return {
+        timer: 60,
+        isSent: false,
         loading: false,
         user: {
           email: '',
@@ -59,6 +70,16 @@
             // console.log(data);
             if(data.code === 0) {
               this.$Message.success(data.data.message);
+              this.isSent = true;
+              let flag = setInterval(() => {
+                if(this.timer > 0) {
+                  this.timer--;
+                } else {
+                  clearInterval(flag);
+                  this.isSent = false;
+                  this.timer = 60;
+                }
+              }, 1000);
             } else if(data.code === 1){
               this.$Message.warning(data.data.message);
             } else {
