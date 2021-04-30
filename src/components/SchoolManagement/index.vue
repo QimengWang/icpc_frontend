@@ -216,8 +216,8 @@
             this.$Message.success('查询成功！');
           }
         }).catch(err => {
-          console.log(err);
-          this.$Message.error("出错啦！");
+          // console.log(err);
+          // this.$Message.error("出错啦！");
         })
       },
       // 新增学校Modal
@@ -269,8 +269,8 @@
                   this.$Message.error(data.data.message);
                 }
               }).catch(err => {
-                console.log(err);
-                this.$Message.error("出错啦！");
+                // console.log(err);
+                // this.$Message.error("出错啦！");
               })
             }
           } else {
@@ -309,8 +309,8 @@
               this.$Message.error(data.data.message);
             }
           }).catch(err => {
-            console.log(err);
-            this.$Message.error("出错啦！");
+            // console.log(err);
+            // this.$Message.error("出错啦！");
           });
         }
       },
@@ -343,8 +343,8 @@
               this.$Message.error(data.data.message);
             }
           }).catch(err => {
-            console.log(err);
-            this.$Message.error("出错啦！");
+            // console.log(err);
+            // this.$Message.error("出错啦！");
           });
         }
       },
@@ -378,8 +378,8 @@
               this.$Message.error(data.data.message);
             }
           }).catch(err => {
-            console.log(err);
-            this.$Message.error("出错啦！");
+            // console.log(err);
+            // this.$Message.error("出错啦！");
           });
         }
       }

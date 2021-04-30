@@ -304,7 +304,7 @@
             this.data = data.data;
           }
         }).catch(err => {
-          console.log(err);
+          // console.log(err);
         })
       },
       // 查询赛事
@@ -319,7 +319,7 @@
             this.data = [];
           }
         }).catch(err => {
-          console.log(err);
+          // console.log(err);
         });
       },
       // 多选
@@ -380,7 +380,7 @@
                 this.$Message.error(data.data.message);
               }
             }).catch(err => {
-              this.$Message.error(err);
+              // this.$Message.error(err);
             });
           } else {
             this.$Message.error('请填写必填项！');
@@ -414,7 +414,7 @@
                 this.$Message.error(data.data.message);
               }
             }).catch(err => {
-              console.log(err);
+              // console.log(err);
             });
           } else {
             this.$Message.error("请填写必填项！");
@@ -440,7 +440,7 @@
               this.getContest();
             }
           }).catch(err => {
-            console.log(err);
+            // console.log(err);
           });
         }
       },

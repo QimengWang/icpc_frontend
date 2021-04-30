@@ -74,8 +74,8 @@
               this.$Message.error(data.message);
             }
           }).catch(err => {
-            console.log(err);
-            this.$Message.error("出错啦！");
+            // console.log(err);
+            // this.$Message.error("出错啦！");
           });
         }
       }

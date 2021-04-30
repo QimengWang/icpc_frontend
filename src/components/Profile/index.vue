@@ -220,8 +220,8 @@
               }
               this.getInfo();
             }).catch(err => {
-              console.log(err);
-              this.$Message.error("出错啦！");
+              // console.log(err);
+              // this.$Message.error("出错啦！");
             });
           } else {
             this.$Message.error('请完善必填字段!');
@@ -241,7 +241,7 @@
                 this.$Message.error(data.data.message);
               }
             }).catch(err => {
-              this.$Message.error(err);
+              // this.$Message.error(err);
             });
             this.modal = false;
             // 重置表单
@@ -275,8 +275,8 @@
             // console.log(this.schoolList);
           }
         }).catch(err => {
-          console.log(err.response.data);
-          this.$Message.error(err);
+          // console.log(err.response.data);
+          // this.$Message.error(err);
         })
       }
     },

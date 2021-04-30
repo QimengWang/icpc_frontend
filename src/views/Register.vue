@@ -87,8 +87,8 @@
             }
             this.loading = false;
           }).catch(err => {
-            console.log(err);
-            this.$Message.error('出错了！');
+            // console.log(err);
+            // this.$Message.error('出错了！');
             this.loading = false;
           })
         }
@@ -104,8 +104,8 @@
             this.$Message.error(data.data.message);
           }
         }).catch(err => {
-          console.log(err);
-          this.$Message.error('出错了！');
+          // console.log(err);
+          // this.$Message.error('出错了！');
         });
       }
     }
