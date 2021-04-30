@@ -29,30 +29,40 @@
         <Icon type="ios-clipboard-outline" />
         赛事管理
       </MenuItem>
-      <Submenu name="InformationChecking" v-if="$store.state.status === 'manager'">
-        <template slot="title">
-          <Icon type="ios-checkmark-circle-outline" />
-          审核管理
-        </template>
-        <MenuItem name="SchoolChecking" to="/user/informationChecking/schoolChecking">学校审核</MenuItem>
-        <MenuItem name="TeacherChecking" to="/user/informationChecking/teacherChecking">教练审核</MenuItem>
-      </Submenu>
+
+<!--      <Submenu name="SchoolManagement" v-if="$store.state.status === 'manager'">-->
+<!--        <template slot="title">-->
+<!--          <Icon type="ios-apps" />-->
+<!--          学校管理-->
+<!--        </template>-->
+<!--        <MenuItem name="SchoolChecking" to="/user/schoolManagement/schoolChecking">学校审核</MenuItem>-->
+<!--        <MenuItem name="SchoolList" to="/user/schoolManagement/schoolList">学校列表</MenuItem>-->
+<!--      </Submenu>-->
+
       <MenuItem name="SchoolManagement" v-if="$store.state.status === 'manager'" to="/user/schoolManagement">
         <Icon type="ios-apps" />
         学校管理
       </MenuItem>
+
+      <MenuItem name="TeacherManagement" v-if="$store.state.status === 'manager'" to="/user/teacherManagement">
+        <Icon type="ios-contacts-outline" />
+        教练管理
+      </MenuItem>
+
       <MenuItem name="SignUpManagement" v-if="$store.state.status === 'manager'" to="/user/signUpManagement">
-        <Icon type="ios-contacts" />
+        <Icon type="ios-hand" />
         报名管理
       </MenuItem>
+
       <Submenu name="RoomManagement" v-if="$store.state.status === 'manager'">
         <template slot="title">
-          <Icon type="ios-checkmark-circle-outline" />
+          <Icon type="ios-cube-outline" />
           考场管理
         </template>
         <MenuItem name="RoomList" to="/user/roomManagement/roomList">考场列表</MenuItem>
         <MenuItem name="ArrangeRoom" to="/user/roomManagement/roomArrangement">考场安排</MenuItem>
       </Submenu>
+
       <MenuItem name="6" v-if="$store.state.status === 'manager'">
         <Icon type="ios-calendar" />
         成绩管理

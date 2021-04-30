@@ -121,7 +121,7 @@
             title: '审核状态',
             key: 'status',
             render: (h, params) => {
-              if(params.row.status === 0) {
+              if(params.row.status == 0) {
                 return h('div', [
                   h('Tag', {
                     props: {
@@ -129,7 +129,7 @@
                     }
                   }, '待审核')
                 ])
-              } else if(params.row.status === 1) {
+              } else if(params.row.status == 1) {
                 return h('div', [
                   h('Tag', {
                     props: {
@@ -168,14 +168,18 @@
       },
       // 查询报名信息
       search() {
-        console.log(this.id);
+        // console.log(this.id);
         if(this.id) {
           getListByCid(this.id).then(res => {
             const data = res.data;
             if(data.code === 0) {
-              this.isSingle = !Object.keys(data.data[0]).includes('gid');
-              this.data = data.data;
-              this.$Message.success("查询成功！");
+              if(data.data.length === 0) {
+                this.$Message.success("查询成功, 暂无数据！");
+              } else {
+                this.isSingle = !Object.keys(data.data[0]).includes('gid');
+                this.data = data.data;
+                this.$Message.success("查询成功！");
+              }
             } else {
               this.$Message.error("查询失败！");
             }

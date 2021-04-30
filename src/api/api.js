@@ -335,3 +335,96 @@ export function getListByCid(id) {
     }
   });
 }
+
+// 考场管理
+// 获取考场列表
+export function getRooms() {
+  return axios.get('/user/manager/test/showRoom',{
+    headers: {
+      authorization: 'Bearer ' + sessionStorage.getItem('authorization')
+    }
+  });
+}
+
+// 新增考场
+export function addRoom(data) {
+  return axios.post('/user/manager/test/addRoom', {...data}, {
+    headers: {
+      authorization: 'Bearer ' + sessionStorage.getItem('authorization')
+    }
+  })
+}
+
+// 修改考场信息
+export function updateRoom(data) {
+  return axios.post('/user/manager/test/updateRoom', {...data}, {
+    headers: {
+      authorization: 'Bearer ' + sessionStorage.getItem('authorization')
+    }
+  })
+}
+
+// 删除考场
+export function deleteRoom(arr) {
+  return axios.post('/user/manager/test/deleteRoom', {rid: arr}, {
+    headers: {
+      authorization: 'Bearer ' + sessionStorage.getItem('authorization')
+    }
+  });
+}
+
+// 获取考场安排列表
+export function getArrangementByCid(cid) {
+  return axios.get('/user/manager/test/showArrange', {
+    params: {cid: cid},
+    headers: {
+      authorization: 'Bearer ' + sessionStorage.getItem('authorization')
+    }
+  })
+}
+
+// 获取某赛事报名总人数
+export function getTotalByCid(cid) {
+  return axios.get('/user/manager/contest/showTotal', {
+    params: {cid: cid},
+    headers: {
+      authorization: 'Bearer ' + sessionStorage.getItem('authorization')
+    }
+  })
+}
+
+// 获取可用考场列表
+export function getAvailRoom() {
+  return axios.get('/user/manager/test/availableRoom', {
+    headers: {
+      authorization: 'Bearer ' + sessionStorage.getItem('authorization')
+    }
+  })
+}
+
+// 新增考场安排
+export function addArrange(arr) {
+  return axios.post('/user/manager/test/addArrange', {data: arr}, {
+    headers: {
+      authorization: 'Bearer ' + sessionStorage.getItem('authorization')
+    }
+  });
+}
+
+// 修改考场安排
+export function updateArrange(data) {
+  return axios.post('/user/manager/test/updateArrange', {...data}, {
+    headers: {
+      authorization: 'Bearer ' + sessionStorage.getItem('authorization')
+    }
+  });
+}
+
+// 取消考场安排
+export function cancelArrange(arr) {
+  return axios.post('/user/manager/test/cancelArrange', {id: arr}, {
+    headers: {
+      authorization: 'Bearer ' + sessionStorage.getItem('authorization')
+    }
+  });
+}

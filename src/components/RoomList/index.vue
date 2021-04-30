@@ -26,7 +26,7 @@
             <Input v-model="roomInfo.address" placeholder="例：宝山校区校本部"></Input>
           </FormItem>
           <FormItem label="可容纳人数" prop="number">
-            <Input v-model="roomInfo.name" placeholder="请输入考场可容纳人数"></Input>
+            <Input v-model="roomInfo.number" placeholder="请输入考场可容纳人数"></Input>
           </FormItem>
           <FormItem>
             <Button type="primary" style="width: 100%" @click="addRoom">确认</Button>
@@ -38,7 +38,7 @@
 </template>
 
 <script>
-  // import {} from "../../api/api";
+  import {getRooms, addRoom, updateRoom, deleteRoom} from "../../api/api";
 
   export default {
     name: "index",
@@ -50,12 +50,12 @@
             width: 60,
             align: 'center'
           },
-          {
-            title: '序号',
-            type: 'index',
-            width: 70,
-            align: 'center'
-          },
+          // {
+          //   title: '序号',
+          //   type: 'index',
+          //   width: 70,
+          //   align: 'center'
+          // },
           {
             title: '考场名称',
             key: 'name'
@@ -72,7 +72,7 @@
             title: '状态',
             key: 'status',
             render: (h, params) => {
-              if(params.row.status === 0) {
+              if(params.row.status === 1) {
                 return h('div', [
                   h('Tag', {
                     props: {
@@ -99,10 +99,11 @@
               return h('div', [
                 h('Button', {
                   props: {
-                    type: 'primary',
+                    type: 'text',
                     size: 'small'
                   },
                   style: {
+                    color: '#2d85e4',
                     marginRight: '5px'
                   },
                   on: {
@@ -113,12 +114,19 @@
                 }, '编辑'),
                 h('Button', {
                   props: {
-                    type: 'error',
+                    type: 'text',
                     size: 'small'
+                  },
+                  style: {
+                    color: '#2d85e4'
                   },
                   on: {
                     click: () => {
-                      this.deleteRoom(params.row.id)
+                      if(params.row.status == 1) {
+                        this.$Message.error("该考场正在使用，无法删除！");
+                      } else {
+                        this.deleteRoom(params.row.id);
+                      }
                     }
                   }
                 }, '删除')
@@ -126,7 +134,7 @@
             }
           }
         ],
-        data: [{}],
+        data: [],
         modal: false,
         modalTitle: '',
         // 新增考场的验证规则
@@ -157,15 +165,15 @@
       },
       // 获取考场列表
       getRoomList() {
-        // getRooms().then(res => {
-        //   const data = res.data;
-        //   if(data.code === 0) {
-        //     this.data = data.data;
-        //   }
-        // }).catch(err => {
-        //   console.log(err);
-        //   this.$Message.error("出错啦！");
-        // })
+        getRooms().then(res => {
+          const data = res.data;
+          if(data.code === 0) {
+            this.data = data.data;
+          }
+        }).catch(err => {
+          console.log(err);
+          this.$Message.error("出错啦！");
+        })
       },
       // 新增考场Modal
       addRoomModal() {
@@ -175,47 +183,50 @@
       // 修改考场Modal
       update(data) {
         // 浅拷贝：避免重置表单时影响原table中数据
-        // console.log(data);
         this.roomInfo = {...data};
+        // 必须进行number->string的转化，否则表单验证会出错
+        this.roomInfo.number = String(data.number);
+        // console.log(this.roomInfo)
         this.modalTitle = '修改考场';
         this.modal = true;
       },
       // 新增&修改考场
       addRoom() {
+        console.log(this.roomInfo);
         this.$refs['formValidate'].validate(valid => {
           if(valid) {
             if(this.modalTitle === "新增考场") {
-              // addRoom(this.schoolInfo).then(res => {
-              //   const data = res.data;
-              //   if(data.code === 0) {
-              //     this.$Message.success(data.data.message);
-              //     this.modal = false;
-              //     this.getSchoolList();
-              //     // 重置表单
-              //     this.$refs['formValidate'].resetFields();
-              //   } else {
-              //     this.$Message.error(data.data.message);
-              //   }
-              // }).catch(err => {
-              //   console.log(err);
-              //   this.$Message.error("出错啦！");
-              // })
+              addRoom(this.roomInfo).then(res => {
+                const data = res.data;
+                if(data.code === 0) {
+                  this.$Message.success(data.data.message);
+                  this.modal = false;
+                  this.getRoomList();
+                  // 重置表单
+                  this.$refs['formValidate'].resetFields();
+                } else {
+                  this.$Message.error(data.data.message);
+                }
+              }).catch(err => {
+                console.log(err);
+                this.$Message.error("出错啦！");
+              })
             } else {
-              // updateRoom(this.schoolInfo).then(res => {
-              //   const data = res.data;
-              //   if(data.code === 0) {
-              //     this.$Message.success(data.data.message);
-              //     this.modal = false;
-              //     this.getSchoolList();
-              //     // 重置表单
-              //     this.$refs['formValidate'].resetFields();
-              //   } else {
-              //     this.$Message.error(data.data.message);
-              //   }
-              // }).catch(err => {
-              //   console.log(err);
-              //   this.$Message.error("出错啦！");
-              // })
+              updateRoom(this.roomInfo).then(res => {
+                const data = res.data;
+                if(data.code === 0) {
+                  this.$Message.success(data.data.message);
+                  this.modal = false;
+                  this.getRoomList();
+                  // 重置表单
+                  this.$refs['formValidate'].resetFields();
+                } else {
+                  this.$Message.error(data.data.message);
+                }
+              }).catch(err => {
+                console.log(err);
+                this.$Message.error("出错啦！");
+              })
             }
           } else {
             this.$Message.error('请填写必填项！');
@@ -234,7 +245,7 @@
           } else {
             //处理数据
             for(let item of this.selection) {
-              arr.push(item.id);
+              arr.push(item.rid);
             }
           }
         } else {
@@ -242,34 +253,34 @@
         }
         // 删除
         if(flag === 1) {
-          // deleteRoom(arr).then(res => {
-          //   const data = res.data;
-          //   // console.log(data);
-          //   if(data.code === 0) {
-          //     this.$Message.success(data.data.message);
-          //     this.selection = [];
-          //     this.getSchoolList();
-          //   } else {
-          //     this.$Message.error(data.data.message);
-          //   }
-          // }).catch(err => {
-          //   console.log(err);
-          //   this.$Message.error("出错啦！");
-          // });
+          deleteRoom(arr).then(res => {
+            const data = res.data;
+            // console.log(data);
+            if(data.code === 0) {
+              this.$Message.success(data.data.message);
+              this.selection = [];
+              this.getRoomList();
+            } else {
+              this.$Message.error(data.data.message);
+            }
+          }).catch(err => {
+            console.log(err);
+            this.$Message.error("出错啦！");
+          });
         }
       }
     },
     mounted() {
       this.getRoomList();
     },
-    watch: {
-      modal(val) {
-        if(val === false) {
-          // 重置表单
-          this.$refs['formValidate'].resetFields();
-        }
-      }
-    }
+    // watch: {
+    //   modal(val) {
+    //     if(val === false) {
+    //       // 重置表单
+    //       this.$refs['formValidate'].resetFields();
+    //     }
+    //   }
+    // }
   }
 </script>
 
