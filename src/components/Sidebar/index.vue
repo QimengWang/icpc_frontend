@@ -9,17 +9,21 @@
         <Icon type="ios-contact" />
         个人中心
       </MenuItem>
-      <Submenu name="Contest" v-if="$store.state.status === 'student'">
-        <template slot="title">
-          <Icon type="ios-calendar-outline" />
-          赛程查询
-        </template>
-        <MenuItem name="SignUp" to="/user/contest/signUp">已报名</MenuItem>
-        <MenuItem name="3-2">进行中</MenuItem>
-      </Submenu>
+      <MenuItem name="MyContest" to="/user/myContest" v-if="$store.state.status === 'student'">
+        <Icon type="ios-calendar-outline" />
+        赛程查询
+      </MenuItem>
+<!--      <Submenu name="Contest" v-if="$store.state.status === 'student'">-->
+<!--        <template slot="title">-->
+<!--          <Icon type="ios-calendar-outline" />-->
+<!--          赛程查询-->
+<!--        </template>-->
+<!--        <MenuItem name="SignUp" to="/user/contest/signUp">已报名</MenuItem>-->
+<!--        <MenuItem name="3-2">进行中</MenuItem>-->
+<!--      </Submenu>-->
       <Submenu name="4" v-if="$store.state.status === 'student'">
         <template slot="title">
-          <Icon type="ios-list-box-outline" />
+          <Icon type="ios-list-box" />
           成绩查询
         </template>
         <MenuItem name="4-1">成绩数据</MenuItem>

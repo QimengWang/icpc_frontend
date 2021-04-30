@@ -77,21 +77,26 @@ const routes = [
         component: () => import('../components/Profile/index.vue')
       },
       {
-        path: 'contest',
-        // name: 'Contest',
-        component: () => import('../components/PublishCenter/index.vue'),
-        children: [
-          {
-            path: '',
-            redirect: 'signUp'
-          },
-          {
-            path: 'signUp',
-            name: 'SignUp',
-            component: () => import('../components/SignUp/index.vue')
-          }
-        ]
+        path: 'myContest',
+        name: 'MyContest',
+        component: () => import('../components/MyContest/index.vue')
       },
+      // {
+      //   path: 'contest',
+      //   // name: 'Contest',
+      //   component: () => import('../components/PublishCenter/index.vue'),
+      //   children: [
+      //     {
+      //       path: '',
+      //       redirect: 'signUp'
+      //     },
+      //     {
+      //       path: 'signUp',
+      //       name: 'SignUp',
+      //       component: () => import('../components/SignUp/index.vue')
+      //     }
+      //   ]
+      // },
       {
         path: 'contestManagement',
         name: 'ContestManagement',
