@@ -34,7 +34,7 @@
     flex-direction: column;
   }
   .main {
-    overflow: scroll;
+    overflow-y: scroll;
     height: calc(100vh - 60px);
     flex-grow: 1;
     display: flex;
