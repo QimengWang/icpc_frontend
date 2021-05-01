@@ -130,7 +130,7 @@
             }
           }
         }).catch(err => {
-          this.$Message.error(err);
+          // this.$Message.error(err);
         });
       },
       // 报名
@@ -148,7 +148,7 @@
                 this.$Message.error(data.data.message);
               }
             }).catch(err => {
-              this.$Message.error(err);
+              // this.$Message.error(err);
             })
           } else {
             // 团队赛报名
@@ -156,7 +156,7 @@
             this.modal = true;
           }
         } else {
-          this.$Message.error('请先登录！');
+          this.$Message.warning('请先登录！');
           this.$router.push('/login');
         }
       },

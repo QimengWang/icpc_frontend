@@ -79,7 +79,7 @@ const routes = [
       {
         path: 'myContest',
         name: 'MyContest',
-        component: () => import('../components/MyContest/index.vue')
+        component: () => import('../components/MyContest/index1.vue')
       },
       // {
       //   path: 'contest',
@@ -120,23 +120,23 @@ const routes = [
       {
         path: 'studentManagement',
         // name: 'StudentManagement',
-        component: () => import('../components/PublishCenter/index.vue'),
-        children: [
-          {
-            path: '',
-            redirect: 'studentChecking'
-          },
-          {
-            path: 'studentChecking',
-            name: 'StudentChecking',
-            component: () => import('../components/StudentChecking/index.vue')
-          },
-          {
-            path: 'studentList',
-            name: 'StudentList',
-            component: () => import('../components/StudentList/index.vue')
-          }
-        ]
+        component: () => import('../components/StudentManagement/index.vue'),
+        // children: [
+        //   {
+        //     path: '',
+        //     redirect: 'studentChecking'
+        //   },
+        //   {
+        //     path: 'studentChecking',
+        //     name: 'StudentChecking',
+        //     component: () => import('../components/StudentChecking/index.vue')
+        //   },
+        //   {
+        //     path: 'studentList',
+        //     name: 'StudentList',
+        //     component: () => import('../components/StudentList/index.vue')
+        //   }
+        // ]
       },
       {
         path: 'roomManagement',

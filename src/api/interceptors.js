@@ -3,6 +3,7 @@ import Vue from 'vue';
 Vue.prototype.$http = axios;
 
 // import store from '../store/index'
+import Router from '../router/index'
 
 // 引入iview Message组件
 import {Message} from 'view-design'
@@ -22,8 +23,8 @@ instance.interceptors.request.use(
       return config;
     } else {
       console.log("身份过期！");
-      this.$Message.error("登录身份已过期，请重新登陆!");
-      this.$router.push('/login');
+      Message.error("登录身份已过期，请重新登陆!");
+      Router.push('/login');
     }
   },
   err => {

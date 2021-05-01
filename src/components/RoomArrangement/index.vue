@@ -148,7 +148,7 @@
           },
           {
             title: '报名总人数',
-            key: 'total',
+            key: 'sum',
             width: 120
           },
           {
@@ -248,8 +248,8 @@
             this.$Message.error(data.data.message);
           }
         }).catch(err => {
-          console.log(err);
-          this.$Message.error("出错啦！");
+          // console.log(err);
+          // this.$Message.error("出错啦！");
         })
       },
       // 查询报名信息
@@ -274,8 +274,8 @@
             this.$Message.error("查询失败！");
           }
         }).catch(err => {
-          console.log(err);
-          this.$Message.error("出错啦！");
+          // console.log(err);
+          // this.$Message.error("出错啦！");
         });
       },
       // 获取指定赛事报名总人数
@@ -291,8 +291,8 @@
               this.$Message.error("获取报名总人数出错！");
             }
           }).catch(err => {
-            console.log(err);
-            this.$Message.error("出错啦！");
+            // console.log(err);
+            // this.$Message.error("出错啦！");
           })
         }
       },
@@ -336,8 +336,8 @@
                 // 重置表单
                 this.$refs['formValidate1'].resetFields();
               }).catch(err => {
-                console.log(err);
-                this.$Message.error("出错啦！");
+                // console.log(err);
+                // this.$Message.error("出错啦！");
               })
             }
           } else {

@@ -71,14 +71,18 @@
         <Icon type="ios-calendar" />
         成绩管理
       </MenuItem>
-      <Submenu name="Contest" v-if="$store.state.status === 'teacher'">
-        <template slot="title">
-          <Icon type="ios-calendar-outline" />
-          学生管理
-        </template>
-        <MenuItem name="StudentList" to="/user/studentManagement/studentList">学生列表</MenuItem>
-        <MenuItem name="StudentChecking" to="/user/studentManagement/studentChecking">学生审核</MenuItem>
-      </Submenu>
+      <MenuItem name="StudentManagement" to="/user/studentManagement" v-if="$store.state.status === 'teacher'">
+        <Icon type="ios-calendar-outline" />
+        学生管理
+      </MenuItem>
+<!--      <Submenu name="Contest" v-if="$store.state.status === 'teacher'">-->
+<!--        <template slot="title">-->
+<!--          <Icon type="ios-calendar-outline" />-->
+<!--          学生管理-->
+<!--        </template>-->
+<!--        <MenuItem name="StudentList" to="/user/studentManagement/studentList">学生列表</MenuItem>-->
+<!--        <MenuItem name="StudentChecking" to="/user/studentManagement/studentChecking">学生审核</MenuItem>-->
+<!--      </Submenu>-->
 <!--      <MenuItem name="StudentList" v-if="$store.state.status === 'teacher'">-->
 <!--        <Icon type="ios-calendar" />-->
 <!--        学生列表-->

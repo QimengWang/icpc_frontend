@@ -72,7 +72,7 @@
             title: '状态',
             key: 'status',
             render: (h, params) => {
-              if(params.row.status === 1) {
+              if(params.row.status === '1') {
                 return h('div', [
                   h('Tag', {
                     props: {
@@ -125,7 +125,7 @@
                       if(params.row.status == 1) {
                         this.$Message.error("该考场正在使用，无法删除！");
                       } else {
-                        this.deleteRoom(params.row.id);
+                        this.deleteRoom(params.row.rid);
                       }
                     }
                   }

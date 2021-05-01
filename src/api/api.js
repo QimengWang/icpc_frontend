@@ -238,7 +238,7 @@ export function updateContest(data) {
 
 // 赛事详情
 export function showContestDetail(data) {
-  return instance.get('/user/showContestInfo', {
+  return axios.get('/user/showContestInfo', {
     params: data,
     // headers: {
     //   authorization: 'Bearer ' + sessionStorage.getItem('authorization')

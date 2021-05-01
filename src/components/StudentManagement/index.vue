@@ -30,11 +30,11 @@
             key: 'chineseName',
             fixed: 'left'
           },
-          {
-            title: '学校',
-            width: 150,
-            key: 'school'
-          },
+          // {
+          //   title: '学校',
+          //   width: 150,
+          //   key: 'school'
+          // },
           {
             title: '英文名',
             width: 150,
@@ -94,6 +94,11 @@
             title: '微信',
             width: 150,
             key: 'weChat'
+          },
+          {
+            title: '状态',
+            width: 150,
+            key: 'status'
           },
           {
             title: '操作',
@@ -158,8 +163,8 @@
             this.$Message.error(data.data.message);
           }
         }).catch(err => {
-          console.log(err);
-          this.$Message.error('出错啦！');
+          // console.log(err);
+          // this.$Message.error('出错啦！');
         })
       },
       // 审核通过
@@ -193,8 +198,8 @@
               this.$Message.error(data.data.message);
             }
           }).catch(err => {
-            console.log(err);
-            this.$Message.error("出错啦！");
+            // console.log(err);
+            // this.$Message.error("出错啦！");
           });
         }
       },
@@ -229,8 +234,8 @@
               this.$Message.error(data.data.message);
             }
           }).catch(err => {
-            console.log(err);
-            this.$Message.error("出错啦！");
+            // console.log(err);
+            // this.$Message.error("出错啦！");
           });
         }
       }
