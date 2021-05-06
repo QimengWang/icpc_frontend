@@ -50,7 +50,7 @@
 </template>
 
 <script>
-  import {showContestList, } from "../../api/api";
+  import {showContestList, getGradesByCid} from "../../api/api";
 
   export default {
     name: "index",
@@ -101,9 +101,7 @@
             }
           }
         ],
-        data: [
-          {}
-        ],
+        data: [],
         modal: false,
         modalTitle: '',
         formData: {
@@ -134,7 +132,22 @@
       },
       // 根据竞赛id查询
       search() {
-
+        if(!this.id) {
+          this.$Message.warning("请选择要查询成绩的竞赛！")
+        } else {
+          getGradesByCid(this.id).then(res => {
+            const data = res.data;
+            if(data.code === 0) {
+              // console.log(data);
+              this.data = data.data;
+              this.$Message.success("查询成功！");
+            } else {
+              this.$Message.error(data.data.message);
+            }
+          }).catch(err => {
+            console.log(err);
+          })
+        }
       },
       // 打开修改成绩Modal
       update() {

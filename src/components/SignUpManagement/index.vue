@@ -6,6 +6,7 @@
         <Option v-for="(item, key) in contestList" :key="key" :value="item.cid">{{item.name}}</Option>
       </Select>
       <Button type="primary" icon="ios-search-outline" @click="search">查询</Button>
+      <Button type="success" icon="ios-information-circle-outline">生成准考证</Button>
       <Button type="warning" icon="ios-download-outline" @click="exportFile">导出Excel</Button>
     </div>
 
@@ -20,6 +21,24 @@
       <Button type="success" icon="ios-checkmark-circle-outline" @click="pass">通过</Button>
       <Button type="error" icon="ios-close-circle-outline" @click="notPass">不通过</Button>
     </div>
+
+    <Modal
+      v-model="modal"
+      footer-hide>
+      <div class="formBox">
+        <Divider>
+          <h4>{{modalTitle}}</h4>
+        </Divider>
+        <Form ref="formValidate" :model="formData" :label-width="80" label-colon>
+          <FormItem label="备注">
+            <Input v-model="remark"></Input>
+          </FormItem>
+        </Form>
+        <div style="overflow: hidden">
+          <Button type="primary" style="float: right" @click="confirm">确定</Button>
+        </div>
+      </div>
+    </Modal>
   </div>
 </template>
 
@@ -46,7 +65,8 @@
             title: '序号',
             type: 'index',
             width: 70,
-            align: 'center'
+            align: 'center',
+            key: 'idx'
           },
           {
             title: '中文名',
@@ -154,16 +174,41 @@
           }
         ],
         // table数据
-        data: [],
+        data: [
+          {
+            chineseName: '张三',
+            englishName: 'San Zhang',
+            id: '17123079',
+            sex: '男',
+            year: '2017',
+            phone: '1883885888'
+          }
+        ],
         // 多选
-        selection: []
+        selection: [],
+        modal: false,
+        modalTitle: '添加备注',
+        remark: ''
       }
     },
     methods: {
       // 导出报名表
       exportFile() {
+        const cols = this.columns.reduce((prev, itm, idx) => {
+          if(idx > 0 && idx < 7) {
+            prev.push(itm.key);
+          }
+          return prev;
+        }, []);
+        // console.log(cols);
         this.$refs.table.exportCsv({
-          filename: this.cname
+          filename: this.cname,
+          // type: 'xlsx',
+          columns: this.columns.slice(1, 7),
+          data: this.data.filter((itm, idx) => {
+            itm.idx = idx+1;
+            return true;
+          })
         });
       },
       // 查询报名信息
@@ -184,8 +229,8 @@
               this.$Message.error("查询失败！");
             }
           }).catch(err => {
-            console.log(err);
-            this.$Message.error("出错啦！");
+            // console.log(err);
+            // this.$Message.error("出错啦！");
           });
         } else {
           this.$Message.warning("请选择竞赛！");
@@ -201,8 +246,8 @@
             this.$Message.error(data.data.message);
           }
         }).catch(err => {
-          console.log(err);
-          this.$Message.error("出错啦！");
+          // console.log(err);
+          // this.$Message.error("出错啦！");
         })
       },
       // 多选
@@ -222,8 +267,13 @@
         if(this.selection.length === 0) {
           this.$Message.warning("请选择要审核的报名信息！");
         } else {
-
+          this.modal = true;
         }
+      },
+      confirm() {
+        this.modal = false;
+        this.selection = [];
+        this.$Message.success("操作成功！");
       }
     },
     mounted() {
@@ -252,5 +302,9 @@
   }
   .btnBox {
     margin-top: 10px;
+  }
+  .formBox {
+    width: 100%;
+    padding: 4% 8%;
   }
 </style>

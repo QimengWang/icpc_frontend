@@ -1,6 +1,18 @@
 <template>
   <div class="con">
     <Table border :columns="columns" :data="data"></Table>
+
+    <Modal
+      v-model="modal"
+      footer-hide>
+      <Divider>
+        <h4>{{modalTitle}}</h4>
+      </Divider>
+
+      <div class="btnBox">
+        <Button type="primary" icon="ios-download-outline" @click="print">打印</Button>
+      </div>
+    </Modal>
   </div>
 </template>
 
@@ -25,11 +37,12 @@
           {
             title: '操作',
             key: 'action',
+            width: '250',
             render: (h, params) => {
               return h('div', [
                 h('Button', {
                   props: {
-                    type: 'primary',
+                    type: 'warning',
                     size: 'small'
                   },
                   style: {
@@ -37,26 +50,62 @@
                   },
                   on: {
                     click: () => {
-                      this.detail(params.row.cid)
+                      this.update(params.row.id)
                     }
                   }
-                }, '赛事详情'),
+                }, '修改报名'),
                 h('Button', {
                   props: {
                     type: 'error',
                     size: 'small'
                   },
+                  style: {
+                    marginRight: '5px'
+                  },
                   on: {
                     click: () => {
-                      this.cancel(params.row.cid)
+                      this.cancel(params.row.id)
                     }
                   }
-                }, '取消报名')
+                }, '取消报名'),
+                h('Button', {
+                  props: {
+                    type: 'primary',
+                    size: 'small'
+                  },
+                  on: {
+                    click: () => {
+                      this.detail(params.row.id)
+                    }
+                  }
+                }, '准考证')
               ]);
             }
           }
         ],
-        data: []
+        data: [
+          {}
+        ],
+        modal: false,
+        modalTitle: '准考证'
+      }
+    },
+    methods: {
+      // 修改报名信息（团体赛）
+      update() {
+
+      },
+      // 取消报名
+      cancel() {
+
+      },
+      // 查看准考证
+      detail() {
+        this.modal = true;
+      },
+      // 打印准考证
+      print() {
+
       }
     }
   }
@@ -68,5 +117,11 @@
     /*display: flex;*/
     /*flex-direction: column;*/
     /*align-items: center;*/
+  }
+  .btnBox {
+     overflow: hidden;
+   }
+  .btnBox Button {
+    float: right;
   }
 </style>

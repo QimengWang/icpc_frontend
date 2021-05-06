@@ -18,14 +18,14 @@ let instance = axios.create({
 instance.interceptors.request.use(
   config => {
     const token = sessionStorage.getItem('authorization');
-    if(token) {
+    // if(token) {
       config.headers.authorization = 'Bearer ' + token;
       return config;
-    } else {
-      console.log("身份过期！");
-      Message.error("登录身份已过期，请重新登陆!");
-      Router.push('/login');
-    }
+    // } else {
+    //   console.log("身份过期！");
+    //   Message.error("登录身份已过期，请重新登陆!");
+    //   Router.push('/login');
+    // }
   },
   err => {
     return Promise.reject(err);
@@ -38,8 +38,15 @@ instance.interceptors.response.use(
   },
   err => {
     // console.log("拦截器res");
-    const msg = err.response.status + ": " + err.response.data;
-    Message.error(msg);
+    let msg;
+    if(err.response.status === 401) {
+      // msg = err.response.status + ": " + err.response.statusText;
+      Message.error("登录身份已过期，请重新登陆!");
+      Router.push('/login');
+    } else {
+      msg = err.response.status + ": " + err.response.data;
+      Message.error(msg);
+    }
     // console.log(msg);
     return Promise.reject(err.response);
   }

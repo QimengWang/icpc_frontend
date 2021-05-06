@@ -185,11 +185,12 @@
               return h('div', [
                 h('Button', {
                   props: {
-                    type: 'primary',
+                    type: 'text',
                     size: 'small'
                   },
                   style: {
-                    marginRight: '5px'
+                    marginRight: '5px',
+                    color: '#2d8cf0'
                   },
                   on: {
                     click: () => {
@@ -199,8 +200,11 @@
                 }, '详情'),
                 h('Button', {
                   props: {
-                    type: 'warning',
+                    type: 'text',
                     size: 'small'
+                  },
+                  style: {
+                    color: '#2d8cf0'
                   },
                   on: {
                     click: () => {

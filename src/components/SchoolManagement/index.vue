@@ -148,7 +148,7 @@
             }
           }
         ],
-        data: [],
+        data: [{}],
         modal: false,
         modalTitle: '',
         // 新增学校的验证规则

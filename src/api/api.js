@@ -463,3 +463,9 @@ export function cancelArrange(arr) {
     // }
   });
 }
+
+// 成绩管理：
+// 获取成绩列表
+export function getGradesByCid(id) {
+  return instance.post('/user/manager/showGrade', {cid: id})
+}
