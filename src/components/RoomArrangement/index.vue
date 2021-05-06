@@ -235,7 +235,6 @@
     methods: {
       // 多选
       handleSelect(selection) {
-        // console.log("??");
         this.selection = selection;
       },
       // 获取赛事列表
@@ -412,7 +411,7 @@
                   this.arrInfo.items = [];
                 }).catch(err => {
                   console.log(err);
-                  this.$Message.error("出错啦！");
+                  // this.$Message.error("出错啦！");
                 })
             }
           } else {

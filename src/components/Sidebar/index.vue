@@ -13,22 +13,18 @@
         <Icon type="ios-calendar-outline" />
         赛程查询
       </MenuItem>
-<!--      <Submenu name="Contest" v-if="$store.state.status === 'student'">-->
+<!--      <Submenu name="4" v-if="$store.state.status === 'student'">-->
 <!--        <template slot="title">-->
-<!--          <Icon type="ios-calendar-outline" />-->
-<!--          赛程查询-->
+<!--          <Icon type="ios-list-box" />-->
+<!--          成绩查询-->
 <!--        </template>-->
-<!--        <MenuItem name="SignUp" to="/user/contest/signUp">已报名</MenuItem>-->
-<!--        <MenuItem name="3-2">进行中</MenuItem>-->
+<!--        <MenuItem name="4-1">成绩数据</MenuItem>-->
+<!--        <MenuItem name="4-2">成绩统计</MenuItem>-->
 <!--      </Submenu>-->
-      <Submenu name="4" v-if="$store.state.status === 'student'">
-        <template slot="title">
-          <Icon type="ios-list-box" />
-          成绩查询
-        </template>
-        <MenuItem name="4-1">成绩数据</MenuItem>
-        <MenuItem name="4-2">成绩统计</MenuItem>
-      </Submenu>
+      <MenuItem name="GradeQuery" to="/user/gradeQuery" v-if="$store.state.status === 'student'">
+        <Icon type="ios-list-box" />
+        成绩查询
+      </MenuItem>
       <MenuItem name="ContestManagement" v-if="$store.state.status === 'manager'" to="/user/contestManagement">
         <Icon type="ios-clipboard-outline" />
         赛事管理
@@ -67,7 +63,7 @@
         <MenuItem name="RoomArrangement" to="/user/roomManagement/roomArrangement">考场安排</MenuItem>
       </Submenu>
 
-      <MenuItem name="6" v-if="$store.state.status === 'manager'">
+      <MenuItem name="GradeManagement" to="/user/gradeManagement" v-if="$store.state.status === 'manager'">
         <Icon type="ios-calendar" />
         成绩管理
       </MenuItem>

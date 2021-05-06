@@ -157,6 +157,16 @@ const routes = [
             component: () => import('../components/RoomArrangement/index.vue')
           }
         ]
+      },
+      {
+        path: 'gradeManagement',
+        name: 'GradeManagement',
+        component: () => import('../components/GradeManagement/index.vue')
+      },
+      {
+        path: 'gradeQuery',
+        name: 'GradeQuery',
+        component: () => import('../components/GradeQuery/index.vue')
       }
     ]
   }
