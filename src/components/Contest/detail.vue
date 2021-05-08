@@ -138,22 +138,26 @@
         // console.log("报名！");
         const token = sessionStorage.getItem('authorization');
         if(token) {
-          if(this.type === 'single') {
-            // 个人赛报名
-            singleSignUp({cid: this.id}).then(res => {
-              const data = res.data;
-              if(data.code === 0) {
-                this.$Message.success(data.data.message);
-              } else {
-                this.$Message.error(data.data.message);
-              }
-            }).catch(err => {
-              // this.$Message.error(err);
-            })
+          if(this.$store.state.status === 'teacher' || this.$store.state.status === 'manager') {
+            this.$Message.error("教练或管理员不可报名！");
           } else {
-            // 团队赛报名
-            this.getTeachers();
-            this.modal = true;
+            if(this.type === 'single') {
+              // 个人赛报名
+              singleSignUp({cid: this.id}).then(res => {
+                const data = res.data;
+                if(data.code === 0) {
+                  this.$Message.success(data.data.message);
+                } else {
+                  this.$Message.error(data.data.message);
+                }
+              }).catch(err => {
+                // this.$Message.error(err);
+              })
+            } else {
+              // 团队赛报名
+              this.getTeachers();
+              this.modal = true;
+            }
           }
         } else {
           this.$Message.warning('请先登录！');

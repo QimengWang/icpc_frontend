@@ -75,13 +75,21 @@
                 <Row>
                   <Col span="11">
                     <FormItem prop="startHold">
-                      <DatePicker type="date" placeholder="开始日期" v-model="formValidate.startHold"></DatePicker>
+                      <DatePicker
+                        type="date"
+                        placeholder="开始日期"
+                        v-model="formValidate.startHold"
+                        placement="top"></DatePicker>
                     </FormItem>
                   </Col>
                   <Col span="2" style="text-align: center">-</Col>
                   <Col span="11">
                     <FormItem prop="endHold">
-                      <DatePicker type="date" placeholder="结束日期" v-model="formValidate.endHold"></DatePicker>
+                      <DatePicker
+                        type="date"
+                        placeholder="结束日期"
+                        v-model="formValidate.endHold"
+                        placement="top"></DatePicker>
                     </FormItem>
                   </Col>
                 </Row>
@@ -471,7 +479,7 @@
           'italic',
           'underline',
           'list',
-          'image',
+          // 'image',
           'undo',
           'redo'
         ];

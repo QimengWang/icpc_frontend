@@ -1,7 +1,12 @@
 <template>
   <div class="con">
     <div class="tableBox">
-      <Table border ref="selection" :columns="columns" :data="data"  @on-select="handleSelect"></Table>
+      <Table border
+             ref="selection"
+             :columns="columns"
+             :data="data"
+             @on-select="handleSelect"
+             @on-select-all="handleSelect"></Table>
     </div>
     <div class="btnBox">
       <Button type="success" icon="ios-checkmark-circle-outline" @click="pass">通过</Button>
@@ -96,9 +101,37 @@
             key: 'weChat'
           },
           {
-            title: '状态',
-            width: 150,
-            key: 'status'
+            title: '审核状态',
+            width: 120,
+            key: 'status',
+            fixed: 'right',
+            render: (h, params) => {
+              if(params.row.status === '0') {
+                return h('div', [
+                  h('Tag', {
+                    props: {
+                      color: 'orange'
+                    }
+                  }, '待审核')
+                ])
+              } else if(params.row.status === '1') {
+                return h('div', [
+                  h('Tag', {
+                    props: {
+                      color: 'green'
+                    }
+                  }, '已通过')
+                ])
+              } else {
+                return h('div', [
+                  h('Tag', {
+                    props: {
+                      color: 'orange'
+                    }
+                  }, '未通过')
+                ])
+              }
+            }
           },
           {
             title: '操作',
@@ -118,7 +151,7 @@
                   },
                   on: {
                     click: () => {
-                      this.pass(params.row.uid)
+                      this.pass(params.row.sid)
                     }
                   }
                 }, '通过'),
@@ -132,7 +165,7 @@
                   },
                   on: {
                     click: () => {
-                      this.notPass(params.row.uid)
+                      this.notPass(params.row.sid)
                     }
                   }
                 }, '不通过')
@@ -148,7 +181,7 @@
       // 处理多选
       handleSelect(selection) {
         this.selection = selection;
-        console.log(this.selection);
+        // console.log(this.selection);
       },
       // 获取待审核的学生列表
       getData() {
@@ -194,6 +227,7 @@
             if(data.code === 0) {
               this.$Message.success(data.data.message);
               this.getData();
+              this.selection = [];
             } else {
               this.$Message.error(data.data.message);
             }
@@ -230,6 +264,7 @@
             if(data.code === 0) {
               this.$Message.success(data.data.message);
               this.getData();
+              this.selection = [];
             } else {
               this.$Message.error(data.data.message);
             }

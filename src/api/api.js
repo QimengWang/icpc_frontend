@@ -92,6 +92,12 @@ export function updateInfo(data) {
 
 
 // 学生：
+// 获取报名列表
+export function getApplyList() {
+  return instance.get('/user/student/showApply');
+}
+
+
 // 获取个人赛报名列表
 export function getSingleList() {
   return instance.get('/user/showSingle',
@@ -268,7 +274,7 @@ export function getTeachersBySid(id) {
 
 // 修改学校信息
 export function updateSchool(data) {
-  return instance.post('/user/manager/updateUniversity', {data},
+  return instance.post('/user/manager/updateUniversity', {...data},
     // {
     // headers: {
     //   authorization: 'Bearer ' + sessionStorage.getItem('authorization')

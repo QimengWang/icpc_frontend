@@ -17,6 +17,8 @@
 </template>
 
 <script>
+  import {getApplyList} from "../../api/api";
+
   export default {
     name: "index1",
     data() {
@@ -84,13 +86,26 @@
           }
         ],
         data: [
-          {}
+          // {}
         ],
         modal: false,
         modalTitle: '准考证'
       }
     },
     methods: {
+      // 获取报名列表
+      getData() {
+        getApplyList().then(res => {
+          const data = res.data;
+          if(data.code === 0) {
+            this.data = data.data;
+          } else {
+
+          }
+        }).catch(err => {
+          console.log(err);
+        })
+      },
       // 修改报名信息（团体赛）
       update() {
 
@@ -107,6 +122,9 @@
       print() {
 
       }
+    },
+    mounted() {
+      this.getData();
     }
   }
 </script>

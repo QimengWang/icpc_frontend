@@ -1,7 +1,13 @@
 <template>
   <div class="con">
     <div class="tableBox">
-      <Table border ref="selection" :columns="columns" :data="data"  @on-select="handleSelect"></Table>
+      <Table border
+             ref="selection"
+             :columns="columns"
+             :data="data"
+             @on-select="handleSelect"
+             @on-select-all="handleSelect"
+      ></Table>
     </div>
     <div class="btnBox">
       <Button type="success" icon="ios-checkmark-circle-outline" @click="pass">通过</Button>
@@ -89,6 +95,39 @@
             key: 'weChat'
           },
           {
+            title: '审核状态',
+            width: 120,
+            key: 'status',
+            fixed: 'right',
+            render: (h, params) => {
+              if(params.row.status === '0') {
+                return h('div', [
+                  h('Tag', {
+                    props: {
+                      color: 'orange'
+                    }
+                  }, '待审核')
+                ])
+              } else if(params.row.status === '1') {
+                return h('div', [
+                  h('Tag', {
+                    props: {
+                      color: 'green'
+                    }
+                  }, '已通过')
+                ])
+              } else {
+                return h('div', [
+                  h('Tag', {
+                    props: {
+                      color: 'orange'
+                    }
+                  }, '未通过')
+                ])
+              }
+            }
+          },
+          {
             title: '操作',
             width: 150,
             fixed: 'right',
@@ -151,7 +190,7 @@
           }
         }).catch(err => {
           console.log(err);
-          this.$Message.error('出错啦！');
+          // this.$Message.error('出错啦！');
         })
       },
       // 审核通过
@@ -181,12 +220,13 @@
             if(data.code === 0) {
               this.$Message.success(data.data.message);
               this.getData();
+              this.selection = [];
             } else {
               this.$Message.error(data.data.message);
             }
           }).catch(err => {
             console.log(err);
-            this.$Message.error("出错啦！");
+            // this.$Message.error("出错啦！");
           });
         }
       },
@@ -217,12 +257,13 @@
             if(data.code === 0) {
               this.$Message.success(data.data.message);
               this.getData();
+              this.selection = [];
             } else {
               this.$Message.error(data.data.message);
             }
           }).catch(err => {
             console.log(err);
-            this.$Message.error("出错啦！");
+            // this.$Message.error("出错啦！");
           });
         }
       }

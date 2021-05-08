@@ -16,7 +16,12 @@
 
 <!--    学校列表-->
     <div class="tableBox">
-      <Table border :columns="columns" :data="data" @on-select="handleSelect"></Table>
+      <Table border
+             :columns="columns"
+             :data="data"
+             @on-select="handleSelect"
+             @on-select-all="handleSelect"
+      ></Table>
     </div>
 
     <div class="btnBox">
@@ -34,7 +39,7 @@
         </Divider>
         <Form ref="formValidate" :model="schoolInfo" :rules="ruleValidate" :label-width="80">
           <FormItem label="名称" prop="name">
-            <Input v-model="schoolInfo.name"></Input>
+            <Input v-model="schoolInfo.name" :disabled="schoolInfo.status === '1'"></Input>
           </FormItem>
           <FormItem label="地址" prop="address">
             <Input v-model="schoolInfo.address"></Input>
@@ -79,10 +84,10 @@
           },
           {
             title: '审核状态',
-            width: 160,
+            width: 120,
             key: 'status',
             render: (h, params) => {
-              if(params.row.status === 0) {
+              if(params.row.status === '0') {
                 return h('div', [
                   h('Tag', {
                     props: {
@@ -90,7 +95,7 @@
                     }
                   }, '待审核')
                 ])
-              } else if(params.row.status === 1) {
+              } else if(params.row.status === '1') {
                 return h('div', [
                   h('Tag', {
                     props: {
@@ -178,6 +183,7 @@
     methods: {
       // 多选
       handleSelect(selection) {
+        // console.log(selection);
         this.selection = selection;
       },
       // 获取某个学校的所有教练员列表
@@ -334,11 +340,13 @@
           arr.push(id);
         }
         if(flag) {
+          // console.log(arr);
           schoolChecked(arr).then(res => {
             const data = res.data;
             if(data.code === 0) {
               this.$Message.success(data.data.message);
-              this.getData();
+              this.getSchoolList();
+              this.selection = [];
             } else {
               this.$Message.error(data.data.message);
             }
@@ -373,7 +381,8 @@
             const data = res.data;
             if(data.code === 0) {
               this.$Message.success(data.data.message);
-              this.getData();
+              this.getSchoolList();
+              this.selection = [];
             } else {
               this.$Message.error(data.data.message);
             }

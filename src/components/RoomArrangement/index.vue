@@ -262,7 +262,13 @@
       },
       // 根据赛事id获取考场安排
       getArrangement(num) {
-        getArrangementByCid(this.id).then(res => {
+        let p;
+        if(num === -1) {
+          p = getArrangementByCid();
+        } else {
+          p = getArrangementByCid(this.id)
+        }
+        p.then(res => {
           const data = res.data;
           if(data.code === 0) {
             this.data = data.data;

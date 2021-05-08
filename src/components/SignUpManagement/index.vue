@@ -175,14 +175,14 @@
         ],
         // table数据
         data: [
-          {
-            chineseName: '张三',
-            englishName: 'San Zhang',
-            id: '17123079',
-            sex: '男',
-            year: '2017',
-            phone: '1883885888'
-          }
+          // {
+          //   chineseName: '张三',
+          //   englishName: 'San Zhang',
+          //   id: '17123079',
+          //   sex: '男',
+          //   year: '2017',
+          //   phone: '1883885888'
+          // }
         ],
         // 多选
         selection: [],

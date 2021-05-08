@@ -7,12 +7,20 @@
       <Row>
         <Col span="12">
           <FormItem label="中文名" prop="chineseName">
-            <Input v-model="userInfo.chineseName" placeholder="请输入中文名" :disabled="$store.state.status === 'manager'"></Input>
+            <Input
+              v-model="userInfo.chineseName"
+              placeholder="请输入中文名"
+              :disabled="$store.state.status === 'manager' || userInfo.status === '1'">
+            </Input>
           </FormItem>
         </Col>
         <Col span="12">
           <FormItem label="英文名" prop="englishName">
-            <Input v-model="userInfo.englishName" placeholder="请输入英文名" :disabled="$store.state.status === 'manager'"></Input>
+            <Input
+              v-model="userInfo.englishName"
+              placeholder="请输入英文名"
+              :disabled="$store.state.status === 'manager' || userInfo.status === '1'">
+            </Input>
           </FormItem>
         </Col>
       </Row>
@@ -27,7 +35,7 @@
         </Col>
         <Col span="12">
           <FormItem label="学校" prop="school" v-if="$store.state.status !== 'manager'">
-            <Select v-model="userInfo.school" filterable clearable placeholder="请选择学校">
+            <Select v-model="userInfo.school" filterable clearable placeholder="请选择学校" :disabled="userInfo.status === '1'">
               <Button v-if="$store.state.status === 'teacher'" style="width: 100%" type="primary" icon="ios-add-circle-outline" @click="modal=true">新增学校</Button>
               <Option v-for="(item, key) in schoolList" :key="key" :value="item.id">{{item.name}}</Option>
             </Select>
@@ -37,22 +45,26 @@
       <Row>
         <Col span="12" v-if="$store.state.status === 'student'">
           <FormItem label="入学年份" prop="year">
-            <DatePicker type="year" v-model="userInfo.year" style="width: 100%;" placeholder="请选择入学年份"></DatePicker>
+            <DatePicker type="year"
+                        v-model="userInfo.year"
+                        style="width: 100%;"
+                        placeholder="请选择入学年份"
+                        :disabled="userInfo.status === '1'"></DatePicker>
           </FormItem>
         </Col>
         <Col span="12">
           <FormItem label="学号" prop="id" v-if="$store.state.status === 'student'">
-            <Input v-model="userInfo.id" placeholder="请输入学号"></Input>
+            <Input v-model="userInfo.id" placeholder="请输入学号" :disabled="userInfo.status === '1'"></Input>
           </FormItem>
           <FormItem label="工号" prop="id" v-if="$store.state.status === 'teacher'">
-            <Input v-model="userInfo.id" placeholder="请输入工号"></Input>
+            <Input v-model="userInfo.id" placeholder="请输入工号" :disabled="userInfo.status === '1'"></Input>
           </FormItem>
         </Col>
       </Row>
       <Row>
         <Col span="12">
           <FormItem label="手机" prop="phone">
-            <Input v-model="userInfo.phone" placeholder="请输入手机号" :disabled="$store.state.status === 'manager'"></Input>
+            <Input v-model="userInfo.phone" placeholder="请输入手机号"></Input>
           </FormItem>
         </Col>
         <Col span="12">
@@ -154,7 +166,8 @@
           address: '',
           zipCode: '',
           qq: '',
-          weChat: ''
+          weChat: '',
+          status: 0
         },
         // 个人信息的验证规则
         formValidate: {
