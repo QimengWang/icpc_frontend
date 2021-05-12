@@ -377,6 +377,20 @@ export function getListByCid(id) {
   });
 }
 
+// 报名审核通过
+export function signUpChecked(data) {
+  return instance.post('/user/manager/apply/checkApplyTrue', {
+    data: [{...data}]
+  });
+}
+
+// 报名审核不通过
+export function signUpUnchecked(data) {
+  return instance.post('/user/manager/apply/checkApplyFalse', {
+    data: [{...data}]
+  });
+}
+
 // 考场管理
 // 获取考场列表
 export function getRooms() {

@@ -52,7 +52,7 @@
 
           }
         }).catch(err => {
-          this.$Message.error(err);
+          // this.$Message.error(err);
         })
       },
       toDetail(id) {

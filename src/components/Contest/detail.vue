@@ -55,19 +55,44 @@
               <Option v-for="(item, key) in tList" :key="key" :value="item.id">{{item.name}}</Option>
             </Select>
           </FormItem>
-          <FormItem label="团队成员" prop="members">
-            <div v-for="(item, idx) in members" :key="idx">
-              <Row>
-                <Col :span="12">
-                  <Input placeholder="学号" v-model="item.id"></Input>
-                </Col>
-<!--                <Col :span="2">-</Col>-->
-                <Col :span="12">
-                  <Input placeholder="姓名" v-model="item.name"></Input>
-                </Col>
-              </Row>
-            </div>
+<!--          <FormItem label="团队成员" prop="members">-->
+<!--            <div v-for="(item, idx) in members" :key="idx">-->
+<!--              <Row>-->
+<!--                <Col :span="12">-->
+<!--                  <Input placeholder="学号" v-model="item.id"></Input>-->
+<!--                </Col>-->
+<!--&lt;!&ndash;                <Col :span="2">-</Col>&ndash;&gt;-->
+<!--                <Col :span="12">-->
+<!--                  <Input placeholder="姓名" v-model="item.name"></Input>-->
+<!--                </Col>-->
+<!--              </Row>-->
+<!--            </div>-->
+<!--          </FormItem>-->
+
+          <FormItem
+            v-for="(itm, idx) in formValidate.members"
+            :key="idx"
+            :label="'队员' + itm.idx"
+          >
+            <Row span="24">
+              <Col span="10">
+                <Input v-model="itm.id" placeholder="学号"></Input>
+              </Col>
+              <Col span="1"></Col>
+              <Col span="10">
+                <Input v-model="itm.name" placeholder="姓名"></Input>
+              </Col>
+<!--              <Col span="1"></Col>-->
+              <Col span="2" offset="1">
+                <Button icon="md-remove" @click="handleRemove"></Button>
+              </Col>
+            </Row>
           </FormItem>
+
+          <FormItem>
+            <Button type="dashed" style="width: 100%" icon="md-add" @click="handleAdd">增加队员</Button>
+          </FormItem>
+
           <FormItem>
             <Button type="primary" style="width: 100%" @click="signUpGroup">确定</Button>
           </FormItem>
@@ -123,10 +148,10 @@
               this.limit = data.data.limit;
               // const obj = {id: '', name: ''};
               // this.members = new Array(this.limit);
-              for(let i=0; i<this.limit; i++) {
-                this.members[i] = {id: '', name: ''};
-              }
-              console.log(this.members);
+              // for(let i=0; i<this.limit; i++) {
+              //   this.members[i] = {id: '', name: ''};
+              // }
+              // console.log(this.members);
             }
           }
         }).catch(err => {
@@ -173,31 +198,72 @@
           }
         })
       },
+
+      // 新增FormItem
+      handleAdd() {
+        const len = this.formValidate.members.length;
+        this.formValidate.members.push({
+          id: '',
+          idx: len+1,
+          name: ''
+        })
+      },
+      handleRemove() {
+        this.formValidate.members.pop();
+      },
+
       // 团队赛报名
       signUpGroup() {
-        this.formValidate.members = this.members;
-        this.$refs['ruleValidate'].validate(valid => {
-          if(valid) {
-            this.formValidate.cid = this.id;
-            groupSignUp(this.formValidate).then(res => {
-              const data = res.data;
-              if(data.code === 0) {
-                this.$Message.success(data.data.message);
-              } else {
-                this.$Message.error(data.data.message);
-              }
-            });
-            this.modal = false;
-            // 重置表单
-            for(let i of this.members) {
-              this.members[i].id = '';
-              this.members[i].name = '';
-            }
-            this.$refs['ruleValidate'].resetFields();
-          } else {
-            this.$Message.error('请填写必填项!');
+        let flag = 1; // 能否发起后端请求的标志
+        // console.log(this.formValidate.members);
+        let len = this.formValidate.members.length;
+        if(this.isEqual === 'yes') {
+          if(len !== this.limit) {
+            flag = 0;
           }
-        })
+        } else {
+          if(len > this.limit) {
+            flag = 0;
+          }
+        }
+        if(flag) {
+          for(let i of this.formValidate.members) {
+            if(!i.id || !i.name) {
+              flag = 0;
+              this.$Message.error("团队成员信息不能为空！");
+              return;
+            }
+          }
+        }
+        // this.formValidate.members = this.members;
+        if(flag) {
+          this.$refs['ruleValidate'].validate(valid => {
+            if(valid) {
+              this.formValidate.cid = this.id;
+              groupSignUp(this.formValidate).then(res => {
+                const data = res.data;
+                if(data.code === 0) {
+                  this.$Message.success(data.data.message);
+                  this.modal = false;
+                  // 重置表单
+                  // for(let i of this.members) {
+                  //   this.members[i].id = '';
+                  //   this.members[i].name = '';
+                  // }
+                  this.$refs['ruleValidate'].resetFields();
+                } else {
+                  this.$Message.error(data.data.message);
+                }
+              }).catch(err => {
+                console.log(err);
+              });
+            } else {
+              this.$Message.error('请填写必填项!');
+            }
+          })
+        } else {
+          this.$Message.error("报名失败！请注意团队人数限制！");
+        }
       }
     },
     mounted() {

@@ -34,7 +34,38 @@
           },
           {
             title: '状态',
-            key: 'status'
+            key: 'status',
+            render: (h, params) => {
+              if (params.row.status === '0') {
+                return h('div', [
+                  h('Tag', {
+                    props: {
+                      color: 'blue'
+                    }
+                  }, '待审核')
+                ])
+              } else if (params.row.status === '1') {
+                return h('div', [
+                  h('Tag', {
+                    props: {
+                      color: 'green'
+                    }
+                  }, '已通过')
+                ])
+              } else {
+                return h('div', [
+                  h('Tag', {
+                    props: {
+                      color: 'orange'
+                    }
+                  }, '未通过')
+                ])
+              }
+            }
+          },
+          {
+            title: '备注',
+            status: 'remark'
           },
           {
             title: '操作',

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Menu mode="horizontal" theme="light" :active-name="activeName">
+    <Menu mode="horizontal" theme="dark" :active-name="activeName">
       <MenuItem name="Home" to="/visitor/home">
         <Icon type="md-home" />
         首页
@@ -55,10 +55,17 @@ export default {
 </script>
 
 <style scoped>
-  .ivu-menu-light {
+  .ivu-menu-dark {
     display: flex;
     justify-content: center;
+    background: #333333;
   }
+
+  /*.ivu-menu-dark.ivu-menu-horizontal .ivu-menu-item-active, .ivu-menu-dark.ivu-menu-horizontal .ivu-menu-item:hover, .ivu-menu-dark.ivu-menu-horizontal .ivu-menu-submenu-active, .ivu-menu-dark.ivu-menu-horizontal .ivu-menu-submenu:hover {*/
+  /*  color: #2d8cf0;*/
+  /*}*/
+
+
   .ivu-menu-item {
     width: 15%;
   }

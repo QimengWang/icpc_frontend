@@ -12,8 +12,20 @@
 
     <!--    报名列表-->
     <div class="tableBox">
-      <Table border :columns="columns" :data="data" ref="table" v-if="isSingle" @on-select="handleSelect"></Table>
-      <Table border :columns="columns1" :data="data" v-else @on-select="handleSelect"></Table>
+      <Table border
+             :columns="columns"
+             :data="data" ref="table"
+             v-if="isSingle"
+             @on-select="handleSelect"
+             @on-select-all="handleSelect"
+      ></Table>
+      <Table border
+             :columns="columns1"
+             :data="data"
+             v-else
+             @on-select="handleSelect"
+             @on-select-all="handleSelect"
+      ></Table>
     </div>
 
 <!--    审核按钮-->
@@ -29,7 +41,7 @@
         <Divider>
           <h4>{{modalTitle}}</h4>
         </Divider>
-        <Form ref="formValidate" :model="formData" :label-width="80" label-colon>
+        <Form ref="formValidate" :label-width="80" label-colon>
           <FormItem label="备注">
             <Input v-model="remark"></Input>
           </FormItem>
@@ -43,7 +55,7 @@
 </template>
 
 <script>
-  import {showContestList, getListByCid} from "../../api/api";
+  import {showContestList, getListByCid, signUpChecked, signUpUnchecked} from "../../api/api";
 
   export default {
     name: "index",
@@ -96,7 +108,7 @@
             title: '审核状态',
             key: 'status',
             render: (h, params) => {
-              if(params.row.status === 0) {
+              if(params.row.status === '0') {
                 return h('div', [
                   h('Tag', {
                     props: {
@@ -104,7 +116,7 @@
                     }
                   }, '待审核')
                 ])
-              } else if(params.row.status === 1) {
+              } else if(params.row.status === '1') {
                 return h('div', [
                   h('Tag', {
                     props: {
@@ -141,7 +153,7 @@
             title: '审核状态',
             key: 'status',
             render: (h, params) => {
-              if(params.row.status == 0) {
+              if(params.row.status === '0') {
                 return h('div', [
                   h('Tag', {
                     props: {
@@ -149,7 +161,7 @@
                     }
                   }, '待审核')
                 ])
-              } else if(params.row.status == 1) {
+              } else if(params.row.status === '1') {
                 return h('div', [
                   h('Tag', {
                     props: {
@@ -212,21 +224,27 @@
         });
       },
       // 查询报名信息
-      search() {
+      search(d) {
         // console.log(this.id);
         if(this.id) {
           getListByCid(this.id).then(res => {
             const data = res.data;
             if(data.code === 0) {
               if(data.data.length === 0) {
-                this.$Message.success("查询成功, 暂无数据！");
+                if(d === '-1') {
+                  this.$Message.success("查询成功, 暂无数据！");
+                }
               } else {
                 this.isSingle = !Object.keys(data.data[0]).includes('gid');
                 this.data = data.data;
-                this.$Message.success("查询成功！");
+                if(d === '-1') {
+                  this.$Message.success("查询成功！");
+                }
               }
             } else {
-              this.$Message.error("查询失败！");
+              if(d === '-1') {
+                this.$Message.error("查询失败！");
+              }
             }
           }).catch(err => {
             // console.log(err);
@@ -259,7 +277,25 @@
         if(this.selection.length === 0) {
           this.$Message.warning("请选择要审核的报名信息！");
         } else {
-
+          let arr = [];
+          for(let i of this.selection) {
+            arr.push(i.sid);
+          }
+          let obj = {};
+          obj.id = arr;
+          obj.type = this.isSingle ? 'single' : 'group';
+          signUpChecked(obj).then(res => {
+            let data = res.data;
+            if(data.code === 0) {
+              this.$Message.success(data.data.message);
+            } else {
+              this.$Message.error(data.data.message);
+            }
+            this.search(-1);
+            this.selection = [];
+          }).catch(err => {
+            console.log(err);
+          })
         }
       },
       // 审核不通过
@@ -271,9 +307,27 @@
         }
       },
       confirm() {
-        this.modal = false;
-        this.selection = [];
-        this.$Message.success("操作成功！");
+        let arr = [];
+        for(let i of this.selection) {
+          arr.push(i.sid);
+        }
+        let obj = {};
+        obj.id = arr;
+        obj.type = this.isSingle ? 'single' : 'group';
+        obj.remark = this.remark;
+        signUpUnchecked(obj).then(res => {
+          let data = res.data;
+          if(data.code === 0) {
+            this.$Message.success(data.data.message);
+          } else {
+            this.$Message.error(data.data.message);
+          }
+          this.search(-1);
+          this.selection = [];
+          this.modal = false;
+        }).catch(err => {
+          console.log(err);
+        })
       }
     },
     mounted() {
