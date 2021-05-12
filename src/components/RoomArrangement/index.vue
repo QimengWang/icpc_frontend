@@ -58,7 +58,7 @@
               <Row span="24">
                 <Col span="10">
                   <Select v-model="itm.rid" filterable clearable placeholder="考场名称">
-                    <Option v-for="(item, key) in roomList" :key="key" :value="item.rid">{{item.rid + '/' + item.number}}</Option>
+                    <Option v-for="(item, key) in roomList" :key="key" :value="item.rid">{{item.rName + '/' + item.number}}</Option>
                   </Select>
                 </Col>
                 <Col span="10">
@@ -108,7 +108,7 @@
           </FormItem>
           <FormItem label="考场" prop="rid">
             <Select v-model="updateInfo.rid" filterable clearable placeholder="请选择考场">
-              <Option v-for="(item, key) in roomList" :key="key" :value="item.rid">{{item.rid + '/' + item.number}}</Option>
+              <Option v-for="(item, key) in roomList" :key="key" :value="item.rid">{{item.rName + '/' + item.number}}</Option>
             </Select>
           </FormItem>
           <FormItem label="人数" prop="num">
@@ -314,6 +314,7 @@
         // 加入原本占用的考场
         let tmp = {
           rid: data.rid,
+          rName: data.rName,
           number: data.number
         };
         this.getAvailRoom(tmp);
