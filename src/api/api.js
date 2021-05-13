@@ -110,8 +110,8 @@ export function getSingleList() {
 }
 
 // 取消报名
-export function cancelApply(id) {
-  return instance.post('/user/cancelContest', {cid: id},
+export function cancelApply(data) {
+  return instance.post('/user/cancelContest', {...data},
   //   {
   //   headers: {
   //     authorization: 'Bearer ' + sessionStorage.getItem('authorization')

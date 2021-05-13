@@ -17,7 +17,7 @@
 </template>
 
 <script>
-  import {getApplyList} from "../../api/api";
+  import {getApplyList, cancelApply} from "../../api/api";
 
   export default {
     name: "index1",
@@ -97,7 +97,7 @@
                   },
                   on: {
                     click: () => {
-                      this.cancel(params.row.id)
+                      this.cancel(params.row)
                     }
                   }
                 }, '取消报名'),
@@ -142,8 +142,19 @@
 
       },
       // 取消报名
-      cancel() {
-
+      cancel(data) {
+        console.log(data);
+        cancelApply({cid: data.cid, type: data.type === '个人赛' ? 'single' : 'group'}).then(res => {
+          const data = res.data;
+          if(data.code === 0) {
+            this.$Message.success(data.data.message);
+          } else {
+            this.$Message.error(data.data.message);
+          }
+          this.getData();
+        }).catch(err => {
+          console.log(err);
+        })
       },
       // 查看准考证
       detail() {
