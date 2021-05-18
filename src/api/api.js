@@ -142,6 +142,11 @@ export function updateGroup(data) {
   );
 }
 
+// 查询成绩
+export function getGrades() {
+  return instance.get('/user/student/showGrade');
+}
+
 // 教练：
 // 新增学校
 export function addSchoolForTea(data) {
@@ -488,4 +493,25 @@ export function cancelArrange(arr) {
 // 获取成绩列表
 export function getGradesByCid(id) {
   return instance.post('/user/manager/showGrade', {cid: id})
+}
+
+// 修改成绩
+export function updateGrade(data) {
+  return instance.post('/user/manager/updateGrade', {...data});
+}
+
+// 下载成绩模板
+export function downloadExcel(id) {
+  return instance.get('/user/manager/showExcel', {
+    params: {
+      cid: id
+    }
+  });
+}
+
+// 上传成绩
+export function uploadExcel(data) {
+  return instance.post('/user/manager/addGrade', {
+    data
+  });
 }

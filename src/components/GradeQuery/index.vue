@@ -19,6 +19,8 @@
 </template>
 
 <script>
+  import {getGrades} from "../../api/api";
+
   export default {
     name: "index",
     data() {
@@ -55,9 +57,7 @@
             }
           }
         ],
-        data: [
-          {}
-        ],
+        data: [],
         modal: false,
         modalTitle: ''
       }
@@ -69,7 +69,22 @@
       },
       download() {
 
+      },
+      getGrades() {
+        getGrades().then(res => {
+          const data = res.data;
+          if(data.code === 0) {
+            this.data = data.data;
+          } else {
+            this.$Message.error(data.data.message);
+          }
+        }).catch(err => {
+          console.log(err);
+        })
       }
+    },
+    mounted() {
+      this.getGrades();
     }
   }
 </script>

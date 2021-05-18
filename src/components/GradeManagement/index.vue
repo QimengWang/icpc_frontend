@@ -13,8 +13,8 @@
     </div>
 
     <div class="btnBox">
-      <Button type="warning" icon="ios-cloud-download-outline">下载模板</Button>
-      <Button type="primary" icon="ios-cloud-upload-outline" class="btn">批量上传</Button>
+      <Button type="warning" icon="ios-cloud-download-outline" @click="download">下载模板</Button>
+      <Button type="primary" icon="ios-cloud-upload-outline" class="btn" @click="upload">批量上传</Button>
     </div>
 
     <Modal
@@ -32,7 +32,7 @@
 <!--          <Col :span='24'>-->
             <Form ref="formValidate" :model="formData" :rules="ruleValidate" :label-width="80" label-colon>
               <FormItem label="姓名">
-                <Input v-model="formData.sname" disabled></Input>
+                <Input v-model="formData.name" disabled></Input>
               </FormItem>
               <FormItem label="学号">
                 <Input v-model="formData.sid" disabled></Input>
@@ -50,7 +50,7 @@
 </template>
 
 <script>
-  import {showContestList, getGradesByCid} from "../../api/api";
+  import {showContestList, getGradesByCid, updateGrade, downloadExcel, uploadExcel} from "../../api/api";
 
   export default {
     name: "index",
@@ -105,7 +105,7 @@
         modal: false,
         modalTitle: '',
         formData: {
-          sname: '',
+          name: '',
           sid: '',
           grade: ''
         },
@@ -131,7 +131,7 @@
         })
       },
       // 根据竞赛id查询
-      search() {
+      search(d) {
         if(!this.id) {
           this.$Message.warning("请选择要查询成绩的竞赛！")
         } else {
@@ -140,7 +140,9 @@
             if(data.code === 0) {
               // console.log(data);
               this.data = data.data;
-              this.$Message.success("查询成功！");
+              if(d !== -1) {
+                this.$Message.success("查询成功！");
+              }
             } else {
               this.$Message.error(data.data.message);
             }
@@ -150,19 +152,53 @@
         }
       },
       // 打开修改成绩Modal
-      update() {
+      update(row) {
         this.modalTitle = '修改成绩';
         this.modal = true;
+        // 浅拷贝
+        this.formData = {...row};
       },
       // 修改成绩
       updateGrade() {
         this.$refs['formValidate'].validate(valid => {
           if(valid) {
-
+            updateGrade(this.formData).then(res => {
+              const data = res.data;
+              if(data.code === 0) {
+                this.$Message.success(data.data.message);
+                this.search(-1);
+              } else {
+                this.$Message.error(data.data.message);
+              }
+            }).catch(err => {
+              console.log(err);
+            });
+            this.modal = false;
           } else {
             this.$Message.error("请填写必填项！");
           }
         });
+      },
+      // 下载模板
+      download() {
+        if(!this.id) {
+          this.$Message.warning("请先选择竞赛！");
+        } else {
+          downloadExcel(this.id).then(res => {
+            const data = res.data;
+            if(data.code === 0) {
+
+            } else {
+              this.$Message.error(data.data.message);
+            }
+          }).catch(err => {
+            console.log(err);
+          })
+        }
+      },
+      //批量上传
+      upload() {
+
       }
     },
     mounted() {
