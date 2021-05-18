@@ -396,6 +396,13 @@ export function signUpUnchecked(data) {
   });
 }
 
+// 生成准考证
+export function createAdm(id) {
+  return instance.post('/user/manager/createAdm', {
+    cid: id
+  })
+}
+
 // 考场管理
 // 获取考场列表
 export function getRooms() {

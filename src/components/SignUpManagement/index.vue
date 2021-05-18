@@ -6,7 +6,7 @@
         <Option v-for="(item, key) in contestList" :key="key" :value="item.cid">{{item.name}}</Option>
       </Select>
       <Button type="primary" icon="ios-search-outline" @click="search('-1')">查询</Button>
-      <Button type="success" icon="ios-information-circle-outline">生成准考证</Button>
+      <Button type="success" icon="ios-information-circle-outline" @click="createAdm">生成准考证</Button>
       <Button type="warning" icon="ios-download-outline" @click="exportFile">导出Excel</Button>
     </div>
 
@@ -55,7 +55,7 @@
 </template>
 
 <script>
-  import {showContestList, getListByCid, signUpChecked, signUpUnchecked} from "../../api/api";
+  import {showContestList, getListByCid, signUpChecked, signUpUnchecked, createAdm} from "../../api/api";
 
   export default {
     name: "index",
@@ -328,6 +328,18 @@
         }).catch(err => {
           console.log(err);
         })
+      },
+      // 生成准考证
+      createAdm() {
+        if(!this.id) {
+          this.$Message.warning("请先选择竞赛！");
+        } else {
+          createAdm(this.id).then(res => {
+            const data = res.data;
+          }).catch(err => {
+            console.log(err);
+          });
+        }
       }
     },
     mounted() {
