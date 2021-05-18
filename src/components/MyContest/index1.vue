@@ -65,7 +65,7 @@
           },
           {
             title: '备注',
-            status: 'remark'
+            key: 'remark'
           },
           {
             title: '操作',
@@ -79,7 +79,8 @@
                     size: 'small'
                   },
                   style: {
-                    marginRight: '5px'
+                    marginRight: '5px',
+                    display: params.row.type === '团队赛' ? 'block' : 'none'
                   },
                   on: {
                     click: () => {

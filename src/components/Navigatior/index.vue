@@ -9,10 +9,10 @@
         <Icon type="ios-calendar" />
         竞赛
       </MenuItem>
-      <MenuItem name="Info" to="/visitor/info">
-        <Icon type="ios-color-wand" />
-        花絮
-      </MenuItem>
+<!--      <MenuItem name="Info" to="/visitor/info">-->
+<!--        <Icon type="ios-color-wand" />-->
+<!--        花絮-->
+<!--      </MenuItem>-->
       <MenuItem name="Login" :to="personalCenter">
         <Icon type="md-contact" />
         <span v-show="isLogin">个人中心</span>

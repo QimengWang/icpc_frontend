@@ -222,7 +222,7 @@
             flag = 0;
           }
         } else {
-          if(len > this.limit) {
+          if(len > this.limit  || len === 0) {
             flag = 0;
           }
         }

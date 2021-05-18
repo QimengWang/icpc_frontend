@@ -68,7 +68,7 @@
           },
           {
             title: '姓名',
-            key: 'sname'
+            key: 'name'
           },
           {
             title: '学号',

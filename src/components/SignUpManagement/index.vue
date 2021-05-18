@@ -5,7 +5,7 @@
       <Select v-model="id" filterable clearable placeholder="请选择竞赛名称" style="width: 280px; margin-right: 5px">
         <Option v-for="(item, key) in contestList" :key="key" :value="item.cid">{{item.name}}</Option>
       </Select>
-      <Button type="primary" icon="ios-search-outline" @click="search">查询</Button>
+      <Button type="primary" icon="ios-search-outline" @click="search('-1')">查询</Button>
       <Button type="success" icon="ios-information-circle-outline">生成准考证</Button>
       <Button type="warning" icon="ios-download-outline" @click="exportFile">导出Excel</Button>
     </div>
