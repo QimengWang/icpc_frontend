@@ -21,6 +21,8 @@
              :data="data"
              @on-select="handleSelect"
              @on-select-all="handleSelect"
+             @on-select-cancel="handleSelect"
+             @on-select-all-cancel="handleSelect"
       ></Table>
     </div>
 
@@ -310,10 +312,10 @@
             if(data.code === 0) {
               this.$Message.success(data.data.message);
               this.selection = [];
-              this.getSchoolList();
             } else {
               this.$Message.error(data.data.message);
             }
+            this.getSchoolList();
           }).catch(err => {
             // console.log(err);
             // this.$Message.error("出错啦！");
@@ -345,11 +347,11 @@
             const data = res.data;
             if(data.code === 0) {
               this.$Message.success(data.data.message);
-              this.getSchoolList();
-              this.selection = [];
             } else {
               this.$Message.error(data.data.message);
             }
+            this.selection = [];
+            this.getSchoolList();
           }).catch(err => {
             // console.log(err);
             // this.$Message.error("出错啦！");
@@ -381,11 +383,11 @@
             const data = res.data;
             if(data.code === 0) {
               this.$Message.success(data.data.message);
-              this.getSchoolList();
-              this.selection = [];
             } else {
               this.$Message.error(data.data.message);
             }
+            this.selection = [];
+            this.getSchoolList();
           }).catch(err => {
             // console.log(err);
             // this.$Message.error("出错啦！");

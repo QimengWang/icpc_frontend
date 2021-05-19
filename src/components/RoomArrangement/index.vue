@@ -10,7 +10,15 @@
 
     <!--    考场安排列表-->
     <div class="tableBox">
-      <Table border :columns="columns" :data="data" @on-select="handleSelect"></Table>
+      <Table
+        border
+        :columns="columns"
+        :data="data"
+        @on-select="handleSelect"
+        @on-select-all="handleSelect"
+        @on-select-cancel="handleSelect"
+        @on-select-all-cancel="handleSelect"
+      ></Table>
     </div>
 
     <div class="btnBox">

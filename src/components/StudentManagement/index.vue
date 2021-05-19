@@ -6,7 +6,10 @@
              :columns="columns"
              :data="data"
              @on-select="handleSelect"
-             @on-select-all="handleSelect"></Table>
+             @on-select-all="handleSelect"
+             @on-select-cancel="handleSelect"
+             @on-select-all-cancel="handleSelect"
+      ></Table>
     </div>
     <div class="btnBox">
       <Button type="success" icon="ios-checkmark-circle-outline" @click="pass">通过</Button>

@@ -25,6 +25,8 @@
              v-else
              @on-select="handleSelect"
              @on-select-all="handleSelect"
+             @on-select-cancel="handleSelect"
+             @on-select-all-cancel="handleSelect"
       ></Table>
     </div>
 
