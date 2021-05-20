@@ -9,7 +9,7 @@
     </div>
 
     <div class="tableBox">
-      <Table border :columns="columns" :data="data"></Table>
+      <Table border :columns="isSingle ? columns : columns1" :data="data"></Table>
     </div>
 
     <div class="btnBox">
@@ -30,7 +30,8 @@
 <!--        </Row>-->
 <!--        <Row>-->
 <!--          <Col :span='24'>-->
-            <Form ref="formValidate" :model="formData" :rules="ruleValidate" :label-width="80" label-colon>
+<!--        个人赛修改-->
+            <Form v-if="isSingle" ref="formValidate" :model="formData" :rules="ruleValidate" :label-width="80" label-colon>
               <FormItem label="姓名">
                 <Input v-model="formData.name" disabled></Input>
               </FormItem>
@@ -44,6 +45,21 @@
                 <Button type="primary" style="width: 100%" @click="updateGrade">确定</Button>
               </FormItem>
             </Form>
+<!--        团队赛修改-->
+        <Form v-else ref="formValidate" :model="formData" :rules="ruleValidate" :label-width="80" label-colon>
+          <FormItem label="团队名称">
+            <Input v-model="formData.groupName" disabled></Input>
+          </FormItem>
+          <FormItem label="教练">
+            <Input v-model="formData.tname" disabled></Input>
+          </FormItem>
+          <FormItem label="成绩" prop="grade">
+            <Input v-model="formData.grade"></Input>
+          </FormItem>
+          <FormItem>
+            <Button type="primary" style="width: 100%" @click="updateGrade">确定</Button>
+          </FormItem>
+        </Form>
       </div>
     </Modal>
   </div>
@@ -60,6 +76,7 @@
         // 竞赛id
         id: '',
         contestList: [],
+        isSingle: true,
         columns: [
           {
             title: '序号',
@@ -102,13 +119,55 @@
             }
           }
         ],
+        columns1: [
+          {
+            title: '序号',
+            type: 'index',
+            width: 80,
+            align: 'center'
+          },
+          {
+            title: '团队名称',
+            key: 'groupName'
+          },
+          {
+            title: '教练',
+            key: 'tname'
+          },
+          {
+            title: '成绩',
+            key: 'grade'
+          },
+          {
+            title: '操作',
+            key: 'action',
+            render: (h, params) => {
+              return h('div', [
+                h('Button', {
+                  props: {
+                    type: 'text',
+                    size: 'small'
+                  },
+                  style: {
+                    color: '#2d85e4'
+                  },
+                  on: {
+                    click: () => {
+                      this.update(params.row);
+                    }
+                  }
+                }, '修改')
+              ]);
+            }
+          }
+        ],
         data: [],
         modal: false,
         modalTitle: '',
         formData: {
-          name: '',
-          sid: '',
-          grade: ''
+          // name: '',
+          // sid: '',
+          // grade: ''
         },
         ruleValidate: {
           grade: [
@@ -139,10 +198,15 @@
           getGradesByCid(this.id).then(res => {
             const data = res.data;
             if(data.code === 0) {
-              // console.log(data);
-              this.data = data.data;
-              if(d !== -1) {
-                this.$Message.success("查询成功！");
+              if(d !== -1 && data.data.length === 0) {
+                this.$Message.success("查询成功，暂无数据！");
+              } else {
+                this.isSingle = data.data[0].type === 'single' ? true : false;
+                // console.log(data);
+                this.data = data.data;
+                if(d !== -1) {
+                  this.$Message.success("查询成功！");
+                }
               }
             } else {
               this.$Message.error(data.data.message);
@@ -185,8 +249,16 @@
         if(!this.id) {
           this.$Message.warning("请先选择竞赛！");
         } else {
+          // 确定文件名
+          let name = "";
+          for(let i of this.contestList) {
+            if(i.cid === this.id) {
+              name = i.name;
+            }
+          }
+
           let data = {
-            fileName: 'test.xlsx',
+            fileName: name + '.xlsx',
             params: {
               cid: this.id
             }
