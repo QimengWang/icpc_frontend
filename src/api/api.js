@@ -120,6 +120,13 @@ export function cancelApply(data) {
   );
 }
 
+// 查看准考证
+export function showAdm(id) {
+  return instance.get('/user/student/showAdm', {
+    params: {cid: id}
+  })
+}
+
 // 获取团队赛报名列表
 export function getGroupList() {
   return instance.get('/user/showGroup',
@@ -509,7 +516,7 @@ export function updateGrade(data) {
 
 // 下载成绩模板
 export function downloadExcel(id) {
-  return instance.get('/user/manager/showExcel', {
+  return instance.get('/user/manager/showExecl', {
     params: {
       cid: id
     }

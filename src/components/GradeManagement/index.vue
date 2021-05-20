@@ -50,6 +50,7 @@
 </template>
 
 <script>
+  import {exportMethod} from "../../utils";
   import {showContestList, getGradesByCid, updateGrade, downloadExcel, uploadExcel} from "../../api/api";
 
   export default {
@@ -184,16 +185,24 @@
         if(!this.id) {
           this.$Message.warning("请先选择竞赛！");
         } else {
-          downloadExcel(this.id).then(res => {
-            const data = res.data;
-            if(data.code === 0) {
-
-            } else {
-              this.$Message.error(data.data.message);
+          let data = {
+            fileName: 'test.xlsx',
+            params: {
+              cid: this.id
             }
-          }).catch(err => {
-            console.log(err);
-          })
+          };
+          exportMethod(data);
+
+          // downloadExcel(this.id).then(res => {
+          //   const data = res.data;
+          //   if(data.code === 0) {
+          //
+          //   } else {
+          //     this.$Message.error(data.data.message);
+          //   }
+          // }).catch(err => {
+          //   console.log(err);
+          // })
         }
       },
       //批量上传

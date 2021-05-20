@@ -8,7 +8,8 @@
       <Divider>
         <h4>{{modalTitle}}</h4>
       </Divider>
-
+      <h4>姓名：{{admData.sname}}</h4>
+      <h4></h4>
       <div class="btnBox">
         <Button type="primary" icon="ios-download-outline" @click="print">打印</Button>
       </div>
@@ -17,7 +18,7 @@
 </template>
 
 <script>
-  import {getApplyList, cancelApply} from "../../api/api";
+  import {getApplyList, cancelApply, showAdm} from "../../api/api";
 
   export default {
     name: "index1",
@@ -109,7 +110,7 @@
                   },
                   on: {
                     click: () => {
-                      this.detail(params.row.id)
+                      this.detail(params.row.cid)
                     }
                   }
                 }, '准考证')
@@ -117,11 +118,10 @@
             }
           }
         ],
-        data: [
-          // {}
-        ],
+        data: [],
         modal: false,
-        modalTitle: '准考证'
+        modalTitle: '准考证',
+        admData: {}
       }
     },
     methods: {
@@ -158,8 +158,19 @@
         })
       },
       // 查看准考证
-      detail() {
+      detail(id) {
         this.modal = true;
+        showAdm(id).then(res => {
+          let data = res.data;
+          if(data.code === 0) {
+            this.admData = data.data;
+            // console.log(data.data);
+          } else {
+            this.$Message.error(data.data.message);
+          }
+        }).catch(err => {
+          console.log(err);
+        })
       },
       // 打印准考证
       print() {

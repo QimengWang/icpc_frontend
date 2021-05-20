@@ -250,6 +250,7 @@
                   //   this.members[i].id = '';
                   //   this.members[i].name = '';
                   // }
+                  this.formValidate.members = [];
                   this.$refs['ruleValidate'].resetFields();
                 } else {
                   this.$Message.error(data.data.message);

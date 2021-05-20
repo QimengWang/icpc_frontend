@@ -144,6 +144,18 @@
         ],
         columns1: [
           {
+            type: 'selection',
+            width: 60,
+            align: 'center'
+          },
+          {
+            title: '序号',
+            type: 'index',
+            width: 70,
+            align: 'center',
+            key: 'idx'
+          },
+          {
             title: '团队名称',
             key: 'groupName'
           },
@@ -235,9 +247,10 @@
               if(data.data.length === 0) {
                 if(d === '-1') {
                   this.$Message.success("查询成功, 暂无数据！");
+                  this.data = [];
                 }
               } else {
-                this.isSingle = !Object.keys(data.data[0]).includes('gid');
+                this.isSingle = !Object.keys(data.data[0]).includes('groupName');
                 this.data = data.data;
                 if(d === '-1') {
                   this.$Message.success("查询成功！");
@@ -267,7 +280,6 @@
           }
         }).catch(err => {
           // console.log(err);
-          // this.$Message.error("出错啦！");
         })
       },
       // 多选
@@ -281,7 +293,8 @@
         } else {
           let arr = [];
           for(let i of this.selection) {
-            arr.push(i.sid);
+            let tmp = this.isSingle ? i.sid : i.id;
+            arr.push(tmp);
           }
           let obj = {};
           obj.id = arr;
@@ -311,10 +324,15 @@
       confirm() {
         let arr = [];
         for(let i of this.selection) {
-          arr.push(i.sid);
+          let tmp = this.isSingle ? i.sid : i.id;
+          arr.push(tmp);
         }
         let obj = {};
-        obj.id = arr;
+        // if(this.isSingle) {
+          obj.id = arr;
+        // } else {
+        //   obj.gid = arr;
+        // }
         obj.type = this.isSingle ? 'single' : 'group';
         obj.remark = this.remark;
         signUpUnchecked(obj).then(res => {
@@ -327,6 +345,7 @@
           this.search(-1);
           this.selection = [];
           this.modal = false;
+          this.remark = "";
         }).catch(err => {
           console.log(err);
         })
@@ -338,6 +357,11 @@
         } else {
           createAdm(this.id).then(res => {
             const data = res.data;
+            if(data.code === 0) {
+              this.$Message.success(data.data.message);
+            } else {
+              this.$Message.error(data.data.message);
+            }
           }).catch(err => {
             console.log(err);
           });
