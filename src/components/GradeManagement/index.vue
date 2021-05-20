@@ -14,7 +14,9 @@
 
     <div class="btnBox">
       <Button type="warning" icon="ios-cloud-download-outline" @click="download">下载模板</Button>
-      <Button type="primary" icon="ios-cloud-upload-outline" class="btn" @click="upload">批量上传</Button>
+<!--      <Upload action="http://127.0.0.1:3000/user/manager/addGrade">-->
+        <Button type="primary" icon="ios-cloud-upload-outline" class="btn" @click="upload">批量上传</Button>
+<!--      </Upload>-->
     </div>
 
     <Modal
@@ -256,7 +258,6 @@
               name = i.name;
             }
           }
-
           let data = {
             fileName: name + '.xlsx',
             params: {
@@ -264,17 +265,6 @@
             }
           };
           exportMethod(data);
-
-          // downloadExcel(this.id).then(res => {
-          //   const data = res.data;
-          //   if(data.code === 0) {
-          //
-          //   } else {
-          //     this.$Message.error(data.data.message);
-          //   }
-          // }).catch(err => {
-          //   console.log(err);
-          // })
         }
       },
       //批量上传

@@ -8,8 +8,40 @@
       <Divider>
         <h4>{{modalTitle}}</h4>
       </Divider>
-      <h4>姓名：{{admData.sname}}</h4>
-      <h4></h4>
+      <Col class="col">
+        <Row class="row">
+          <h4>竞赛名称：</h4>
+          <span>{{admData.cname}}</span>
+        </Row>
+        <Row class="row">
+          <h4>姓名：</h4>
+          <span>{{admData.chineseName}}</span>
+        </Row>
+        <Row class="row">
+          <h4>性别：</h4>
+          <span>{{admData.sex === 'female' ? '女' : '男'}}</span>
+        </Row>
+        <Row class="row">
+          <h4>学校：</h4>
+          <span>{{admData.school}}</span>
+        </Row>
+        <Row class="row">
+          <h4>学号：</h4>
+          <span>{{admData.id}}</span>
+        </Row>
+        <Row class="row">
+          <h4>准考证号：</h4>
+          <span>{{admData.admissionNumber}}</span>
+        </Row>
+        <Row class="row">
+          <h4>考场：</h4>
+          <span>{{admData.rName}}</span>
+        </Row>
+        <Row class="row">
+          <h4>座位号：</h4>
+          <span>{{admData.seat}}</span>
+        </Row>
+      </Col>
       <div class="btnBox">
         <Button type="primary" icon="ios-download-outline" @click="print">打印</Button>
       </div>
@@ -163,7 +195,7 @@
         showAdm(id).then(res => {
           let data = res.data;
           if(data.code === 0) {
-            this.admData = data.data;
+            this.admData = data.result;
             // console.log(data.data);
           } else {
             this.$Message.error(data.data.message);
@@ -195,5 +227,11 @@
    }
   .btnBox Button {
     float: right;
+  }
+  .row {
+    margin-bottom: 8px;
+  }
+  .col {
+    margin-left: 20px;
   }
 </style>
