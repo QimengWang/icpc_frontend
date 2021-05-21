@@ -138,6 +138,13 @@ export function getGroupList() {
   );
 }
 
+// 获取团队赛报名详情
+export function getGroupDetail(id) {
+  return instance.get('/user/student/showGroup', {
+    params: {id: id}
+  });
+}
+
 // 修改团体赛报名信息
 export function updateGroup(data) {
   return instance.post('/user/updateGroup', {...data},

@@ -55,20 +55,6 @@
               <Option v-for="(item, key) in tList" :key="key" :value="item.id">{{item.name}}</Option>
             </Select>
           </FormItem>
-<!--          <FormItem label="团队成员" prop="members">-->
-<!--            <div v-for="(item, idx) in members" :key="idx">-->
-<!--              <Row>-->
-<!--                <Col :span="12">-->
-<!--                  <Input placeholder="学号" v-model="item.id"></Input>-->
-<!--                </Col>-->
-<!--&lt;!&ndash;                <Col :span="2">-</Col>&ndash;&gt;-->
-<!--                <Col :span="12">-->
-<!--                  <Input placeholder="姓名" v-model="item.name"></Input>-->
-<!--                </Col>-->
-<!--              </Row>-->
-<!--            </div>-->
-<!--          </FormItem>-->
-
           <FormItem
             v-for="(itm, idx) in formValidate.members"
             :key="idx"

@@ -7,7 +7,7 @@
       </Select>
       <Button type="primary" icon="ios-search-outline" @click="search('-1')">查询</Button>
       <Button type="success" icon="ios-information-circle-outline" @click="createAdm">生成准考证</Button>
-      <Button type="warning" icon="ios-download-outline" @click="exportFile">导出Excel</Button>
+<!--      <Button type="warning" icon="ios-download-outline" @click="exportFile">导出Excel</Button>-->
     </div>
 
     <!--    报名列表-->
@@ -23,6 +23,7 @@
              :columns="columns1"
              :data="data"
              v-else
+             :span-method="handleSpan"
              @on-select="handleSelect"
              @on-select-all="handleSelect"
              @on-select-cancel="handleSelect"
@@ -57,10 +58,12 @@
 </template>
 
 <script>
+  import Expand from './expandRow'
   import {showContestList, getListByCid, signUpChecked, signUpUnchecked, createAdm} from "../../api/api";
 
   export default {
     name: "index",
+    components: {Expand},
     data() {
       return {
         // 当前所查询竞赛是否为个人赛
@@ -149,6 +152,17 @@
             align: 'center'
           },
           {
+            type: 'expand',
+            width: 50,
+            render: (h, params) => {
+              return h(Expand, {
+                props: {
+                  row: params.row.members
+                }
+              })
+            }
+          },
+          {
             title: '序号',
             type: 'index',
             width: 70,
@@ -200,16 +214,7 @@
           }
         ],
         // table数据
-        data: [
-          // {
-          //   chineseName: '张三',
-          //   englishName: 'San Zhang',
-          //   id: '17123079',
-          //   sex: '男',
-          //   year: '2017',
-          //   phone: '1883885888'
-          // }
-        ],
+        data: [],
         // 多选
         selection: [],
         modal: false,
@@ -218,6 +223,20 @@
       }
     },
     methods: {
+      // 合并列
+      handleSpan ({ row, column, rowIndex, columnIndex }) {
+        // if (rowIndex === 0 && columnIndex === 0) {
+        //   return [1, 2];
+        // } else if (rowIndex === 0 && columnIndex === 1) {
+        //   return [0, 0];
+        // }
+        // if (rowIndex === 0 && columnIndex === 1) {
+        //   return {
+        //     rowspan: 0,
+        //     colspan: 3
+        //   };
+        // }
+      },
       // 导出报名表
       exportFile() {
         const cols = this.columns.reduce((prev, itm, idx) => {

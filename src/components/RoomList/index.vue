@@ -253,7 +253,13 @@
           } else {
             //处理数据
             for(let item of this.selection) {
-              arr.push(item.rid);
+              if(item.status === '1') {
+                this.$Message.error("该考场正在使用，无法删除！");
+                flag = 0;
+                break;
+              } else {
+                arr.push(item.rid);
+              }
             }
           }
         } else {

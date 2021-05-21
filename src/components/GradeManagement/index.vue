@@ -14,10 +14,17 @@
 
     <div class="btnBox">
       <Button type="warning" icon="ios-cloud-download-outline" @click="download">下载模板</Button>
-<!--      <Upload action="http://127.0.0.1:3000/user/manager/addGrade">-->
-        <Button type="primary" icon="ios-cloud-upload-outline" class="btn" @click="upload">批量上传</Button>
-<!--      </Upload>-->
+      <Upload
+        :show-upload-list="false"
+        action="http://127.0.0.1:3000/user/manager/addGrade"
+        :on-success="upload">
+        <Button type="primary" icon="ios-cloud-upload-outline" class="btn">批量上传</Button>
+      </Upload>
     </div>
+    <Row class="explainBox">
+      <h4>注：</h4>
+      <span>请在选择竞赛完毕后，先点击 ‘下载模板’ ，将成绩填入模板文件后，再点击 ‘批量上传’</span>
+    </Row>
 
     <Modal
       v-model="modal"
@@ -203,7 +210,7 @@
               if(d !== -1 && data.data.length === 0) {
                 this.$Message.success("查询成功，暂无数据！");
               } else {
-                this.isSingle = data.data[0].type === 'single' ? true : false;
+                this.isSingle = data.data[0].type === 'single';
                 // console.log(data);
                 this.data = data.data;
                 if(d !== -1) {
@@ -268,8 +275,14 @@
         }
       },
       //批量上传
-      upload() {
-
+      upload(res) {
+        // console.log(res);
+        if(res.code === 0 ) {
+          this.$Message.success(res.data.message);
+          this.search(-1);
+        } else {
+          this.$Message.error("上传失败！");
+        }
       }
     },
     mounted() {
@@ -301,6 +314,13 @@
     padding: 4% 8%;
   }
   .btnBox {
+    display: flex;
     margin-top: 10px;
+  }
+  .explainBox {
+    color: red;
+    margin-top: 8px;
+    display: flex;
+    font-size: 0.8rem;
   }
 </style>

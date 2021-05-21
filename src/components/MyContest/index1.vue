@@ -13,19 +13,27 @@
           <h4>竞赛名称：</h4>
           <span>{{admData.cname}}</span>
         </Row>
-        <Row class="row">
+        <Row class="row" v-if="isSingle">
           <h4>姓名：</h4>
           <span>{{admData.chineseName}}</span>
         </Row>
-        <Row class="row">
+        <Row class="row" v-else>
+          <h4>团队名称：</h4>
+          <span>{{admData.groupName}}</span>
+        </Row>
+        <Row class="row" v-if="isSingle">
           <h4>性别：</h4>
           <span>{{admData.sex === 'female' ? '女' : '男'}}</span>
         </Row>
-        <Row class="row">
+        <Row class="row" v-else>
+          <h4>教练：</h4>
+          <span>{{admData.tname}}</span>
+        </Row>
+        <Row class="row" v-if="isSingle">
           <h4>学校：</h4>
           <span>{{admData.school}}</span>
         </Row>
-        <Row class="row">
+        <Row class="row" v-if="isSingle">
           <h4>学号：</h4>
           <span>{{admData.id}}</span>
         </Row>
@@ -46,16 +54,63 @@
         <Button type="primary" icon="ios-download-outline" @click="print">打印</Button>
       </div>
     </Modal>
+
+    <Modal
+      v-model="modal1"
+      footer-hide>
+      <Divider>
+        <h4>{{modalTitle}}</h4>
+      </Divider>
+<!--      <Form ref="ruleValidate" :model="formValidate" :rules="ruleValidate" :label-width="100" label-colon>-->
+<!--        <FormItem label="团队名称" prop="groupName">-->
+<!--          <Input v-model="formValidate.groupName" placeholder="请填写团队名称"></Input>-->
+<!--        </FormItem>-->
+<!--        <FormItem label="教练" prop="tid">-->
+<!--          <Select v-model="formValidate.tid" filterable clearable>-->
+<!--            <Option v-for="(item, key) in tList" :key="key" :value="item.id">{{item.name}}</Option>-->
+<!--          </Select>-->
+<!--        </FormItem>-->
+<!--        <FormItem-->
+<!--          v-for="(itm, idx) in formValidate.members"-->
+<!--          :key="idx"-->
+<!--          :label="'队员' + itm.idx"-->
+<!--        >-->
+<!--          <Row span="24">-->
+<!--            <Col span="10">-->
+<!--              <Input v-model="itm.id" placeholder="学号"></Input>-->
+<!--            </Col>-->
+<!--            <Col span="1"></Col>-->
+<!--            <Col span="10">-->
+<!--              <Input v-model="itm.name" placeholder="姓名"></Input>-->
+<!--            </Col>-->
+<!--            &lt;!&ndash;              <Col span="1"></Col>&ndash;&gt;-->
+<!--            <Col span="2" offset="1">-->
+<!--              <Button icon="md-remove" @click="handleRemove"></Button>-->
+<!--            </Col>-->
+<!--          </Row>-->
+<!--        </FormItem>-->
+
+<!--        <FormItem>-->
+<!--          <Button type="dashed" style="width: 100%" icon="md-add" @click="handleAdd">增加队员</Button>-->
+<!--        </FormItem>-->
+
+<!--        <FormItem>-->
+<!--          <Button type="primary" style="width: 100%" @click="signUpGroup">确定</Button>-->
+<!--        </FormItem>-->
+<!--      </Form>-->
+    </Modal>
   </div>
 </template>
 
 <script>
-  import {getApplyList, cancelApply, showAdm} from "../../api/api";
+  import {getApplyList, cancelApply, showAdm, getGroupDetail} from "../../api/api";
 
   export default {
     name: "index1",
     data() {
       return {
+        isSingle: true,
+        modal1: false,
         columns: [
           {
             title: '赛事名称',
@@ -103,24 +158,24 @@
           {
             title: '操作',
             key: 'action',
-            width: '250',
+            width: 280,
             render: (h, params) => {
               return h('div', [
-                h('Button', {
-                  props: {
-                    type: 'warning',
-                    size: 'small'
-                  },
-                  style: {
-                    marginRight: '5px',
-                    display: params.row.type === '团队赛' ? 'block' : 'none'
-                  },
-                  on: {
-                    click: () => {
-                      this.update(params.row.id)
-                    }
-                  }
-                }, '修改报名'),
+                // h('Button', {
+                //   props: {
+                //     type: 'warning',
+                //     size: 'small'
+                //   },
+                //   style: {
+                //     marginRight: '5px',
+                //     display: params.row.type === '团体赛' ? 'inline' : 'none'
+                //   },
+                //   on: {
+                //     click: () => {
+                //       this.update(params.row.id)
+                //     }
+                //   }
+                // }, '详情/修改'),
                 h('Button', {
                   props: {
                     type: 'error',
@@ -164,15 +219,22 @@
           if(data.code === 0) {
             this.data = data.data;
           } else {
-
+            this.$Message.error(data.data.message);
           }
         }).catch(err => {
           console.log(err);
         })
       },
-      // 修改报名信息（团体赛）
-      update() {
+      // 详情/修改报名信息（团体赛）
+      update(id) {
+        getGroupDetail(id).then(res => {
+          const data = res.data;
 
+        }).catch(err => {
+          console.log(err);
+        });
+        this.modalTitle ="团队详情";
+        this.modal1 = true;
       },
       // 取消报名
       cancel(data) {
@@ -191,12 +253,13 @@
       },
       // 查看准考证
       detail(id) {
-        this.modal = true;
         showAdm(id).then(res => {
           let data = res.data;
           if(data.code === 0) {
             this.admData = data.result;
+            this.isSingle = this.admData.type !== '团队赛';
             // console.log(data.data);
+            this.modal = true;
           } else {
             this.$Message.error(data.data.message);
           }
