@@ -4,7 +4,7 @@
       <div>
         <span class="loginSpan">注 册</span>
         <div class="contentBox">
-          <Input class="inputBox" v-model="user.email" placeholder="邮箱/手机"/>
+          <Input class="inputBox" v-model="user.email" placeholder="邮箱"/>
           <div class="verifyBox">
             <Input class="inputBox" v-model="user.code" placeholder="验证码"/>
             <Button type="primary" @click="sending" :loading="loading" :disabled="isSent">

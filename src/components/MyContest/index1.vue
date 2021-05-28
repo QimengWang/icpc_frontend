@@ -5,51 +5,54 @@
     <Modal
       v-model="modal"
       footer-hide>
-      <Divider>
-        <h4>{{modalTitle}}</h4>
-      </Divider>
-      <Col class="col">
-        <Row class="row">
-          <h4>竞赛名称：</h4>
-          <span>{{admData.cname}}</span>
-        </Row>
-        <Row class="row" v-if="isSingle">
-          <h4>姓名：</h4>
-          <span>{{admData.chineseName}}</span>
-        </Row>
-        <Row class="row" v-else>
-          <h4>团队名称：</h4>
-          <span>{{admData.groupName}}</span>
-        </Row>
-        <Row class="row" v-if="isSingle">
-          <h4>性别：</h4>
-          <span>{{admData.sex === 'female' ? '女' : '男'}}</span>
-        </Row>
-        <Row class="row" v-else>
-          <h4>教练：</h4>
-          <span>{{admData.tname}}</span>
-        </Row>
-        <Row class="row" v-if="isSingle">
-          <h4>学校：</h4>
-          <span>{{admData.school}}</span>
-        </Row>
-        <Row class="row" v-if="isSingle">
-          <h4>学号：</h4>
-          <span>{{admData.id}}</span>
-        </Row>
-        <Row class="row">
-          <h4>准考证号：</h4>
-          <span>{{admData.admissionNumber}}</span>
-        </Row>
-        <Row class="row">
-          <h4>考场：</h4>
-          <span>{{admData.rName}}</span>
-        </Row>
-        <Row class="row">
-          <h4>座位号：</h4>
-          <span>{{admData.seat}}</span>
-        </Row>
-      </Col>
+      <div id="printBox">
+        <Divider>
+          <h4>{{modalTitle}}</h4>
+        </Divider>
+        <Col class="col">
+          <Row class="row">
+            <h4>竞赛名称：</h4>
+            <span>{{admData.cname}}</span>
+          </Row>
+          <Row class="row" v-if="isSingle">
+            <h4>姓名：</h4>
+            <span>{{admData.chineseName}}</span>
+          </Row>
+          <Row class="row" v-else>
+            <h4>团队名称：</h4>
+            <span>{{admData.groupName}}</span>
+          </Row>
+          <Row class="row" v-if="isSingle">
+            <h4>性别：</h4>
+            <span>{{admData.sex === 'female' ? '女' : '男'}}</span>
+          </Row>
+          <Row class="row" v-else>
+            <h4>教练：</h4>
+            <span>{{admData.tname}}</span>
+          </Row>
+          <Row class="row" v-if="isSingle">
+            <h4>学校：</h4>
+            <span>{{admData.school}}</span>
+          </Row>
+          <Row class="row" v-if="isSingle">
+            <h4>学号：</h4>
+            <span>{{admData.id}}</span>
+          </Row>
+          <Row class="row">
+            <h4>准考证号：</h4>
+            <span>{{admData.admissionNumber}}</span>
+          </Row>
+          <Row class="row">
+            <h4>考场：</h4>
+            <span>{{admData.rName}}</span>
+          </Row>
+          <Row class="row">
+            <h4>座位号：</h4>
+            <span>{{admData.seat}}</span>
+          </Row>
+        </Col>
+      </div>
+
       <div class="btnBox">
         <Button type="primary" icon="ios-download-outline" @click="print">打印</Button>
       </div>
@@ -114,7 +117,8 @@
         columns: [
           {
             title: '赛事名称',
-            key: 'name'
+            key: 'name',
+            width: 250
           },
           {
             title: '类型',
@@ -269,7 +273,12 @@
       },
       // 打印准考证
       print() {
-
+        let bdHtml = document.body.innerHTML;
+        let tmp = document.getElementById("printBox").innerHTML;
+        document.body.innerHTML = tmp;
+        window.print();
+        document.body.innerHTML = bdHtml;
+        window.location.reload();
       }
     },
     mounted() {
