@@ -1,14 +1,23 @@
 <template>
-  <div class="main">
-    <div class="baseImg">
-<!--      <img src="../../assets/1.jpg" alt="">-->
-<!--      <img src="../../assets/2.jpg" alt="">-->
-<!--      <img src="../../assets/3.jpg" alt="">-->
+  <div class="mainBox">
+    <div class="baseCon">
+      <div class="img">
+        <img src="../../assets/2.jpg" alt="">
+      </div>
+<!--      <div style="height: 300px; background-color: whitesmoke"></div>-->
+<!--      <div class="img">-->
+<!--        <img src="../../assets/3.jpg">-->
+<!--      </div>-->
     </div>
-    <div class="mainImg">
-      <img src="../../assets/mainLogo.png">
+    <div class="mainCon">
+      <div class="intro">
+        <h1>国际大学生程序设计竞赛</h1>
+        <h1>（International Collegiate Programming Contest, ICPC）</h1>
+        <div class="introMore">
+          <h3>是一项旨在展示大学生创新能力、团队精神和在压力下编写程序、分析和解决问题能力的年度竞赛。经过30多年的发展，国际大学生程序设计竞赛已经发展成为最具影响力的大学生计算机竞赛。</h3>
+        </div>
+      </div>
     </div>
-    <h2>首页</h2>
   </div>
 </template>
 
@@ -23,23 +32,49 @@
 </script>
 
 <style scoped>
-  .main {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+  .mainBox {
+    position: relative;
+
   }
 
-  .baseImg {
-    /*width: 100%;*/
-    height: 600px;
-    /*height: auto;*/
-    position: absolute;
+  .baseCon {
+    background-color: rgba(0, 0, 0, 0.6);
+  }
+
+  .img {
+    width: 100%;
+    position: relative;
     z-index: -99;
   }
 
-  .mainImg img{
-    /*background-image: url("../../assets/2.jpg");*/
-    /*background-color: rgba(0, 0, 0, 0.7);*/
-    width: 80%;
+  img {
+    width: 100%;
+  }
+
+  .mainCon {
+    position: absolute;
+    top: 0;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .intro {
+    width: 60%;
+    margin-top: 120px;
+  }
+
+  .introMore {
+    margin-top: 30px;
+  }
+
+  h3 {
+    text-indent: 4em;
+  }
+
+  * {
+    color: white;
   }
 </style>

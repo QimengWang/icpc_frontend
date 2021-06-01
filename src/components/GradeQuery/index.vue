@@ -34,28 +34,28 @@
             title: '成绩',
             key: 'grade'
           },
-          {
-            title: '操作',
-            key: 'action',
-            render: (h, params) => {
-              return h('div', [
-                h('Button', {
-                  props: {
-                    type: 'primary',
-                    size: 'small'
-                  },
-                  // style: {
-                  //   color: '#2d85e4'
-                  // },
-                  on: {
-                    click: () => {
-                      this.getPaper(params.row.id);
-                    }
-                  }
-                }, '查看证书')
-              ]);
-            }
-          }
+          // {
+          //   title: '操作',
+          //   key: 'action',
+          //   render: (h, params) => {
+          //     return h('div', [
+          //       h('Button', {
+          //         props: {
+          //           type: 'primary',
+          //           size: 'small'
+          //         },
+          //         // style: {
+          //         //   color: '#2d85e4'
+          //         // },
+          //         on: {
+          //           click: () => {
+          //             this.getPaper(params.row.id);
+          //           }
+          //         }
+          //       }, '查看证书')
+          //     ]);
+          //   }
+          // }
         ],
         data: [],
         modal: false,
