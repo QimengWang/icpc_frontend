@@ -10,7 +10,7 @@
             <Input
               v-model="userInfo.chineseName"
               placeholder="请输入中文名"
-              :disabled="$store.state.status === 'manager' || userInfo.status === '1'">
+              :disabled="$store.state.status === 'manager' || userInfo.status === 1">
             </Input>
           </FormItem>
         </Col>
@@ -19,7 +19,7 @@
             <Input
               v-model="userInfo.englishName"
               placeholder="请输入英文名"
-              :disabled="$store.state.status === 'manager' || userInfo.status === '1'">
+              :disabled="$store.state.status === 'manager' || userInfo.status === 1">
             </Input>
           </FormItem>
         </Col>
@@ -35,7 +35,7 @@
         </Col>
         <Col span="12">
           <FormItem label="学校" prop="school" v-if="$store.state.status !== 'manager'">
-            <Select v-model="userInfo.school" filterable clearable placeholder="请选择学校" :disabled="userInfo.status === '1'">
+            <Select v-model="userInfo.school" filterable clearable placeholder="请选择学校" :disabled="userInfo.status === 1">
               <Button v-if="$store.state.status === 'teacher'" style="width: 100%" type="primary" icon="ios-add-circle-outline" @click="modal=true">新增学校</Button>
               <Option v-for="(item, key) in schoolList" :key="key" :value="item.id">{{item.name}}</Option>
             </Select>
@@ -49,15 +49,15 @@
                         v-model="userInfo.year"
                         style="width: 100%;"
                         placeholder="请选择入学年份"
-                        :disabled="userInfo.status === '1'"></DatePicker>
+                        :disabled="userInfo.status === 1"></DatePicker>
           </FormItem>
         </Col>
         <Col span="12">
           <FormItem label="学号" prop="id" v-if="$store.state.status === 'student'">
-            <Input v-model="userInfo.id" placeholder="请输入学号" :disabled="userInfo.status === '1'"></Input>
+            <Input v-model="userInfo.id" placeholder="请输入学号" :disabled="userInfo.status === 1"></Input>
           </FormItem>
           <FormItem label="工号" prop="id" v-if="$store.state.status === 'teacher'">
-            <Input v-model="userInfo.id" placeholder="请输入工号" :disabled="userInfo.status === '1'"></Input>
+            <Input v-model="userInfo.id" placeholder="请输入工号" :disabled="userInfo.status === 1"></Input>
           </FormItem>
         </Col>
       </Row>

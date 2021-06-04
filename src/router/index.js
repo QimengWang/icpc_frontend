@@ -2,7 +2,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 
 // 在vue-router中想要访问vuex必须导入
-import store from '../store/index'
+// import store from '../store/index'
 
 Vue.use(VueRouter);
 
@@ -119,7 +119,7 @@ const routes = [
       },
       {
         path: 'studentManagement',
-        // name: 'StudentManagement',
+        name: 'StudentManagement',
         component: () => import('../components/StudentManagement/index.vue'),
         // children: [
         //   {

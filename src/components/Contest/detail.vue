@@ -291,9 +291,11 @@
   }
   .item, .intro, .rules {
     margin-bottom: 8px;
+    text-align: left;
   }
   p {
     text-indent: 2em;
+    text-align-last: left;
   }
   h2 {
     margin: 20px auto;

@@ -102,7 +102,7 @@
             key: 'status',
             fixed: 'right',
             render: (h, params) => {
-              if(params.row.status === '0') {
+              if(params.row.status === 0) {
                 return h('div', [
                   h('Tag', {
                     props: {
@@ -110,7 +110,7 @@
                     }
                   }, '待审核')
                 ])
-              } else if(params.row.status === '1') {
+              } else if(params.row.status === 1) {
                 return h('div', [
                   h('Tag', {
                     props: {

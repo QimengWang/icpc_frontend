@@ -68,13 +68,21 @@
                 <Row>
                   <Col span="11">
                     <FormItem prop="startApp">
-                      <DatePicker type="date" placeholder="开始日期" v-model="formValidate.startApp"></DatePicker>
+                      <DatePicker
+                        type="date"
+                        placeholder="开始日期"
+                        v-model="formValidate.startApp"
+                        placement="top"></DatePicker>
                     </FormItem>
                   </Col>
                   <Col span="2" style="text-align: center">-</Col>
                   <Col span="11">
                     <FormItem prop="endApp">
-                      <DatePicker type="date" placeholder="结束日期" v-model="formValidate.endApp"></DatePicker>
+                      <DatePicker
+                        type="date"
+                        placeholder="结束日期"
+                        v-model="formValidate.endApp"
+                        placement="top"></DatePicker>
                     </FormItem>
                   </Col>
                 </Row>
