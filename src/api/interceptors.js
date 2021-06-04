@@ -12,7 +12,10 @@ import 'view-design/dist/styles/iview.css'
 // console.log(Message);
 
 let instance = axios.create({
-  baseURL: '/api'
+  // 开发环境
+  // baseURL: '/api'
+  // 生产环境
+  baseURL: 'http://121.4.159.144:3000'
 });
 
 instance.interceptors.request.use(

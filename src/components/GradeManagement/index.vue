@@ -16,7 +16,7 @@
       <Button type="warning" icon="ios-cloud-download-outline" @click="download">下载模板</Button>
       <Upload
         :show-upload-list="false"
-        action="http://127.0.0.1:3000/user/manager/addGrade"
+        action="http://121.4.159.144:3000/user/manager/addGrade"
         :on-success="upload">
         <Button type="primary" icon="ios-cloud-upload-outline" class="btn">批量上传</Button>
       </Upload>

@@ -5,9 +5,10 @@ import Vue from 'vue';
 Vue.prototype.$http = axios;
 import instance from './interceptors';
 
-axios.defaults.baseURL = '/api';
+// 开发环境
+// axios.defaults.baseURL = '/api';
 // 生产环境
-// axios.defaults.baseURL = 'http://121.4.159.144:3000';
+axios.defaults.baseURL = 'http://121.4.159.144:3000';
 
 // 发送邮箱验证码
 export function sendCode(email) {
